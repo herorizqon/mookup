@@ -265,16 +265,16 @@ const Sidebar: React.FC<{
     ],
     dispatcher: [
       { icon: '📊', label: 'Dashboard', page: 'dashboard' },
-      { icon: '🗺️', label: 'Peta Real-time', page: 'live-map' },
+      { icon: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c4654b6d-214c-45b0-aa9c-64577cfca857.png', label: 'Peta Real-time', page: 'live-map' },
       { icon: '📋', label: 'Assign Tugas', page: 'assign-tasks' },
       { icon: '📅', label: 'Jadwal Shift', page: 'schedules' },
       { icon: '📈', label: 'Performa Tim', page: 'performance' }
     ],
     noc: [
       { icon: '📊', label: 'Dashboard', page: 'dashboard' },
-      { icon: '🌐', label: 'Monitoring Jaringan', page: 'network-monitor' },
+      { icon: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/107a4a78-7090-484a-8a20-fbe4f1a14777.png', label: 'Monitoring Jaringan', page: 'network-monitor' },
       { icon: '🚨', label: 'Alarm & Alert', page: 'alarms' },
-      { icon: '🗺️', label: 'Topologi Jaringan', page: 'topology' },
+      { icon: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3c6567ad-ab76-4e3a-bda7-4685816017c2.png', label: 'Topologi Jaringan', page: 'topology' },
       { icon: '🔧', label: 'Remote Diagnostic', page: 'diagnostics' }
     ],
     warehouse: [
@@ -801,7 +801,7 @@ const TaskDetailPage: React.FC<{ taskId: string; onBack: () => void }> = ({ task
                     <div className="space-y-4">
                       <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300">
                         <div className="text-center">
-                          <div className="text-6xl mb-3">📷</div>
+                          <div className="text-6xl mb-3">https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c5d78771-a7fc-47f1-9dad-a045f36bf9d3.png</div>
                           <p className="text-gray-600 font-medium">Kamera Barcode Scanner</p>
                           <p className="text-gray-500 text-sm">Arahkan ke barcode Serial Number ONT</p>
                         </div>
@@ -1009,7 +1009,7 @@ const InventoryPage: React.FC = () => {
         <div className="flex flex-col items-center justify-center p-8">
           <div className="w-48 h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mb-4">
             <div className="text-center">
-              <div className="text-6xl mb-2">📱</div>
+              <div className="text-6xl mb-2">https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/92d0b725-3ca9-4323-bfcb-9db6f83df938.png</div>
               <p className="text-gray-600 font-medium">QR Code</p>
             </div>
           </div>
@@ -1152,6 +1152,564 @@ const KnowledgeBasePage: React.FC = () => {
   );
 };
 
+const UsersPage: React.FC = () => {
+  const [showAddUser, setShowAddUser] = useState(false);
+
+  const mockUsers = [
+    { id: '1', name: 'Ahmad Pratama', role: 'Technician', email: 'ahmad@fieldtech.com', status: 'active', lastLogin: '2024-01-15 08:15' },
+    { id: '2', name: 'Siti Aminah', role: 'CS', email: 'siti@fieldtech.com', status: 'active', lastLogin: '2024-01-15 07:30' },
+    { id: '3', name: 'Budi Hartono', role: 'Leader', email: 'budi@fieldtech.com', status: 'active', lastLogin: '2024-01-14 18:45' },
+    { id: '4', name: 'Dewi Lestari', role: 'Warehouse', email: 'dewi@fieldtech.com', status: 'inactive', lastLogin: '2024-01-10 16:20' }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800">Manajemen User</h2>
+          <p className="text-gray-600 mt-1">Kelola akses dan permission user sistem</p>
+        </div>
+        <Button onClick={() => setShowAddUser(!showAddUser)}>
+          + Tambah User Baru
+        </Button>
+      </div>
+
+      {showAddUser && (
+        <Card title="Form Tambah User">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Input label="Nama Lengkap" placeholder="Contoh: Ahmad Pratama" />
+            <Input label="Email" type="email" placeholder="ahmad@fieldtech.com" />
+            <Input label="No. Telepon" placeholder="081234567890" />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+              <select className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>Technician</option>
+                <option>Customer Service</option>
+                <option>Team Leader</option>
+                <option>Dispatcher</option>
+                <option>NOC</option>
+                <option>Warehouse</option>
+                <option>Admin</option>
+              </select>
+            </div>
+            <Input label="Password" type="password" placeholder="Minimal 8 karakter" />
+            <Input label="Konfirmasi Password" type="password" placeholder="Ulangi password" />
+          </div>
+          <div className="flex space-x-3 mt-6">
+            <Button fullWidth>Simpan User</Button>
+            <Button fullWidth variant="secondary" onClick={() => setShowAddUser(false)}>
+              Batal
+            </Button>
+          </div>
+        </Card>
+      )}
+
+      <Card title="Daftar User">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Nama</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Role</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Last Login</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mockUsers.map(user => (
+                <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-3 px-4">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center text-white text-xs font-bold">
+                        {user.name.charAt(0)}
+                      </div>
+                      <span className="font-medium text-gray-800">{user.name}</span>
+                    </div>
+                  </td>
+                  <td className="py-3 px-4">
+                    <Badge variant="info">{user.role}</Badge>
+                  </td>
+                  <td className="py-3 px-4 text-gray-600">{user.email}</td>
+                  <td className="py-3 px-4 text-gray-600 text-sm">{user.lastLogin}</td>
+                  <td className="py-3 px-4">
+                    <Badge variant={user.status === 'active' ? 'success' : 'default'}>
+                      {user.status === 'active' ? 'Aktif' : 'Nonaktif'}
+                    </Badge>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="flex space-x-2">
+                      <button className="text-blue-600 hover:text-blue-800 text-sm">Edit</button>
+                      <button className="text-red-600 hover:text-red-800 text-sm">Hapus</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+const RolesPage: React.FC = () => {
+  const mockRoles = [
+    { id: '1', name: 'Technician', users: 15, permissions: ['Lihat Tugas', 'Update Status', 'Upload Dokumentasi'] },
+    { id: '2', name: 'Customer Service', users: 8, permissions: ['Lihat Tiket', 'Buat Tiket', 'Update Tiket'] },
+    { id: '3', name: 'Team Leader', users: 3, permissions: ['Assign Tugas', 'Approval BAI', 'Lihat KPI Tim'] },
+    { id: '4', name: 'Admin', users: 2, permissions: ['Full Access', 'Manage Users', 'System Config'] }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800">Role & Permission</h2>
+          <p className="text-gray-600 mt-1">Kelola hak akses untuk setiap role pengguna</p>
+        </div>
+        <Button>+ Tambah Role Baru</Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {mockRoles.map(role => (
+          <Card key={role.id}>
+            <div className="space-y-4">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="text-xl font-bold text-gray-800">{role.name}</h3>
+                  <p className="text-sm text-gray-600 mt-1">{role.users} users assigned</p>
+                </div>
+                <Badge variant="info">{role.users}</Badge>
+              </div>
+
+              <div className="pt-4 border-t border-gray-100">
+                <p className="text-sm font-semibold text-gray-700 mb-3">Permissions:</p>
+                <div className="space-y-2">
+                  {role.permissions.map((perm, idx) => (
+                    <div key={idx} className="flex items-center space-x-2 text-sm text-gray-600">
+                      <span className="text-green-600">✓</span>
+                      <span>{perm}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-gray-100 flex space-x-2">
+                <Button fullWidth variant="secondary" size="sm">Edit Permission</Button>
+                <Button fullWidth variant="danger" size="sm">Hapus</Button>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const ApiSettingsPage: React.FC = () => {
+  const mockApis = [
+    { id: '1', name: 'CRM API', endpoint: 'https://api.crm.example.com', status: 'connected', lastSync: '2024-01-15 10:30' },
+    { id: '2', name: 'Helpdesk API', endpoint: 'https://api.helpdesk.example.com', status: 'connected', lastSync: '2024-01-15 10:25' },
+    { id: '3', name: 'NMS/GIS API', endpoint: 'https://api.nms.example.com', status: 'error', lastSync: '2024-01-15 08:15' },
+    { id: '4', name: 'FreeRADIUS API', endpoint: 'https://api.radius.example.com', status: 'connected', lastSync: '2024-01-15 10:32' }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800">Pengaturan API</h2>
+          <p className="text-gray-600 mt-1">Konfigurasi integrasi dengan sistem eksternal</p>
+        </div>
+        <Button>+ Tambah API Baru</Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {mockApis.map(api => (
+          <Card key={api.id}>
+            <div className="space-y-4">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className="text-lg font-bold text-gray-800">{api.name}</h3>
+                  <p className="text-xs text-gray-500 mt-1">{api.endpoint}</p>
+                </div>
+                <Badge variant={api.status === 'connected' ? 'success' : 'danger'}>
+                  {api.status === 'connected' ? 'Connected' : 'Error'}
+                </Badge>
+              </div>
+
+              <div className="p-3 bg-gray-50 rounded-lg">
+                <p className="text-xs text-gray-600">Last Sync: {api.lastSync}</p>
+              </div>
+
+              <div className="flex space-x-2">
+                <Button fullWidth variant="secondary" size="sm">Test Connection</Button>
+                <Button fullWidth size="sm">Configure</Button>
+              </div>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      <Card title="Webhook Configuration">
+        <div className="space-y-4">
+          <Input label="Webhook URL" placeholder="https://your-domain.com/webhook" />
+          <Input label="Secret Key" type="password" placeholder="Enter webhook secret" />
+          <div className="flex items-center space-x-4">
+            <label className="flex items-center space-x-2">
+              <input type="checkbox" className="w-4 h-4 rounded" />
+              <span className="text-sm text-gray-700">Enable task completion webhook</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input type="checkbox" className="w-4 h-4 rounded" />
+              <span className="text-sm text-gray-700">Enable inventory webhook</span>
+            </label>
+          </div>
+          <Button>Save Webhook Settings</Button>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+const LogsPage: React.FC = () => {
+  const mockLogs = [
+    { id: '1', timestamp: '2024-01-15 10:35:22', user: 'Ahmad Pratama', action: 'Completed Task', details: 'Instalasi - Anton Wijaya', level: 'info' },
+    { id: '2', timestamp: '2024-01-15 10:30:15', user: 'System', action: 'API Sync', details: 'CRM API sync completed', level: 'success' },
+    { id: '3', timestamp: '2024-01-15 10:25:33', user: 'Siti Aminah', action: 'Created Ticket', details: 'Ticket #TK-2401-089', level: 'info' },
+    { id: '4', timestamp: '2024-01-15 10:20:11', user: 'System', action: 'API Error', details: 'NMS/GIS connection timeout', level: 'error' },
+    { id: '5', timestamp: '2024-01-15 10:15:44', user: 'Budi Hartono', action: 'Approved BAI', details: 'BAI #BAI-2401-045', level: 'info' }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800">System Logs</h2>
+          <p className="text-gray-600 mt-1">Monitor aktivitas dan error sistem</p>
+        </div>
+        <Button variant="secondary">Export Logs</Button>
+      </div>
+
+      <Card>
+        <div className="flex space-x-4 mb-6">
+          <select className="px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option>All Levels</option>
+            <option>Info</option>
+            <option>Success</option>
+            <option>Warning</option>
+            <option>Error</option>
+          </select>
+          <select className="px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option>Last 24 Hours</option>
+            <option>Last 7 Days</option>
+            <option>Last 30 Days</option>
+            <option>Custom Range</option>
+          </select>
+          <Input placeholder="Search logs..." />
+        </div>
+
+        <div className="space-y-3">
+          {mockLogs.map(log => (
+            <div key={log.id} className="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3 mb-2">
+                    <Badge variant={
+                      log.level === 'error' ? 'danger' :
+                      log.level === 'success' ? 'success' :
+                      'info'
+                    }>
+                      {log.level.toUpperCase()}
+                    </Badge>
+                    <span className="text-sm font-semibold text-gray-800">{log.action}</span>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-1">{log.details}</p>
+                  <div className="flex items-center space-x-4 text-xs text-gray-500">
+                    <span>👤 {log.user}</span>
+                    <span>🕐 {log.timestamp}</span>
+                  </div>
+                </div>
+                <button className="text-blue-600 hover:text-blue-800 text-sm">View Details</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+const TicketsPage: React.FC = () => {
+  const mockTickets = [
+    { id: 'TK-001', customer: 'Budi Santoso', issue: 'Internet Mati Total', priority: 'urgent', status: 'open', created: '2024-01-15 09:30' },
+    { id: 'TK-002', customer: 'Ani Wijaya', issue: 'Lambat Saat Streaming', priority: 'high', status: 'in-progress', created: '2024-01-15 08:15' },
+    { id: 'TK-003', customer: 'Dedi Kurniawan', issue: 'Lampu ONT Merah', priority: 'normal', status: 'open', created: '2024-01-15 07:45' }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold text-gray-800">Tiket Pelanggan</h2>
+          <p className="text-gray-600 mt-1">Kelola komplain dan request pelanggan</p>
+        </div>
+        <Button>+ Buat Tiket Baru</Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="bg-gradient-to-br from-red-500 to-red-600 text-white">
+          <div className="space-y-2">
+            <p className="text-red-100 text-sm font-medium">Open Tickets</p>
+            <p className="text-4xl font-bold">12</p>
+            <p className="text-red-100 text-xs">Perlu penanganan</p>
+          </div>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-yellow-500 to-yellow-600 text-white">
+          <div className="space-y-2">
+            <p className="text-yellow-100 text-sm font-medium">In Progress</p>
+            <p className="text-4xl font-bold">8</p>
+            <p className="text-yellow-100 text-xs">Sedang ditangani</p>
+          </div>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white">
+          <div className="space-y-2">
+            <p className="text-green-100 text-sm font-medium">Resolved Today</p>
+            <p className="text-4xl font-bold">15</p>
+            <p className="text-green-100 text-xs">Selesai hari ini</p>
+          </div>
+        </Card>
+      </div>
+
+      <Card title="Daftar Tiket">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Ticket ID</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Pelanggan</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Issue</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Priority</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Created</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mockTickets.map(ticket => (
+                <tr key={ticket.id} className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-3 px-4 font-semibold text-gray-800">{ticket.id}</td>
+                  <td className="py-3 px-4 text-gray-600">{ticket.customer}</td>
+                  <td className="py-3 px-4 text-gray-600">{ticket.issue}</td>
+                  <td className="py-3 px-4">
+                    <Badge variant={ticket.priority === 'urgent' ? 'danger' : ticket.priority === 'high' ? 'warning' : 'default'}>
+                      {ticket.priority.toUpperCase()}
+                    </Badge>
+                  </td>
+                  <td className="py-3 px-4">
+                    <Badge variant={ticket.status === 'open' ? 'danger' : 'warning'}>
+                      {ticket.status}
+                    </Badge>
+                  </td>
+                  <td className="py-3 px-4 text-gray-600 text-sm">{ticket.created}</td>
+                  <td className="py-3 px-4">
+                    <Button size="sm">Assign</Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    </div>
+  );
+};
+
+const NetworkMonitorPage: React.FC = () => {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-3xl font-bold text-gray-800">Network Monitoring</h2>
+        <p className="text-gray-600 mt-1">Real-time monitoring jaringan fiber optik</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white">
+          <div className="space-y-2">
+            <p className="text-green-100 text-sm font-medium">OLT Status</p>
+            <p className="text-4xl font-bold">5/5</p>
+            <p className="text-green-100 text-xs">All Online</p>
+          </div>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+          <div className="space-y-2">
+            <p className="text-blue-100 text-sm font-medium">Active ONTs</p>
+            <p className="text-4xl font-bold">1,245</p>
+            <p className="text-blue-100 text-xs">Connected</p>
+          </div>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-yellow-500 to-yellow-600 text-white">
+          <div className="space-y-2">
+            <p className="text-yellow-100 text-sm font-medium">Alarms</p>
+            <p className="text-4xl font-bold">3</p>
+            <p className="text-yellow-100 text-xs">Need attention</p>
+          </div>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white">
+          <div className="space-y-2">
+            <p className="text-purple-100 text-sm font-medium">ODP Utilization</p>
+            <p className="text-4xl font-bold">78%</p>
+            <p className="text-purple-100 text-xs">Average</p>
+          </div>
+        </Card>
+      </div>
+
+      <Card title="Network Topology">
+        <div className="h-96 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-6xl mb-4">🌐</div>
+            <p className="text-gray-700 font-medium">Interactive Network Map</p>
+            <p className="text-gray-600 text-sm">Visualisasi topologi jaringan real-time</p>
+          </div>
+        </div>
+      </Card>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card title="Recent Alarms">
+          <div className="space-y-3">
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-red-900">OLT-03 High Temperature</p>
+                  <p className="text-xs text-red-700 mt-1">Temperature: 78°C (Threshold: 75°C)</p>
+                  <p className="text-xs text-red-600 mt-1">10:30:15</p>
+                </div>
+                <Badge variant="danger">CRITICAL</Badge>
+              </div>
+            </div>
+            <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm font-semibold text-yellow-900">ODP-B-05 Port Full</p>
+                  <p className="text-xs text-yellow-700 mt-1">All 8 ports occupied</p>
+                  <p className="text-xs text-yellow-600 mt-1">09:45:22</p>
+                </div>
+                <Badge variant="warning">WARNING</Badge>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        <Card title="Performance Metrics">
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-gray-700">Network Uptime</span>
+                <span className="font-semibold text-gray-800">99.97%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-green-600 h-2 rounded-full" style={{ width: '99.97%' }}></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-gray-700">Average Latency</span>
+                <span className="font-semibold text-gray-800">12ms</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-blue-600 h-2 rounded-full" style={{ width: '75%' }}></div>
+              </div>
+            </div>
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-gray-700">Bandwidth Usage</span>
+                <span className="font-semibold text-gray-800">68%</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-purple-600 h-2 rounded-full" style={{ width: '68%' }}></div>
+              </div>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+};
+
+const LiveMapPage: React.FC = () => {
+  const mockTechnicians = [
+    { id: '1', name: 'Ahmad Pratama', status: 'on-task', location: 'Jakarta Selatan', currentTask: 'Instalasi - Anton Wijaya' },
+    { id: '2', name: 'Budi Santoso', status: 'available', location: 'Jakarta Pusat', currentTask: null },
+    { id: '3', name: 'Dewi Lestari', status: 'on-task', location: 'Jakarta Timur', currentTask: 'Perbaikan - Siti Rahayu' }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-3xl font-bold text-gray-800">Live Technician Map</h2>
+        <p className="text-gray-600 mt-1">Monitor posisi dan status teknisi real-time</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <Card title="Real-time Map">
+            <div className="h-[600px] bg-gradient-to-br from-blue-50 to-emerald-50 rounded-xl flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-6xl mb-4">🗺️</div>
+                <p className="text-gray-700 font-medium">Interactive Live Map</p>
+                <p className="text-gray-600 text-sm">Showing real-time technician positions</p>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <div>
+          <Card title="Technician Status">
+            <div className="space-y-3">
+              {mockTechnicians.map(tech => (
+                <div key={tech.id} className="p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                  <div className="flex items-center space-x-3 mb-2">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center text-white font-bold">
+                      {tech.name.charAt(0)}
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-800">{tech.name}</p>
+                      <p className="text-xs text-gray-500">📍 {tech.location}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <Badge variant={tech.status === 'on-task' ? 'warning' : 'success'}>
+                      {tech.status === 'on-task' ? 'On Task' : 'Available'}
+                    </Badge>
+                  </div>
+                  {tech.currentTask && (
+                    <p className="text-xs text-gray-600 mt-2">Current: {tech.currentTask}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card title="Quick Actions" className="mt-6">
+            <div className="space-y-2">
+              <Button fullWidth>Assign New Task</Button>
+              <Button fullWidth variant="secondary">Send Broadcast</Button>
+              <Button fullWidth variant="secondary">View Reports</Button>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // ===========================
 // MAIN APP COMPONENT
 // ===========================
@@ -1228,11 +1786,18 @@ export default function FieldTechApp() {
           {currentPage === 'inventory' && <InventoryPage />}
           {currentPage === 'chat' && <ChatPage />}
           {currentPage === 'knowledge' && <KnowledgeBasePage />}
+          {currentPage === 'users' && <UsersPage />}
+          {currentPage === 'roles' && <RolesPage />}
+          {currentPage === 'api-settings' && <ApiSettingsPage />}
+          {currentPage === 'logs' && <LogsPage />}
+          {currentPage === 'tickets' && <TicketsPage />}
+          {currentPage === 'network-monitor' && <NetworkMonitorPage />}
+          {currentPage === 'live-map' && <LiveMapPage />}
 
-          {!['dashboard', 'tasks', 'task-detail', 'inventory', 'chat', 'knowledge'].includes(currentPage) && (
+          {!['dashboard', 'tasks', 'task-detail', 'inventory', 'chat', 'knowledge', 'users', 'roles', 'api-settings', 'logs', 'tickets', 'network-monitor', 'live-map'].includes(currentPage) && (
             <Card>
               <div className="text-center py-12">
-                <div className="text-6xl mb-4">🚧</div>
+                <div className="text-6xl mb-4">https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7f4f6ec0-b792-4ea9-b9ef-dc7ddd096717.png</div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-2">
                   Halaman {currentPage.replace('-', ' ').toUpperCase()}
                 </h3>
