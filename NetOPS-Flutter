@@ -10,6 +10,7 @@ export default function NetOpsApp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [activeView, setActiveView] = useState('dashboard');
+  const [selectedTask, setSelectedTask] = useState<string | null>(null);
 
   const roles = [
     { id: 'technician', name: 'Technician', user: 'tech001', color: 'bg-blue-600' },
@@ -193,7 +194,16 @@ export default function NetOpsApp() {
                       <span>15 min</span>
                     </div>
                   </div>
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700">Start Task</Button>
+                  <Button 
+                    size="sm" 
+                    className="bg-blue-600 hover:bg-blue-700"
+                    onClick={() => {
+                      setSelectedTask('TKT-2024-001');
+                      setActiveView('task-detail');
+                    }}
+                  >
+                    Start Task
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -230,7 +240,16 @@ export default function NetOpsApp() {
                       <span>25 min</span>
                     </div>
                   </div>
-                  <Button size="sm" variant="outline">View Details</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => {
+                      setSelectedTask('TKT-2024-002');
+                      setActiveView('task-detail');
+                    }}
+                  >
+                    View Details
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -324,28 +343,28 @@ export default function NetOpsApp() {
           </Button>
         </div>
         <div className="grid grid-cols-4 gap-4">
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">24</div>
-              <div className="text-sm text-green-100">Open Tickets</div>
+              <div className="text-3xl font-bold drop-shadow-lg">24</div>
+              <div className="text-sm text-green-50 font-semibold drop-shadow">Open Tickets</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">12</div>
-              <div className="text-sm text-green-100">In Progress</div>
+              <div className="text-3xl font-bold drop-shadow-lg">12</div>
+              <div className="text-sm text-green-50 font-semibold drop-shadow">In Progress</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">95%</div>
-              <div className="text-sm text-green-100">SLA Compliance</div>
+              <div className="text-3xl font-bold drop-shadow-lg">95%</div>
+              <div className="text-sm text-green-50 font-semibold drop-shadow">SLA Compliance</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">4.8</div>
-              <div className="text-sm text-green-100">Satisfaction</div>
+              <div className="text-3xl font-bold drop-shadow-lg">4.8</div>
+              <div className="text-sm text-green-50 font-semibold drop-shadow">Satisfaction</div>
             </CardContent>
           </Card>
         </div>
@@ -393,7 +412,17 @@ export default function NetOpsApp() {
                 <div className="text-right">
                   <div className="text-xs text-muted-foreground mb-1">SLA Remaining</div>
                   <div className="text-2xl font-bold text-red-600">1h 45m</div>
-                  <Button size="sm" variant="outline" className="mt-3">View Details</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="mt-3"
+                    onClick={() => {
+                      setSelectedTask('TKT-2024-045');
+                      setActiveView('ticket-detail');
+                    }}
+                  >
+                    View Details
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -544,28 +573,28 @@ export default function NetOpsApp() {
           </Button>
         </div>
         <div className="grid grid-cols-4 gap-4">
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">99.8%</div>
-              <div className="text-sm text-purple-100">Network Uptime</div>
+              <div className="text-3xl font-bold drop-shadow-lg">99.8%</div>
+              <div className="text-sm text-purple-50 font-semibold drop-shadow">Network Uptime</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">5</div>
-              <div className="text-sm text-purple-100">Active Alarms</div>
+              <div className="text-3xl font-bold drop-shadow-lg">5</div>
+              <div className="text-sm text-purple-50 font-semibold drop-shadow">Active Alarms</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">247</div>
-              <div className="text-sm text-purple-100">Devices Online</div>
+              <div className="text-3xl font-bold drop-shadow-lg">247</div>
+              <div className="text-sm text-purple-50 font-semibold drop-shadow">Devices Online</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">82%</div>
-              <div className="text-sm text-purple-100">Avg Bandwidth</div>
+              <div className="text-3xl font-bold drop-shadow-lg">82%</div>
+              <div className="text-sm text-purple-50 font-semibold drop-shadow">Avg Bandwidth</div>
             </CardContent>
           </Card>
         </div>
@@ -663,7 +692,13 @@ export default function NetOpsApp() {
                       <div className="text-xs text-muted-foreground">Uptime: 99.99% | Traffic: 8.5 Gbps</div>
                     </div>
                   </div>
-                  <Button size="sm" variant="outline">Details</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => setActiveView('device-detail')}
+                  >
+                    Details
+                  </Button>
                 </div>
 
                 <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
@@ -685,7 +720,13 @@ export default function NetOpsApp() {
                       <div className="text-xs text-red-600">Status: OFFLINE | Last Seen: 12 min ago</div>
                     </div>
                   </div>
-                  <Button size="sm" className="bg-red-600 hover:bg-red-700">Diagnose</Button>
+                  <Button 
+                    size="sm" 
+                    className="bg-red-600 hover:bg-red-700"
+                    onClick={() => setActiveView('diagnostics')}
+                  >
+                    Diagnose
+                  </Button>
                 </div>
 
                 <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
@@ -696,7 +737,13 @@ export default function NetOpsApp() {
                       <div className="text-xs text-muted-foreground">4 Active | Capacity: 40 Gbps</div>
                     </div>
                   </div>
-                  <Button size="sm" variant="outline">Monitor</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => setActiveView('monitoring')}
+                  >
+                    Monitor
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -824,34 +871,34 @@ export default function NetOpsApp() {
           </Button>
         </div>
         <div className="grid grid-cols-5 gap-4">
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">12</div>
-              <div className="text-sm text-orange-100">Team Members</div>
+              <div className="text-3xl font-bold drop-shadow-lg">12</div>
+              <div className="text-sm text-orange-50 font-semibold drop-shadow">Team Members</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">45</div>
-              <div className="text-sm text-orange-100">Tasks Today</div>
+              <div className="text-3xl font-bold drop-shadow-lg">45</div>
+              <div className="text-sm text-orange-50 font-semibold drop-shadow">Tasks Today</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">89%</div>
-              <div className="text-sm text-orange-100">Completion Rate</div>
+              <div className="text-3xl font-bold drop-shadow-lg">89%</div>
+              <div className="text-sm text-orange-50 font-semibold drop-shadow">Completion Rate</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">96%</div>
-              <div className="text-sm text-orange-100">SLA Adherence</div>
+              <div className="text-3xl font-bold drop-shadow-lg">96%</div>
+              <div className="text-sm text-orange-50 font-semibold drop-shadow">SLA Adherence</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">4.7</div>
-              <div className="text-sm text-orange-100">Team Rating</div>
+              <div className="text-3xl font-bold drop-shadow-lg">4.7</div>
+              <div className="text-sm text-orange-50 font-semibold drop-shadow">Team Rating</div>
             </CardContent>
           </Card>
         </div>
@@ -890,7 +937,13 @@ export default function NetOpsApp() {
                 <div className="text-sm font-medium text-foreground">Jl. Merdeka No. 45</div>
                 <div className="flex items-center justify-between mt-3">
                   <div className="text-xs text-muted-foreground">Efficiency: 95%</div>
-                  <Button size="sm" variant="outline">Track</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => setActiveView('gps-tracking')}
+                  >
+                    Track
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -917,7 +970,13 @@ export default function NetOpsApp() {
                 <div className="text-sm font-medium text-foreground">Perumahan Indah A5</div>
                 <div className="flex items-center justify-between mt-3">
                   <div className="text-xs text-muted-foreground">ETA: 15 min</div>
-                  <Button size="sm" variant="outline">Navigate</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => setActiveView('navigation')}
+                  >
+                    Navigate
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -944,7 +1003,13 @@ export default function NetOpsApp() {
                 <div className="text-sm font-medium text-foreground">Komplek Mawar 12</div>
                 <div className="flex items-center justify-between mt-3">
                   <div className="text-xs text-muted-foreground">Break: 12 min</div>
-                  <Button size="sm" variant="outline">Contact</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => setActiveView('team-chat')}
+                  >
+                    Contact
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -971,7 +1036,13 @@ export default function NetOpsApp() {
                 <div className="text-sm font-medium text-foreground">Collecting Installation Kit</div>
                 <div className="flex items-center justify-between mt-3">
                   <div className="text-xs text-muted-foreground">Tasks: 4 pending</div>
-                  <Button size="sm" variant="outline">View</Button>
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => setActiveView('task-list')}
+                  >
+                    View
+                  </Button>
                 </div>
               </div>
             </CardContent>
@@ -998,7 +1069,13 @@ export default function NetOpsApp() {
                 <div className="text-sm font-medium text-foreground">Internet Outage - PT Maju</div>
                 <div className="flex items-center justify-between mt-3">
                   <div className="text-xs text-red-600 font-semibold">SLA: 1h 30m</div>
-                  <Button size="sm" className="bg-red-600 hover:bg-red-700">Monitor</Button>
+                  <Button 
+                      size="sm" 
+                      className="bg-red-600 hover:bg-red-700"
+                      onClick={() => setActiveView('live-monitor')}
+                    >
+                      Monitor
+                    </Button>
                 </div>
               </div>
             </CardContent>
@@ -1061,8 +1138,20 @@ export default function NetOpsApp() {
                     </div>
                   </div>
                   <div className="flex flex-col space-y-2 ml-4">
-                    <Button size="sm" className="bg-green-600 hover:bg-green-700">Approve</Button>
-                    <Button size="sm" variant="outline">Review</Button>
+                    <Button 
+                      size="sm" 
+                      className="bg-green-600 hover:bg-green-700"
+                      onClick={() => alert('Installation report approved successfully!')}
+                    >
+                      Approve
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => setActiveView('report-review')}
+                    >
+                      Review
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -1095,7 +1184,13 @@ export default function NetOpsApp() {
                   </div>
                   <div className="flex flex-col space-y-2 ml-4">
                     <Button size="sm" className="bg-green-600 hover:bg-green-700">Approve</Button>
-                    <Button size="sm" variant="outline">Deny</Button>
+                    <Button 
+                      size="sm" 
+                      variant="outline"
+                      onClick={() => alert('Material request denied')}
+                    >
+                      Deny
+                    </Button>
                   </div>
                 </div>
               </CardContent>
@@ -1216,34 +1311,34 @@ export default function NetOpsApp() {
           </Button>
         </div>
         <div className="grid grid-cols-5 gap-4">
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">156</div>
-              <div className="text-sm text-red-100">Total Team</div>
+              <div className="text-3xl font-bold drop-shadow-lg">156</div>
+              <div className="text-sm text-red-50 font-semibold drop-shadow">Total Team</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">2.4K</div>
-              <div className="text-sm text-red-100">Monthly Tasks</div>
+              <div className="text-3xl font-bold drop-shadow-lg">2.4K</div>
+              <div className="text-sm text-red-50 font-semibold drop-shadow">Monthly Tasks</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">92%</div>
-              <div className="text-sm text-red-100">SLA Achievement</div>
+              <div className="text-3xl font-bold drop-shadow-lg">92%</div>
+              <div className="text-sm text-red-50 font-semibold drop-shadow">SLA Achievement</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">4.6</div>
-              <div className="text-sm text-red-100">Customer Score</div>
+              <div className="text-3xl font-bold drop-shadow-lg">4.6</div>
+              <div className="text-sm text-red-50 font-semibold drop-shadow">Customer Score</div>
             </CardContent>
           </Card>
-          <Card className="bg-white bg-opacity-20 backdrop-blur border-0 shadow-lg">
+          <Card className="bg-white bg-opacity-25 backdrop-blur-md border-0 shadow-lg hover:bg-opacity-30 transition-all">
             <CardContent className="p-4 text-center">
-              <div className="text-3xl font-bold">28%</div>
-              <div className="text-sm text-red-100">Cost Reduction</div>
+              <div className="text-3xl font-bold drop-shadow-lg">28%</div>
+              <div className="text-sm text-red-50 font-semibold drop-shadow">Cost Reduction</div>
             </CardContent>
           </Card>
         </div>
@@ -1700,7 +1795,12 @@ export default function NetOpsApp() {
                   </div>
                 </div>
               </div>
-              <Button className="w-full bg-orange-600 hover:bg-orange-700 font-semibold shadow-md">View Detailed Stats</Button>
+              <Button 
+                className="w-full bg-orange-600 hover:bg-orange-700 font-semibold shadow-md"
+                onClick={() => setActiveView('system-stats')}
+              >
+                View Detailed Stats
+              </Button>
             </CardContent>
           </Card>
         </div>
