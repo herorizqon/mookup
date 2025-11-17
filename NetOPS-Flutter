@@ -9,6 +9,7 @@ export default function NetOpsApp() {
   const [currentRole, setCurrentRole] = useState('login');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [activeView, setActiveView] = useState('dashboard');
 
   const roles = [
     { id: 'technician', name: 'Technician', user: 'tech001', color: 'bg-blue-600' },
@@ -118,11 +119,11 @@ export default function NetOpsApp() {
 
   const renderTechnician = () => (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-6 shadow-lg">
+      <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white p-6 shadow-xl border-b-4 border-blue-800">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <Avatar className="h-14 w-14 border-2 border-white shadow-lg">
-              <AvatarImage src="https://placehold.co/56x56" alt="Profile picture of technician with helmet and tools in workshop setting" />
+              <AvatarImage src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/156ceea6-8668-40a4-9477-8e8639163a5c.png" alt="Profile picture of technician with helmet and tools in workshop setting" />
               <AvatarFallback>T1</AvatarFallback>
             </Avatar>
             <div>
@@ -239,7 +240,10 @@ export default function NetOpsApp() {
         <div>
           <h2 className="text-xl font-bold text-foreground mb-4">Quick Actions</h2>
           <div className="grid grid-cols-2 gap-4">
-            <Card className="shadow-md hover:shadow-lg transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+            <Card 
+              className="shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:border-blue-400"
+              onClick={() => setActiveView('inventory')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -251,7 +255,10 @@ export default function NetOpsApp() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-md hover:shadow-lg transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+            <Card 
+              className="shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 border-green-200 hover:border-green-400"
+              onClick={() => setActiveView('qr-scanner')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-14 h-14 bg-green-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -263,7 +270,10 @@ export default function NetOpsApp() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-md hover:shadow-lg transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+            <Card 
+              className="shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 hover:border-purple-400"
+              onClick={() => setActiveView('chat')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -275,7 +285,10 @@ export default function NetOpsApp() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-md hover:shadow-lg transition-all cursor-pointer bg-gradient-to-br from-red-50 to-red-100 border-red-200">
+            <Card 
+              className="shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-red-50 to-red-100 border-red-200 hover:border-red-400"
+              onClick={() => alert('Emergency alert sent to Team Leader!')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-14 h-14 bg-red-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -294,11 +307,11 @@ export default function NetOpsApp() {
 
   const renderCS = () => (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-to-r from-green-600 to-green-700 text-white p-6 shadow-lg">
+      <div className="bg-gradient-to-r from-green-600 via-green-700 to-emerald-700 text-white p-6 shadow-xl border-b-4 border-green-800">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <Avatar className="h-14 w-14 border-2 border-white shadow-lg">
-              <AvatarImage src="https://placehold.co/56x56" alt="Portrait of customer service representative with headset in modern office environment" />
+              <AvatarImage src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2ab46d2d-2041-4f81-a8cc-6f7390d77040.png" alt="Portrait of customer service representative with headset in modern office environment" />
               <AvatarFallback>CS</AvatarFallback>
             </Avatar>
             <div>
@@ -341,7 +354,12 @@ export default function NetOpsApp() {
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-foreground">Recent Tickets</h2>
-          <Button className="bg-green-600 hover:bg-green-700">Create New Ticket</Button>
+          <Button 
+            className="bg-green-600 hover:bg-green-700"
+            onClick={() => setActiveView('create-ticket')}
+          >
+            Create New Ticket
+          </Button>
         </div>
 
         <div className="space-y-4">
@@ -457,7 +475,10 @@ export default function NetOpsApp() {
         <div>
           <h2 className="text-xl font-bold text-foreground mb-4">Quick Actions</h2>
           <div className="grid grid-cols-3 gap-4">
-            <Card className="shadow-md hover:shadow-lg transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+            <Card 
+              className="shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 border-green-200 hover:border-green-400"
+              onClick={() => setActiveView('customer-db')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-14 h-14 bg-green-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -469,7 +490,10 @@ export default function NetOpsApp() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-md hover:shadow-lg transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+            <Card 
+              className="shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 hover:border-blue-400"
+              onClick={() => setActiveView('analytics')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -481,7 +505,10 @@ export default function NetOpsApp() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-md hover:shadow-lg transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+            <Card 
+              className="shadow-md hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 hover:border-purple-400"
+              onClick={() => setActiveView('notifications')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-14 h-14 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -500,7 +527,7 @@ export default function NetOpsApp() {
 
   const renderNOC = () => (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-6 shadow-lg">
+      <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 text-white p-6 shadow-xl border-b-4 border-purple-800">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <Avatar className="h-14 w-14 border-2 border-white shadow-lg">
@@ -780,7 +807,7 @@ export default function NetOpsApp() {
 
   const renderLeader = () => (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white p-6 shadow-lg">
+      <div className="bg-gradient-to-r from-orange-600 via-orange-700 to-red-600 text-white p-6 shadow-xl border-b-4 border-orange-800">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <Avatar className="h-14 w-14 border-2 border-white shadow-lg">
@@ -833,7 +860,12 @@ export default function NetOpsApp() {
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-foreground">Team Status - Live Tracking</h2>
-          <Button className="bg-orange-600 hover:bg-orange-700">Assign Bulk Tasks</Button>
+          <Button 
+            className="bg-orange-600 hover:bg-orange-700"
+            onClick={() => setActiveView('bulk-assign')}
+          >
+            Assign Bulk Tasks
+          </Button>
         </div>
 
         <div className="grid grid-cols-3 gap-6">
@@ -841,7 +873,7 @@ export default function NetOpsApp() {
             <CardContent className="p-5">
               <div className="flex items-center space-x-4">
                 <Avatar className="h-14 w-14 border-2 border-green-500">
-                  <AvatarImage src="https://placehold.co/56x56" alt="Profile photo of field technician Ahmad wearing safety vest and helmet at outdoor work site" />
+                  <AvatarImage src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/14a173b4-5096-4baa-9bfc-f684ba47aad7.png" alt="Profile photo of field technician Ahmad wearing safety vest and helmet at outdoor work site" />
                   <AvatarFallback>AH</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
@@ -868,7 +900,7 @@ export default function NetOpsApp() {
             <CardContent className="p-5">
               <div className="flex items-center space-x-4">
                 <Avatar className="h-14 w-14 border-2 border-blue-500">
-                  <AvatarImage src="https://placehold.co/56x56" alt="Profile photo of field technician Rina wearing company uniform with toolbelt at installation site" />
+                  <AvatarImage src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d50200d8-cb07-4112-8e71-a0ff52ee79df.png" alt="Profile photo of field technician Rina wearing company uniform with toolbelt at installation site" />
                   <AvatarFallback>RT</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
@@ -895,7 +927,7 @@ export default function NetOpsApp() {
             <CardContent className="p-5">
               <div className="flex items-center space-x-4">
                 <Avatar className="h-14 w-14 border-2 border-yellow-500">
-                  <AvatarImage src="https://placehold.co/56x56" alt="Profile photo of field technician Budi wearing safety gear holding network testing equipment" />
+                  <AvatarImage src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1c3da3cc-d198-4d37-9f6e-49dc574afae8.png" alt="Profile photo of field technician Budi wearing safety gear holding network testing equipment" />
                   <AvatarFallback>BS</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
@@ -1167,7 +1199,7 @@ export default function NetOpsApp() {
 
   const renderManagement = () => (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-6 shadow-lg">
+      <div className="bg-gradient-to-r from-red-600 via-red-700 to-rose-700 text-white p-6 shadow-xl border-b-4 border-red-800">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <Avatar className="h-14 w-14 border-2 border-white shadow-lg">
@@ -1220,7 +1252,12 @@ export default function NetOpsApp() {
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-bold text-foreground">Executive Dashboard</h2>
-          <Button className="bg-red-600 hover:bg-red-700">Generate Report</Button>
+          <Button 
+            className="bg-red-600 hover:bg-red-700"
+            onClick={() => alert('Generating comprehensive report...')}
+          >
+            Generate Report
+          </Button>
         </div>
 
         <div className="grid grid-cols-3 gap-6">
@@ -1526,7 +1563,12 @@ export default function NetOpsApp() {
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-slate-800">System Administration</h2>
-          <Button className="bg-gradient-to-r from-slate-700 to-slate-900 hover:from-slate-800 hover:to-black shadow-lg font-semibold">System Backup</Button>
+          <Button 
+            className="bg-gradient-to-r from-slate-700 to-slate-900 hover:from-slate-800 hover:to-black shadow-lg font-semibold"
+            onClick={() => alert('Starting system backup...')}
+          >
+            System Backup
+          </Button>
         </div>
 
         <div className="grid grid-cols-3 gap-6">
@@ -1561,7 +1603,12 @@ export default function NetOpsApp() {
                 </div>
                 <div className="text-3xl font-bold text-blue-600">6</div>
               </div>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700 font-semibold shadow-md">Manage Users</Button>
+              <Button 
+                className="w-full bg-blue-600 hover:bg-blue-700 font-semibold shadow-md"
+                onClick={() => setActiveView('user-management')}
+              >
+                Manage Users
+              </Button>
             </CardContent>
           </Card>
 
@@ -1596,7 +1643,12 @@ export default function NetOpsApp() {
                 </div>
                 <div className="text-3xl font-bold text-purple-600">12</div>
               </div>
-              <Button className="w-full bg-purple-600 hover:bg-purple-700 font-semibold shadow-md">Security Settings</Button>
+              <Button 
+                className="w-full bg-purple-600 hover:bg-purple-700 font-semibold shadow-md"
+                onClick={() => setActiveView('security')}
+              >
+                Security Settings
+              </Button>
             </CardContent>
           </Card>
 
@@ -1751,13 +1803,20 @@ export default function NetOpsApp() {
                 </div>
 
                 <div className="space-y-3 pt-2">
-                  <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 font-semibold shadow-md">
+                  <Button 
+                    className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 font-semibold shadow-md"
+                    onClick={() => alert('Exporting database...')}
+                  >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
                     Export Database
                   </Button>
-                  <Button variant="outline" className="w-full font-semibold border-slate-300 hover:bg-slate-50">
+                  <Button 
+                    variant="outline" 
+                    className="w-full font-semibold border-slate-300 hover:bg-slate-50"
+                    onClick={() => alert('Optimizing database tables...')}
+                  >
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
@@ -1772,7 +1831,10 @@ export default function NetOpsApp() {
         <div>
           <h2 className="text-2xl font-bold text-slate-800 mb-5">System Tools & Configuration</h2>
           <div className="grid grid-cols-4 gap-5">
-            <Card className="shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 hover:border-blue-400">
+            <Card 
+              className="shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 hover:border-blue-400"
+              onClick={() => setActiveView('system-config')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
                   <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1785,7 +1847,10 @@ export default function NetOpsApp() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 hover:border-green-400">
+            <Card 
+              className="shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 hover:border-green-400"
+              onClick={() => setActiveView('audit-logs')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
                   <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1797,7 +1862,10 @@ export default function NetOpsApp() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 hover:border-purple-400">
+            <Card 
+              className="shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 hover:border-purple-400"
+              onClick={() => setActiveView('api-manager')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
                   <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1809,7 +1877,10 @@ export default function NetOpsApp() {
               </CardContent>
             </Card>
 
-            <Card className="shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-orange-50 to-orange-100 border-2 border-orange-200 hover:border-orange-400">
+            <Card 
+              className="shadow-lg hover:shadow-xl transition-all cursor-pointer bg-gradient-to-br from-orange-50 to-orange-100 border-2 border-orange-200 hover:border-orange-400"
+              onClick={() => setActiveView('performance')}
+            >
               <CardContent className="p-6 text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
                   <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
