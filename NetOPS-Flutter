@@ -2397,6 +2397,598 @@ export default function NetOpsApp() {
     </div>
   );
 
+  const renderInventory = () => (
+    <div className="min-h-screen bg-background">
+      <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white p-6 shadow-xl border-b-4 border-blue-800">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setActiveView('dashboard')}
+              className="bg-white text-blue-600 hover:bg-blue-50 border-0"
+            >
+              ← Back
+            </Button>
+            <h1 className="text-2xl font-bold">My Inventory</h1>
+          </div>
+          <Button 
+            variant="outline"
+            size="sm"
+            className="bg-white text-blue-600 hover:bg-blue-50 border-0"
+            onClick={() => alert('Requesting new materials...')}
+          >
+            Request Materials
+          </Button>
+        </div>
+      </div>
+
+      <div className="p-6 space-y-6">
+        <div className="grid grid-cols-4 gap-6">
+          <Card className="shadow-lg">
+            <CardContent className="p-6">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-blue-600">12</div>
+                <p className="text-sm text-muted-foreground mt-2">Total Items</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="shadow-lg">
+            <CardContent className="p-6">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-green-600">8</div>
+                <p className="text-sm text-muted-foreground mt-2">Available</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="shadow-lg">
+            <CardContent className="p-6">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-orange-600">3</div>
+                <p className="text-sm text-muted-foreground mt-2">In Use</p>
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="shadow-lg">
+            <CardContent className="p-6">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-red-600">1</div>
+                <p className="text-sm text-muted-foreground mt-2">Low Stock</p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle>Equipment & Materials</CardTitle>
+            <CardDescription>Your assigned inventory items</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Fiber Cable (100m)</div>
+                    <div className="text-xs text-muted-foreground">QR: FC-2024-001</div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-bold text-green-600">5 units</div>
+                  <div className="text-xs text-muted-foreground">Available</div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">ONT Device</div>
+                    <div className="text-xs text-muted-foreground">QR: ONT-2024-012</div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-bold text-green-600">3 units</div>
+                  <div className="text-xs text-muted-foreground">Available</div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-orange-50 rounded-lg border border-orange-200">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Crimping Tool</div>
+                    <div className="text-xs text-muted-foreground">QR: TOOL-2024-005</div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-bold text-orange-600">In Use</div>
+                  <div className="text-xs text-muted-foreground">Task TKT-001</div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-red-50 rounded-lg border border-red-200">
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                    <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-foreground">Connector SC/UPC</div>
+                    <div className="text-xs text-muted-foreground">QR: CON-2024-089</div>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-lg font-bold text-red-600">2 units</div>
+                  <div className="text-xs text-red-600">Low Stock</div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
+  const renderQRScanner = () => (
+    <div className="min-h-screen bg-background">
+      <div className="bg-gradient-to-r from-green-600 via-green-700 to-emerald-700 text-white p-6 shadow-xl border-b-4 border-green-800">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setActiveView('dashboard')}
+              className="bg-white text-green-600 hover:bg-green-50 border-0"
+            >
+              ← Back
+            </Button>
+            <h1 className="text-2xl font-bold">QR Code Scanner</h1>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6 max-w-2xl mx-auto">
+        <Card className="shadow-xl">
+          <CardHeader>
+            <CardTitle>Scan Material QR Code</CardTitle>
+            <CardDescription>Point camera at QR code to track materials</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="aspect-square bg-slate-100 rounded-lg flex items-center justify-center border-4 border-dashed border-slate-300">
+              <div className="text-center p-8">
+                <svg className="w-24 h-24 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                </svg>
+                <p className="text-slate-600 font-medium">Camera viewfinder area</p>
+                <p className="text-xs text-slate-500 mt-2">Position QR code within frame</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <Button className="w-full h-12 bg-green-600 hover:bg-green-700 font-semibold">
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                Start Camera Scanner
+              </Button>
+              
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border"></div>
+                </div>
+                <div className="relative flex justify-center text-xs">
+                  <span className="bg-background px-2 text-muted-foreground">OR</span>
+                </div>
+              </div>
+
+              <Input placeholder="Enter QR code manually" className="h-12" />
+            </div>
+
+            <Card className="bg-blue-50 border-blue-200">
+              <CardContent className="p-4">
+                <div className="flex items-start space-x-3">
+                  <svg className="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div className="text-sm text-slate-700">
+                    <p className="font-semibold mb-1">Last Scanned:</p>
+                    <p>Fiber Cable 50m - FC-2024-001</p>
+                    <p className="text-xs text-slate-600 mt-1">Picked up for Task TKT-2024-001</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
+  const renderChat = () => (
+    <div className="min-h-screen bg-background">
+      <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 text-white p-6 shadow-xl border-b-4 border-purple-800">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setActiveView('dashboard')}
+              className="bg-white text-purple-600 hover:bg-purple-50 border-0"
+            >
+              ← Back
+            </Button>
+            <h1 className="text-2xl font-bold">Team Chat</h1>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-3 gap-6">
+          <Card className="shadow-lg col-span-1">
+            <CardHeader>
+              <CardTitle>Channels</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="p-3 bg-purple-50 rounded-lg border-l-4 border-l-purple-600 cursor-pointer">
+                <div className="font-semibold text-foreground">Team Jakarta Selatan</div>
+                <div className="text-xs text-muted-foreground">12 members online</div>
+              </div>
+              <div className="p-3 bg-muted rounded-lg cursor-pointer hover:bg-slate-100">
+                <div className="font-semibold text-foreground">NOC Support</div>
+                <div className="text-xs text-muted-foreground">24/7 available</div>
+              </div>
+              <div className="p-3 bg-muted rounded-lg cursor-pointer hover:bg-slate-100">
+                <div className="font-semibold text-foreground">General Announcements</div>
+                <div className="text-xs text-red-600">2 new messages</div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-lg col-span-2">
+            <CardHeader>
+              <CardTitle>Team Jakarta Selatan</CardTitle>
+              <CardDescription>12 members online</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4 mb-4 h-96 overflow-y-auto">
+                <div className="flex items-start space-x-3">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9d5ad2ed-b1e2-4361-91c1-f9e148c2223d.png" alt="Chat avatar of team leader Rudi in professional setting" />
+                    <AvatarFallback>RH</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-semibold text-sm">Rudi Hartono</span>
+                      <span className="text-xs text-muted-foreground">10:30 AM</span>
+                    </div>
+                    <div className="bg-muted p-3 rounded-lg mt-1">
+                      <p className="text-sm">Team meeting at 2 PM today. Please confirm attendance.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-3">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/12e9d70c-0a8e-41d5-ad2f-bc30635f2b9a.png" alt="Chat avatar of technician Ahmad at work site" />
+                    <AvatarFallback>AT</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-semibold text-sm">Ahmad Teknisi</span>
+                      <span className="text-xs text-muted-foreground">10:32 AM</span>
+                    </div>
+                    <div className="bg-blue-50 p-3 rounded-lg mt-1 border border-blue-200">
+                      <p className="text-sm">Confirmed! Just finished task at Jl. Merdeka.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-3">
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c0a3abff-cc9b-4640-9e9f-89c916bf7794.png" alt="Chat avatar of NOC engineer Andi at monitoring station" />
+                    <AvatarFallback>AP</AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="font-semibold text-sm">Andi NOC</span>
+                      <span className="text-xs text-muted-foreground">10:35 AM</span>
+                    </div>
+                    <div className="bg-muted p-3 rounded-lg mt-1">
+                      <p className="text-sm">Alert: High latency detected in Sector B. Investigating now.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-2 pt-4 border-t border-border">
+                <Input placeholder="Type your message..." className="h-11 flex-1" />
+                <Button className="bg-purple-600 hover:bg-purple-700">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderGPSTracking = () => (
+    <div className="min-h-screen bg-background">
+      <div className="bg-gradient-to-r from-orange-600 via-orange-700 to-red-600 text-white p-6 shadow-xl border-b-4 border-orange-800">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setActiveView('dashboard')}
+              className="bg-white text-orange-600 hover:bg-orange-50 border-0"
+            >
+              ← Back
+            </Button>
+            <h1 className="text-2xl font-bold">GPS Live Tracking</h1>
+          </div>
+          <Button 
+            variant="outline"
+            size="sm"
+            className="bg-white text-orange-600 hover:bg-orange-50 border-0"
+          >
+            Refresh Location
+          </Button>
+        </div>
+      </div>
+
+      <div className="p-6">
+        <div className="grid grid-cols-3 gap-6">
+          <Card className="shadow-lg col-span-2">
+            <CardHeader>
+              <CardTitle>Live Map View</CardTitle>
+              <CardDescription>Real-time technician locations</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="aspect-video bg-slate-100 rounded-lg flex items-center justify-center border-2 border-slate-200">
+                <div className="text-center p-8">
+                  <svg className="w-20 h-20 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                  </svg>
+                  <p className="text-slate-600 font-medium">Interactive Map Area</p>
+                  <p className="text-xs text-slate-500 mt-2">Google Maps integration showing technician locations</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-lg">
+            <CardHeader>
+              <CardTitle>Active Technicians</CardTitle>
+              <CardDescription>Currently on field</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="p-3 bg-green-50 rounded-lg border-l-4 border-l-green-600">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="font-semibold text-foreground">Ahmad Teknisi</div>
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                </div>
+                <div className="text-xs text-muted-foreground">Jl. Merdeka No. 45</div>
+                <div className="text-xs text-muted-foreground">Last update: 2 min ago</div>
+              </div>
+
+              <div className="p-3 bg-blue-50 rounded-lg border-l-4 border-l-blue-600">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="font-semibold text-foreground">Rina Teknisi</div>
+                  <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                </div>
+                <div className="text-xs text-muted-foreground">In transit to next location</div>
+                <div className="text-xs text-muted-foreground">Last update: 1 min ago</div>
+              </div>
+
+              <div className="p-3 bg-yellow-50 rounded-lg border-l-4 border-l-yellow-600">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="font-semibold text-foreground">Budi Santoso</div>
+                  <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                </div>
+                <div className="text-xs text-muted-foreground">Break time</div>
+                <div className="text-xs text-muted-foreground">Last update: 5 min ago</div>
+              </div>
+
+              <div className="p-3 bg-gray-50 rounded-lg border-l-4 border-l-gray-400">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="font-semibold text-foreground">Fajar Anwar</div>
+                  <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
+                </div>
+                <div className="text-xs text-muted-foreground">Offline - Remote area</div>
+                <div className="text-xs text-muted-foreground">Last update: 45 min ago</div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderCustomerDB = () => (
+    <div className="min-h-screen bg-background">
+      <div className="bg-gradient-to-r from-green-600 via-green-700 to-emerald-700 text-white p-6 shadow-xl border-b-4 border-green-800">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setActiveView('dashboard')}
+              className="bg-white text-green-600 hover:bg-green-50 border-0"
+            >
+              ← Back
+            </Button>
+            <h1 className="text-2xl font-bold">Customer Database</h1>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6 space-y-6">
+        <Card className="shadow-lg">
+          <CardContent className="p-6">
+            <div className="flex items-center space-x-4">
+              <Input placeholder="Search by name, phone, or address..." className="h-12 flex-1" />
+              <Button className="bg-green-600 hover:bg-green-700 h-12 px-6">
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Search
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-2 gap-6">
+          <Card className="shadow-lg">
+            <CardContent className="p-5">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="font-bold text-lg text-foreground">Budi Santoso</h3>
+                  <p className="text-sm text-muted-foreground">Customer ID: CUST-2024-001</p>
+                </div>
+                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">Active</span>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center space-x-2">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span className="text-muted-foreground">+62 812-3456-7890</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="text-muted-foreground">Jl. Merdeka No. 45, Jakarta Selatan</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span className="text-muted-foreground">Package: 100 Mbps Fiber</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-4 border-t border-border">
+                <Button size="sm" className="w-full bg-green-600 hover:bg-green-700">View Full Profile</Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="shadow-lg">
+            <CardContent className="p-5">
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="font-bold text-lg text-foreground">PT Maju Bersama</h3>
+                  <p className="text-sm text-muted-foreground">Customer ID: CUST-2024-045</p>
+                </div>
+                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-semibold">Corporate</span>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex items-center space-x-2">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span className="text-muted-foreground">+62 821-9999-8888</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span className="text-muted-foreground">Jl. Sudirman 123, Jakarta Pusat</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span className="text-muted-foreground">Package: 1 Gbps Dedicated</span>
+                </div>
+              </div>
+              <div className="mt-4 pt-4 border-t border-border">
+                <Button size="sm" className="w-full bg-green-600 hover:bg-green-700">View Full Profile</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTaskDetail = () => (
+    <div className="min-h-screen bg-background">
+      <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 text-white p-6 shadow-xl border-b-4 border-blue-800">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setActiveView('dashboard')}
+              className="bg-white text-blue-600 hover:bg-blue-50 border-0"
+            >
+              ← Back
+            </Button>
+            <div>
+              <h1 className="text-2xl font-bold">Task Details</h1>
+              <p className="text-sm text-blue-100">Ticket ID: {selectedTask || 'TKT-2024-001'}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6 space-y-6">
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle>Task Information</CardTitle>
+            <CardDescription>Complete task details</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label className="text-sm font-semibold text-muted-foreground">Customer</Label>
+              <p className="text-base font-bold text-foreground mt-1">Budi Santoso</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold text-muted-foreground">Address</Label>
+              <p className="text-base text-foreground mt-1">Jl. Merdeka No. 45, Jakarta Selatan</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold text-muted-foreground">Issue</Label>
+              <p className="text-base text-foreground mt-1">Internet Connection Issue</p>
+            </div>
+            <Button 
+              className="w-full bg-green-600 hover:bg-green-700"
+              onClick={() => {
+                alert('Task completed successfully!');
+                setActiveView('dashboard');
+              }}
+            >
+              Complete Task
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
   const renderNotifications = () => (
     <div className="min-h-screen bg-background">
       <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 text-white p-6 shadow-xl border-b-4 border-purple-800">
@@ -2609,7 +3201,19 @@ export default function NetOpsApp() {
       {activeView === 'create-ticket' && renderCreateTicket()}
       {activeView === 'analytics' && renderAnalytics()}
       {activeView === 'notifications' && renderNotifications()}
-      {activeView !== 'dashboard' && activeView !== 'login' && activeView !== 'create-ticket' && activeView !== 'analytics' && activeView !== 'notifications' && (
+      {activeView === 'inventory' && renderInventory()}
+      {activeView === 'qr-scanner' && renderQRScanner()}
+      {activeView === 'chat' && renderChat()}
+      {activeView === 'gps-tracking' && renderGPSTracking()}
+      {activeView === 'customer-db' && renderCustomerDB()}
+      {activeView === 'task-detail' && renderTaskDetail()}
+      {activeView === 'bulk-assign' && renderBulkAssign()}
+      {activeView === 'report-review' && renderReportReview()}
+      {activeView === 'live-monitor' && renderLiveMonitor()}
+      {activeView === 'task-list' && renderTaskList()}
+      {activeView === 'navigation' && renderNavigation()}
+      {activeView === 'team-chat' && renderTeamChat()}
+      {activeView !== 'dashboard' && activeView !== 'login' && activeView !== 'create-ticket' && activeView !== 'analytics' && activeView !== 'notifications' && activeView !== 'inventory' && activeView !== 'qr-scanner' && activeView !== 'chat' && activeView !== 'gps-tracking' && activeView !== 'customer-db' && activeView !== 'task-detail' && activeView !== 'bulk-assign' && activeView !== 'report-review' && activeView !== 'live-monitor' && activeView !== 'task-list' && activeView !== 'navigation' && activeView !== 'team-chat' && (
         <div className="min-h-screen bg-background flex items-center justify-center">
           <Card className="max-w-md shadow-xl">
             <CardContent className="p-8 text-center">
