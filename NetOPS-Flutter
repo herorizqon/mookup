@@ -806,7 +806,7 @@ export default function NetOpsApp() {
                       <CardContent>
                         <div className="relative h-64 bg-muted rounded-lg flex items-center justify-center">
                           <img
-                            src="https://placehold.co/600x400"
+                            src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/13ff3661-b2f4-42b8-92c1-d88a260efd41.png"
                             alt="Network topology diagram showing interconnected OLT devices, ONT endpoints, and core routers with status indicators for active connections across multiple regional nodes"
                             className="w-full h-full object-cover rounded-lg"
                           />
@@ -1591,7 +1591,7 @@ export default function NetOpsApp() {
                 <CardContent className="p-0">
                   <div className="relative h-[600px] bg-muted rounded-lg overflow-hidden">
                     <img
-                      src="https://placehold.co/1200x800"
+                      src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d977c2bb-03de-43db-b2f4-ce0d5ba71ecf.png"
                       alt="Interactive map displaying real-time technician locations with GPS pins, task routes marked in different colors, and network coverage zones overlaid on street view showing urban telecommunications infrastructure"
                       className="w-full h-full object-cover"
                     />
