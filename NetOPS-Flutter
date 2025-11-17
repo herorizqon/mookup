@@ -1,0 +1,1818 @@
+import React, { useState } from 'react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '/components/ui/card';
+import { Button } from '/components/ui/button';
+import { Input } from '/components/ui/input';
+import { Label } from '/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '/components/ui/select';
+import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Bell, CheckCircle, Clock, AlertTriangle, MapPin, MessageSquare, Package, Users, Activity, TrendingUp, Wifi, Radio, Server, PhoneCall, Calendar, Search, Filter, Download, Upload, Settings, LogOut, Menu, X, ChevronRight, Home, Clipboard, Archive, BarChart3, Shield } from 'lucide-react';
+
+interface Task {
+  id: string;
+  title: string;
+  priority: 'urgent' | 'high' | 'normal';
+  status: 'pending' | 'in-progress' | 'completed';
+  location: string;
+  sla: string;
+  customer: string;
+}
+
+interface Ticket {
+  id: string;
+  customer: string;
+  issue: string;
+  priority: 'urgent' | 'high' | 'normal';
+  status: 'open' | 'in-progress' | 'resolved';
+  assignedTo: string;
+  createdAt: string;
+}
+
+interface Alarm {
+  id: string;
+  device: string;
+  severity: 'critical' | 'major' | 'minor';
+  message: string;
+  timestamp: string;
+  status: 'active' | 'acknowledged' | 'resolved';
+}
+
+export default function NetOpsApp() {
+  const [currentRole, setCurrentRole] = useState<string>('technician');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [activeScreen, setActiveScreen] = useState('dashboard');
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Sample Data
+  const tasks: Task[] = [
+    { id: 'T001', title: 'Instalasi ONT Baru', priority: 'high', status: 'pending', location: 'Jl. Sudirman No. 45', sla: '2 jam tersisa', customer: 'PT Maju Jaya' },
+    { id: 'T002', title: 'Perbaikan Kabel FO', priority: 'urgent', status: 'in-progress', location: 'Jl. Gatot Subroto 12', sla: '45 menit tersisa', customer: 'CV Sejahtera' },
+    { id: 'T003', title: 'Maintenance OLT', priority: 'normal', status: 'pending', location: 'POP Kemayoran', sla: '1 hari tersisa', customer: 'Internal' }
+  ];
+
+  const tickets: Ticket[] = [
+    { id: 'TK001', customer: 'Budi Santoso', issue: 'Internet lambat', priority: 'high', status: 'open', assignedTo: 'Team A', createdAt: '10:30' },
+    { id: 'TK002', customer: 'Siti Aminah', issue: 'Koneksi terputus', priority: 'urgent', status: 'in-progress', assignedTo: 'Team B', createdAt: '09:15' },
+    { id: 'TK003', customer: 'Ahmad Fauzi', issue: 'Request upgrade paket', priority: 'normal', status: 'open', assignedTo: 'Unassigned', createdAt: '11:00' }
+  ];
+
+  const alarms: Alarm[] = [
+    { id: 'A001', device: 'OLT-JKT-01', severity: 'critical', message: 'High temperature detected', timestamp: '14:25', status: 'active' },
+    { id: 'A002', device: 'ONT-12345', severity: 'major', message: 'Signal loss detected', timestamp: '14:20', status: 'acknowledged' },
+    { id: 'A003', device: 'OLT-JKT-02', severity: 'minor', message: 'Port utilization 85%', timestamp: '13:50', status: 'resolved' }
+  ];
+
+  const kpiData = [
+    { name: 'Sen', completed: 12, pending: 3 },
+    { name: 'Sel', completed: 15, pending: 2 },
+    { name: 'Rab', completed: 18, pending: 4 },
+    { name: 'Kam', completed: 14, pending: 1 },
+    { name: 'Jum', completed: 20, pending: 5 }
+  ];
+
+  const ticketStatusData = [
+    { name: 'Open', value: 25, color: '#3b82f6' },
+    { name: 'In Progress', value: 15, color: '#f59e0b' },
+    { name: 'Resolved', value: 60, color: '#10b981' }
+  ];
+
+  const networkMetrics = [
+    { time: '10:00', uptime: 99.8, latency: 12 },
+    { time: '11:00', uptime: 99.9, latency: 10 },
+    { time: '12:00', uptime: 99.7, latency: 15 },
+    { time: '13:00', uptime: 99.9, latency: 11 },
+    { time: '14:00', uptime: 99.8, latency: 13 }
+  ];
+
+  const roles = [
+    { id: 'technician', name: 'Technician', icon: <Activity className="w-4 h-4" /> },
+    { id: 'cs', name: 'Customer Service', icon: <PhoneCall className="w-4 h-4" /> },
+    { id: 'noc', name: 'NOC', icon: <Server className="w-4 h-4" /> },
+    { id: 'leader', name: 'Team Leader', icon: <Users className="w-4 h-4" /> },
+    { id: 'management', name: 'Management', icon: <BarChart3 className="w-4 h-4" /> }
+  ];
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'urgent': return 'bg-destructive text-destructive-foreground';
+      case 'high': return 'bg-orange-500 text-white';
+      case 'normal': return 'bg-primary text-primary-foreground';
+      default: return 'bg-muted text-muted-foreground';
+    }
+  };
+
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case 'critical': return 'bg-destructive text-destructive-foreground';
+      case 'major': return 'bg-orange-500 text-white';
+      case 'minor': return 'bg-yellow-500 text-white';
+      default: return 'bg-muted text-muted-foreground';
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'completed':
+      case 'resolved': return 'bg-green-500 text-white';
+      case 'in-progress':
+      case 'acknowledged': return 'bg-blue-500 text-white';
+      case 'pending':
+      case 'open':
+      case 'active': return 'bg-orange-500 text-white';
+      default: return 'bg-muted text-muted-foreground';
+    }
+  };
+
+  // Login Screen
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md shadow-2xl">
+          <CardHeader className="text-center space-y-4 pb-8">
+            <div className="mx-auto w-20 h-20 bg-primary rounded-2xl flex items-center justify-center shadow-lg">
+              <Wifi className="w-12 h-12 text-primary-foreground" />
+            </div>
+            <CardTitle className="text-3xl font-bold text-foreground">NetOps</CardTitle>
+            <CardDescription className="text-base">
+              Field Service Management System
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username" className="text-sm font-medium">Username</Label>
+                <Input 
+                  id="username" 
+                  type="text" 
+                  placeholder="Masukkan username"
+                  className="h-12"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+                <Input 
+                  id="password" 
+                  type="password" 
+                  placeholder="Masukkan password"
+                  className="h-12"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="role" className="text-sm font-medium">Role</Label>
+                <Select value={currentRole} onValueChange={setCurrentRole}>
+                  <SelectTrigger className="h-12">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {roles.map((role) => (
+                      <SelectItem key={role.id} value={role.id}>
+                        <div className="flex items-center gap-2">
+                          {role.icon}
+                          <span>{role.name}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <Button 
+              className="w-full h-12 text-base font-semibold"
+              onClick={() => setIsAuthenticated(true)}
+            >
+              Login
+            </Button>
+            <div className="text-center">
+              <button className="text-sm text-primary hover:underline">
+                Lupa password?
+              </button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Main App Layout
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Top Navigation Bar */}
+      <div className="bg-primary text-primary-foreground shadow-lg sticky top-0 z-50">
+        <div className="flex items-center justify-between px-4 h-16">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="lg:hidden text-primary-foreground hover:bg-primary-foreground/10"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </Button>
+            <div className="flex items-center gap-2">
+              <Wifi className="w-8 h-8" />
+              <span className="text-xl font-bold hidden sm:inline">NetOps</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10 relative">
+              <Bell className="w-5 h-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full"></span>
+            </Button>
+            <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10">
+              <Settings className="w-5 h-5" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="text-primary-foreground hover:bg-primary-foreground/10"
+              onClick={() => setIsAuthenticated(false)}
+            >
+              <LogOut className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex">
+        {/* Sidebar Navigation - Desktop */}
+        <div className="hidden lg:block w-64 bg-card border-r border-border min-h-screen sticky top-16">
+          <div className="p-4 border-b border-border">
+            <div className="flex items-center gap-3 p-3 bg-accent rounded-lg">
+              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg">
+                {currentRole === 'technician' ? 'TS' : currentRole === 'cs' ? 'CS' : currentRole === 'noc' ? 'NC' : currentRole === 'leader' ? 'TL' : 'MG'}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-sm truncate">
+                  {roles.find(r => r.id === currentRole)?.name}
+                </div>
+                <div className="text-xs text-muted-foreground">Online</div>
+              </div>
+            </div>
+          </div>
+          <nav className="p-2">
+            <button
+              onClick={() => setActiveScreen('dashboard')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                activeScreen === 'dashboard' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+              }`}
+            >
+              <Home className="w-5 h-5" />
+              <span className="font-medium">Dashboard</span>
+            </button>
+            {currentRole === 'technician' && (
+              <>
+                <button
+                  onClick={() => setActiveScreen('tasks')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                    activeScreen === 'tasks' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                  }`}
+                >
+                  <Clipboard className="w-5 h-5" />
+                  <span className="font-medium">Tugas</span>
+                </button>
+                <button
+                  onClick={() => setActiveScreen('inventory')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                    activeScreen === 'inventory' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                  }`}
+                >
+                  <Package className="w-5 h-5" />
+                  <span className="font-medium">Inventaris</span>
+                </button>
+              </>
+            )}
+            {currentRole === 'cs' && (
+              <button
+                onClick={() => setActiveScreen('tickets')}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                  activeScreen === 'tickets' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                }`}
+              >
+                <PhoneCall className="w-5 h-5" />
+                <span className="font-medium">Tiket</span>
+              </button>
+            )}
+            {currentRole === 'noc' && (
+              <button
+                onClick={() => setActiveScreen('monitoring')}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                  activeScreen === 'monitoring' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                }`}
+              >
+                <Server className="w-5 h-5" />
+                <span className="font-medium">Monitoring</span>
+              </button>
+            )}
+            <button
+              onClick={() => setActiveScreen('map')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                activeScreen === 'map' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+              }`}
+            >
+              <MapPin className="w-5 h-5" />
+              <span className="font-medium">Peta</span>
+            </button>
+            <button
+              onClick={() => setActiveScreen('chat')}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                activeScreen === 'chat' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+              }`}
+            >
+              <MessageSquare className="w-5 h-5" />
+              <span className="font-medium">Chat</span>
+            </button>
+          </nav>
+        </div>
+
+        {/* Mobile Sidebar */}
+        {mobileMenuOpen && (
+          <div className="fixed inset-0 bg-background z-40 lg:hidden">
+            <div className="p-4 border-b border-border mt-16">
+              <div className="flex items-center gap-3 p-3 bg-accent rounded-lg">
+                <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold text-lg">
+                  {currentRole === 'technician' ? 'TS' : currentRole === 'cs' ? 'CS' : currentRole === 'noc' ? 'NC' : currentRole === 'leader' ? 'TL' : 'MG'}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-sm truncate">
+                    {roles.find(r => r.id === currentRole)?.name}
+                  </div>
+                  <div className="text-xs text-muted-foreground">Online</div>
+                </div>
+              </div>
+            </div>
+            <nav className="p-2">
+              <button
+                onClick={() => {
+                  setActiveScreen('dashboard');
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                  activeScreen === 'dashboard' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                }`}
+              >
+                <Home className="w-5 h-5" />
+                <span className="font-medium">Dashboard</span>
+              </button>
+              {currentRole === 'technician' && (
+                <>
+                  <button
+                    onClick={() => {
+                      setActiveScreen('tasks');
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                      activeScreen === 'tasks' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                    }`}
+                  >
+                    <Clipboard className="w-5 h-5" />
+                    <span className="font-medium">Tugas</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setActiveScreen('inventory');
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                      activeScreen === 'inventory' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                    }`}
+                  >
+                    <Package className="w-5 h-5" />
+                    <span className="font-medium">Inventaris</span>
+                  </button>
+                </>
+              )}
+              {currentRole === 'cs' && (
+                <button
+                  onClick={() => {
+                    setActiveScreen('tickets');
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                    activeScreen === 'tickets' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                  }`}
+                >
+                  <PhoneCall className="w-5 h-5" />
+                  <span className="font-medium">Tiket</span>
+                </button>
+              )}
+              {currentRole === 'noc' && (
+                <button
+                  onClick={() => {
+                    setActiveScreen('monitoring');
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                    activeScreen === 'monitoring' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                  }`}
+                >
+                  <Server className="w-5 h-5" />
+                  <span className="font-medium">Monitoring</span>
+                </button>
+              )}
+              <button
+                onClick={() => {
+                  setActiveScreen('map');
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                  activeScreen === 'map' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                }`}
+              >
+                <MapPin className="w-5 h-5" />
+                <span className="font-medium">Peta</span>
+              </button>
+              <button
+                onClick={() => {
+                  setActiveScreen('chat');
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-1 transition-colors ${
+                  activeScreen === 'chat' ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'
+                }`}
+              >
+                <MessageSquare className="w-5 h-5" />
+                <span className="font-medium">Chat</span>
+              </button>
+            </nav>
+          </div>
+        )}
+
+        {/* Main Content Area */}
+        <div className="flex-1 p-4 lg:p-6 pb-20 lg:pb-6">
+          {/* Dashboard Screen */}
+          {activeScreen === 'dashboard' && (
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h1 className="text-2xl lg:text-3xl font-bold text-foreground">Dashboard</h1>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {currentRole === 'technician' && 'Teknisi Lapangan'}
+                    {currentRole === 'cs' && 'Customer Service'}
+                    {currentRole === 'noc' && 'Network Operations Center'}
+                    {currentRole === 'leader' && 'Team Leader'}
+                    {currentRole === 'management' && 'Management'}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Select value={currentRole} onValueChange={setCurrentRole}>
+                    <SelectTrigger className="w-40">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {roles.map((role) => (
+                        <SelectItem key={role.id} value={role.id}>
+                          <div className="flex items-center gap-2">
+                            {role.icon}
+                            <span className="text-xs">{role.name}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {/* Technician Dashboard */}
+              {currentRole === 'technician' && (
+                <>
+                  {/* Status Cards */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs opacity-90 mb-1">Tugas Hari Ini</p>
+                            <p className="text-2xl font-bold">8</p>
+                          </div>
+                          <Clipboard className="w-8 h-8 opacity-80" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white border-0">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs opacity-90 mb-1">Selesai</p>
+                            <p className="text-2xl font-bold">5</p>
+                          </div>
+                          <CheckCircle className="w-8 h-8 opacity-80" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gradient-to-br from-orange-500 to-orange-600 text-white border-0">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs opacity-90 mb-1">Dalam Proses</p>
+                            <p className="text-2xl font-bold">2</p>
+                          </div>
+                          <Clock className="w-8 h-8 opacity-80" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gradient-to-br from-red-500 to-red-600 text-white border-0">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs opacity-90 mb-1">Urgent</p>
+                            <p className="text-2xl font-bold">1</p>
+                          </div>
+                          <AlertTriangle className="w-8 h-8 opacity-80" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Quick Actions */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-lg">Quick Actions</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                        <Button variant="outline" className="h-20 flex-col gap-2">
+                          <Clock className="w-6 h-6" />
+                          <span className="text-xs">Clock In</span>
+                        </Button>
+                        <Button variant="outline" className="h-20 flex-col gap-2">
+                          <Package className="w-6 h-6" />
+                          <span className="text-xs">Request Material</span>
+                        </Button>
+                        <Button variant="outline" className="h-20 flex-col gap-2">
+                          <MapPin className="w-6 h-6" />
+                          <span className="text-xs">Navigasi</span>
+                        </Button>
+                        <Button variant="outline" className="h-20 flex-col gap-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground">
+                          <AlertTriangle className="w-6 h-6" />
+                          <span className="text-xs">Emergency</span>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Today's Tasks */}
+                  <Card>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg">Tugas Hari Ini</CardTitle>
+                        <Button variant="ghost" size="sm">
+                          Lihat Semua
+                          <ChevronRight className="w-4 h-4 ml-1" />
+                        </Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {tasks.map((task) => (
+                          <div
+                            key={task.id}
+                            onClick={() => {
+                              setSelectedTask(task);
+                              setActiveScreen('task-detail');
+                            }}
+                            className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors"
+                          >
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="flex-1 min-w-0 mr-3">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="font-semibold text-sm">{task.id}</span>
+                                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getPriorityColor(task.priority)}`}>
+                                    {task.priority}
+                                  </span>
+                                </div>
+                                <h3 className="font-medium text-foreground mb-1">{task.title}</h3>
+                                <p className="text-xs text-muted-foreground mb-2">{task.customer}</p>
+                              </div>
+                              <span className={`text-xs px-2 py-1 rounded font-medium ${getStatusColor(task.status)}`}>
+                                {task.status}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                              <div className="flex items-center gap-1">
+                                <MapPin className="w-3 h-3" />
+                                <span>{task.location}</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                <span>{task.sla}</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              )}
+
+              {/* Customer Service Dashboard */}
+              {currentRole === 'cs' && (
+                <>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <Card className="lg:col-span-2">
+                      <CardHeader>
+                        <CardTitle className="text-lg">Statistik Tiket</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="grid grid-cols-3 gap-4 mb-6">
+                          <div className="text-center p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+                            <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">25</p>
+                            <p className="text-xs text-muted-foreground mt-1">Open</p>
+                          </div>
+                          <div className="text-center p-4 bg-orange-50 dark:bg-orange-950 rounded-lg">
+                            <p className="text-3xl font-bold text-orange-600 dark:text-orange-400">15</p>
+                            <p className="text-xs text-muted-foreground mt-1">In Progress</p>
+                          </div>
+                          <div className="text-center p-4 bg-green-50 dark:bg-green-950 rounded-lg">
+                            <p className="text-3xl font-bold text-green-600 dark:text-green-400">60</p>
+                            <p className="text-xs text-muted-foreground mt-1">Resolved</p>
+                          </div>
+                        </div>
+                        <ResponsiveContainer width="100%" height={200}>
+                          <PieChart>
+                            <Pie
+                              data={ticketStatusData}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={80}
+                              paddingAngle={5}
+                              dataKey="value"
+                            >
+                              {ticketStatusData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                              ))}
+                            </Pie>
+                            <Tooltip />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">SLA Performance</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium">On Time</span>
+                              <span className="text-sm font-bold text-green-600">95%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-green-500 w-[95%]"></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium">Late</span>
+                              <span className="text-sm font-bold text-orange-600">5%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-orange-500 w-[5%]"></div>
+                            </div>
+                          </div>
+                          <div className="pt-4 border-t border-border">
+                            <div className="text-center">
+                              <p className="text-4xl font-bold text-green-600">4.8</p>
+                              <p className="text-xs text-muted-foreground mt-1">Customer Satisfaction</p>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <Card>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg">Tiket Terbaru</CardTitle>
+                        <Button size="sm">
+                          Buat Tiket Baru
+                        </Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {tickets.map((ticket) => (
+                          <div key={ticket.id} className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="flex-1 min-w-0 mr-3">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="font-semibold text-sm">{ticket.id}</span>
+                                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getPriorityColor(ticket.priority)}`}>
+                                    {ticket.priority}
+                                  </span>
+                                </div>
+                                <h3 className="font-medium text-foreground mb-1">{ticket.customer}</h3>
+                                <p className="text-sm text-muted-foreground">{ticket.issue}</p>
+                              </div>
+                              <span className={`text-xs px-2 py-1 rounded font-medium ${getStatusColor(ticket.status)}`}>
+                                {ticket.status}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                              <div className="flex items-center gap-1">
+                                <Users className="w-3 h-3" />
+                                <span>{ticket.assignedTo}</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                <span>{ticket.createdAt}</span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              )}
+
+              {/* NOC Dashboard */}
+              {currentRole === 'noc' && (
+                <>
+                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                    <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white border-0">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs opacity-90 mb-1">Network Uptime</p>
+                            <p className="text-2xl font-bold">99.8%</p>
+                          </div>
+                          <Activity className="w-8 h-8 opacity-80" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs opacity-90 mb-1">Active Devices</p>
+                            <p className="text-2xl font-bold">2,547</p>
+                          </div>
+                          <Server className="w-8 h-8 opacity-80" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gradient-to-br from-red-500 to-red-600 text-white border-0">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs opacity-90 mb-1">Active Alarms</p>
+                            <p className="text-2xl font-bold">7</p>
+                          </div>
+                          <AlertTriangle className="w-8 h-8 opacity-80" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white border-0">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs opacity-90 mb-1">Avg Latency</p>
+                            <p className="text-2xl font-bold">12ms</p>
+                          </div>
+                          <TrendingUp className="w-8 h-8 opacity-80" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Network Performance</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ResponsiveContainer width="100%" height={250}>
+                          <LineChart data={networkMetrics}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="time" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="uptime" stroke="#10b981" name="Uptime %" />
+                            <Line type="monotone" dataKey="latency" stroke="#3b82f6" name="Latency (ms)" />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Network Topology</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="relative h-64 bg-muted rounded-lg flex items-center justify-center">
+                          <img
+                            src="https://placehold.co/600x400"
+                            alt="Network topology diagram showing interconnected OLT devices, ONT endpoints, and core routers with status indicators for active connections across multiple regional nodes"
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                          <div className="absolute inset-0 flex items-center justify-center bg-background/80 rounded-lg">
+                            <div className="text-center">
+                              <Radio className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
+                              <p className="text-sm text-muted-foreground">Network Map View</p>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <Card>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg">Active Alarms</CardTitle>
+                        <div className="flex gap-2">
+                          <Button variant="outline" size="sm">
+                            <Filter className="w-4 h-4 mr-1" />
+                            Filter
+                          </Button>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {alarms.map((alarm) => (
+                          <div key={alarm.id} className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="flex-1 min-w-0 mr-3">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="font-semibold text-sm">{alarm.id}</span>
+                                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getSeverityColor(alarm.severity)}`}>
+                                    {alarm.severity}
+                                  </span>
+                                </div>
+                                <h3 className="font-medium text-foreground mb-1">{alarm.device}</h3>
+                                <p className="text-sm text-muted-foreground">{alarm.message}</p>
+                              </div>
+                              <span className={`text-xs px-2 py-1 rounded font-medium ${getStatusColor(alarm.status)}`}>
+                                {alarm.status}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                              <div className="flex items-center gap-1">
+                                <Clock className="w-3 h-3" />
+                                <span>{alarm.timestamp}</span>
+                              </div>
+                            </div>
+                            <div className="flex gap-2 mt-3">
+                              <Button size="sm" variant="outline">Acknowledge</Button>
+                              <Button size="sm" variant="outline">Diagnose</Button>
+                              <Button size="sm">Resolve</Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              )}
+
+              {/* Team Leader Dashboard */}
+              {currentRole === 'leader' && (
+                <>
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <Card className="lg:col-span-2">
+                      <CardHeader>
+                        <CardTitle className="text-lg">Team Performance</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ResponsiveContainer width="100%" height={300}>
+                          <BarChart data={kpiData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Bar dataKey="completed" fill="#10b981" name="Completed" />
+                            <Bar dataKey="pending" fill="#f59e0b" name="Pending" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Team Statistics</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium">Completion Rate</span>
+                              <span className="text-sm font-bold text-green-600">87%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-green-500 w-[87%]"></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium">SLA Adherence</span>
+                              <span className="text-sm font-bold text-blue-600">93%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-blue-500 w-[93%]"></div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium">Team Utilization</span>
+                              <span className="text-sm font-bold text-orange-600">78%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-orange-500 w-[78%]"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-muted-foreground mb-1">Active Technicians</p>
+                            <p className="text-2xl font-bold">12/15</p>
+                          </div>
+                          <Users className="w-8 h-8 text-primary" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-muted-foreground mb-1">Pending Approvals</p>
+                            <p className="text-2xl font-bold">5</p>
+                          </div>
+                          <CheckCircle className="w-8 h-8 text-orange-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs text-muted-foreground mb-1">Overtime Hours</p>
+                            <p className="text-2xl font-bold">24h</p>
+                          </div>
+                          <Clock className="w-8 h-8 text-red-500" />
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </>
+              )}
+
+              {/* Management Dashboard */}
+              {currentRole === 'management' && (
+                <>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="text-center">
+                          <p className="text-xs text-muted-foreground mb-1">Total Tasks</p>
+                          <p className="text-3xl font-bold text-foreground">1,247</p>
+                          <p className="text-xs text-green-600 mt-1">↑ 12% from last month</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="text-center">
+                          <p className="text-xs text-muted-foreground mb-1">Completion Rate</p>
+                          <p className="text-3xl font-bold text-foreground">89%</p>
+                          <p className="text-xs text-green-600 mt-1">↑ 5% from last month</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="text-center">
+                          <p className="text-xs text-muted-foreground mb-1">Customer Satisfaction</p>
+                          <p className="text-3xl font-bold text-foreground">4.7</p>
+                          <p className="text-xs text-green-600 mt-1">↑ 0.3 from last month</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardContent className="p-4">
+                        <div className="text-center">
+                          <p className="text-xs text-muted-foreground mb-1">Network Uptime</p>
+                          <p className="text-3xl font-bold text-foreground">99.8%</p>
+                          <p className="text-xs text-green-600 mt-1">Target: 99.5%</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Monthly Trends</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ResponsiveContainer width="100%" height={300}>
+                          <LineChart data={kpiData}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip />
+                            <Legend />
+                            <Line type="monotone" dataKey="completed" stroke="#10b981" name="Completed" />
+                            <Line type="monotone" dataKey="pending" stroke="#f59e0b" name="Pending" />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </CardContent>
+                    </Card>
+
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="text-lg">Revenue Impact</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-950 rounded-lg">
+                            <div>
+                              <p className="text-sm text-muted-foreground">New Installations</p>
+                              <p className="text-2xl font-bold text-green-600">$45,780</p>
+                            </div>
+                            <TrendingUp className="w-8 h-8 text-green-600" />
+                          </div>
+                          <div className="flex items-center justify-between p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
+                            <div>
+                              <p className="text-sm text-muted-foreground">Service Repairs</p>
+                              <p className="text-2xl font-bold text-blue-600">$28,450</p>
+                            </div>
+                            <Activity className="w-8 h-8 text-blue-600" />
+                          </div>
+                          <div className="flex items-center justify-between p-4 bg-purple-50 dark:bg-purple-950 rounded-lg">
+                            <div>
+                              <p className="text-sm text-muted-foreground">Maintenance</p>
+                              <p className="text-2xl font-bold text-purple-600">$12,330</p>
+                            </div>
+                            <Shield className="w-8 h-8 text-purple-600" />
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <Card>
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg">Executive Reports</CardTitle>
+                        <Button variant="outline" size="sm">
+                          <Download className="w-4 h-4 mr-1" />
+                          Export All
+                        </Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <Button variant="outline" className="h-20 flex-col gap-2">
+                          <BarChart3 className="w-6 h-6" />
+                          <span className="text-xs">Monthly Report</span>
+                        </Button>
+                        <Button variant="outline" className="h-20 flex-col gap-2">
+                          <Users className="w-6 h-6" />
+                          <span className="text-xs">Team Performance</span>
+                        </Button>
+                        <Button variant="outline" className="h-20 flex-col gap-2">
+                          <Activity className="w-6 h-6" />
+                          <span className="text-xs">Network Health</span>
+                        </Button>
+                        <Button variant="outline" className="h-20 flex-col gap-2">
+                          <TrendingUp className="w-6 h-6" />
+                          <span className="text-xs">Financial Summary</span>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Task Detail Screen */}
+          {activeScreen === 'task-detail' && selectedTask && (
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <Button variant="ghost" size="icon" onClick={() => setActiveScreen('dashboard')}>
+                  <ChevronRight className="w-5 h-5 rotate-180" />
+                </Button>
+                <div>
+                  <h1 className="text-2xl font-bold text-foreground">Detail Tugas</h1>
+                  <p className="text-sm text-muted-foreground">{selectedTask.id}</p>
+                </div>
+              </div>
+
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">{selectedTask.title}</CardTitle>
+                    <span className={`text-xs px-3 py-1 rounded-full font-medium ${getPriorityColor(selectedTask.priority)}`}>
+                      {selectedTask.priority}
+                    </span>
+                  </div>
+                  <CardDescription>{selectedTask.customer}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="text-xs text-muted-foreground">Status</Label>
+                      <p className="font-medium mt-1">{selectedTask.status}</p>
+                    </div>
+                    <div>
+                      <Label className="text-xs text-muted-foreground">SLA</Label>
+                      <p className="font-medium mt-1">{selectedTask.sla}</p>
+                    </div>
+                    <div className="col-span-2">
+                      <Label className="text-xs text-muted-foreground">Lokasi</Label>
+                      <p className="font-medium mt-1">{selectedTask.location}</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button className="flex-1">
+                      <MapPin className="w-4 h-4 mr-2" />
+                      Navigasi
+                    </Button>
+                    <Button variant="outline" className="flex-1">
+                      <MessageSquare className="w-4 h-4 mr-2" />
+                      Chat NOC
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Survey & Measurement</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Redaman OPM (dB)</Label>
+                    <Input type="number" placeholder="Masukkan nilai redaman" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Jarak Kabel (meter)</Label>
+                    <Input type="number" placeholder="Masukkan jarak" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Catatan Survey</Label>
+                    <Input placeholder="Tambahkan catatan..." />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Dokumentasi</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="aspect-video bg-muted rounded-lg flex items-center justify-center border-2 border-dashed border-border">
+                      <div className="text-center">
+                        <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-xs text-muted-foreground">Upload Foto Before</p>
+                      </div>
+                    </div>
+                    <div className="aspect-video bg-muted rounded-lg flex items-center justify-center border-2 border-dashed border-border">
+                      <div className="text-center">
+                        <Upload className="w-8 h-8 mx-auto mb-2 text-muted-foreground" />
+                        <p className="text-xs text-muted-foreground">Upload Foto After</p>
+                      </div>
+                    </div>
+                  </div>
+                  <Button variant="outline" className="w-full">
+                    <Upload className="w-4 h-4 mr-2" />
+                    Upload Additional Files
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Material Checklist</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 border border-border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <input type="checkbox" className="w-5 h-5" />
+                        <span className="font-medium">ONT Device</span>
+                      </div>
+                      <span className="text-sm text-muted-foreground">1 unit</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 border border-border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <input type="checkbox" className="w-5 h-5" />
+                        <span className="font-medium">Fiber Optic Cable</span>
+                      </div>
+                      <span className="text-sm text-muted-foreground">50 meter</span>
+                    </div>
+                    <div className="flex items-center justify-between p-3 border border-border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <input type="checkbox" className="w-5 h-5" />
+                        <span className="font-medium">Connector SC/APC</span>
+                      </div>
+                      <span className="text-sm text-muted-foreground">2 pcs</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="flex gap-3 sticky bottom-4">
+                <Button variant="outline" className="flex-1">
+                  Save Draft
+                </Button>
+                <Button className="flex-1">
+                  Complete Task
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {/* Tasks List Screen */}
+          {activeScreen === 'tasks' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-foreground">Daftar Tugas</h1>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm">
+                    <Filter className="w-4 h-4 mr-1" />
+                    Filter
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Search className="w-4 h-4 mr-1" />
+                    Search
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {tasks.map((task) => (
+                  <Card
+                    key={task.id}
+                    className="cursor-pointer hover:shadow-md transition-shadow"
+                    onClick={() => {
+                      setSelectedTask(task);
+                      setActiveScreen('task-detail');
+                    }}
+                  >
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex-1 min-w-0 mr-3">
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="font-semibold text-sm">{task.id}</span>
+                            <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getPriorityColor(task.priority)}`}>
+                              {task.priority}
+                            </span>
+                          </div>
+                          <h3 className="font-medium text-foreground mb-1">{task.title}</h3>
+                          <p className="text-xs text-muted-foreground mb-2">{task.customer}</p>
+                        </div>
+                        <span className={`text-xs px-2 py-1 rounded font-medium ${getStatusColor(task.status)}`}>
+                          {task.status}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />
+                          <span>{task.location}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          <span>{task.sla}</span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Inventory Screen */}
+          {activeScreen === 'inventory' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-foreground">Inventaris</h1>
+                <Button>
+                  <Package className="w-4 h-4 mr-2" />
+                  Request Material
+                </Button>
+              </div>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Scan QR Code</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="aspect-square max-w-sm mx-auto bg-muted rounded-lg flex items-center justify-center border-2 border-dashed border-border">
+                    <div className="text-center">
+                      <Package className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground mb-4">Scan QR code untuk pickup/return material</p>
+                      <Button>Open Scanner</Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Material Saya</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                      <div>
+                        <p className="font-medium">ONT Device</p>
+                        <p className="text-sm text-muted-foreground">Stock: 3 units</p>
+                      </div>
+                      <Button variant="outline" size="sm">Return</Button>
+                    </div>
+                    <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                      <div>
+                        <p className="font-medium">Fiber Optic Cable</p>
+                        <p className="text-sm text-muted-foreground">Stock: 150 meter</p>
+                      </div>
+                      <Button variant="outline" size="sm">Return</Button>
+                    </div>
+                    <div className="flex items-center justify-between p-4 border border-border rounded-lg">
+                      <div>
+                        <p className="font-medium">Connector SC/APC</p>
+                        <p className="text-sm text-muted-foreground">Stock: 10 pcs</p>
+                      </div>
+                      <Button variant="outline" size="sm">Return</Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Tickets Screen */}
+          {activeScreen === 'tickets' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-foreground">Manajemen Tiket</h1>
+                <Button>
+                  Buat Tiket Baru
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold text-blue-600">25</p>
+                      <p className="text-sm text-muted-foreground mt-1">Open</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold text-orange-600">15</p>
+                      <p className="text-sm text-muted-foreground mt-1">In Progress</p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold text-green-600">60</p>
+                      <p className="text-sm text-muted-foreground mt-1">Resolved</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Card>
+                <CardHeader>
+                  <div className="flex items-center gap-2">
+                    <Input placeholder="Search tickets..." className="flex-1" />
+                    <Button variant="outline" size="icon">
+                      <Search className="w-4 h-4" />
+                    </Button>
+                    <Button variant="outline" size="icon">
+                      <Filter className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {tickets.map((ticket) => (
+                      <div key={ticket.id} className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1 min-w-0 mr-3">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="font-semibold text-sm">{ticket.id}</span>
+                              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getPriorityColor(ticket.priority)}`}>
+                                {ticket.priority}
+                              </span>
+                            </div>
+                            <h3 className="font-medium text-foreground mb-1">{ticket.customer}</h3>
+                            <p className="text-sm text-muted-foreground">{ticket.issue}</p>
+                          </div>
+                          <span className={`text-xs px-2 py-1 rounded font-medium ${getStatusColor(ticket.status)}`}>
+                            {ticket.status}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <Users className="w-3 h-3" />
+                            <span>{ticket.assignedTo}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            <span>{ticket.createdAt}</span>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 mt-3">
+                          <Button size="sm" variant="outline">Assign</Button>
+                          <Button size="sm" variant="outline">Update</Button>
+                          <Button size="sm">View Details</Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Monitoring Screen */}
+          {activeScreen === 'monitoring' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-foreground">Network Monitoring</h1>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm">
+                    <Filter className="w-4 h-4 mr-1" />
+                    Filter
+                  </Button>
+                  <Button variant="outline" size="sm">
+                    <Download className="w-4 h-4 mr-1" />
+                    Export
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white border-0">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs opacity-90 mb-1">Uptime</p>
+                        <p className="text-2xl font-bold">99.8%</p>
+                      </div>
+                      <Activity className="w-8 h-8 opacity-80" />
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs opacity-90 mb-1">Active Devices</p>
+                        <p className="text-2xl font-bold">2,547</p>
+                      </div>
+                      <Server className="w-8 h-8 opacity-80" />
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="bg-gradient-to-br from-red-500 to-red-600 text-white border-0">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs opacity-90 mb-1">Critical Alarms</p>
+                        <p className="text-2xl font-bold">3</p>
+                      </div>
+                      <AlertTriangle className="w-8 h-8 opacity-80" />
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white border-0">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-xs opacity-90 mb-1">Latency</p>
+                        <p className="text-2xl font-bold">12ms</p>
+                      </div>
+                      <TrendingUp className="w-8 h-8 opacity-80" />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Network Performance</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={networkMetrics}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="time" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="uptime" stroke="#10b981" name="Uptime %" />
+                      <Line type="monotone" dataKey="latency" stroke="#3b82f6" name="Latency (ms)" />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Active Alarms</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {alarms.map((alarm) => (
+                      <div key={alarm.id} className="p-4 border border-border rounded-lg hover:bg-accent cursor-pointer transition-colors">
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1 min-w-0 mr-3">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="font-semibold text-sm">{alarm.id}</span>
+                              <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${getSeverityColor(alarm.severity)}`}>
+                                {alarm.severity}
+                              </span>
+                            </div>
+                            <h3 className="font-medium text-foreground mb-1">{alarm.device}</h3>
+                            <p className="text-sm text-muted-foreground">{alarm.message}</p>
+                          </div>
+                          <span className={`text-xs px-2 py-1 rounded font-medium ${getStatusColor(alarm.status)}`}>
+                            {alarm.status}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            <span>{alarm.timestamp}</span>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button size="sm" variant="outline">Acknowledge</Button>
+                          <Button size="sm" variant="outline">Diagnose</Button>
+                          <Button size="sm">Resolve</Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Map Screen */}
+          {activeScreen === 'map' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-foreground">Live Map</h1>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm">
+                    <Filter className="w-4 h-4 mr-1" />
+                    Filter
+                  </Button>
+                </div>
+              </div>
+
+              <Card>
+                <CardContent className="p-0">
+                  <div className="relative h-[600px] bg-muted rounded-lg overflow-hidden">
+                    <img
+                      src="https://placehold.co/1200x800"
+                      alt="Interactive map displaying real-time technician locations with GPS pins, task routes marked in different colors, and network coverage zones overlaid on street view showing urban telecommunications infrastructure"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute top-4 right-4 flex flex-col gap-2">
+                      <Button size="sm" className="bg-white text-foreground hover:bg-gray-100">
+                        <MapPin className="w-4 h-4 mr-2" />
+                        My Location
+                      </Button>
+                      <Button size="sm" className="bg-white text-foreground hover:bg-gray-100">
+                        <Users className="w-4 h-4 mr-2" />
+                        All Technicians
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <div>
+                        <p className="font-medium">Online</p>
+                        <p className="text-sm text-muted-foreground">12 technicians</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+                      <div>
+                        <p className="font-medium">On Task</p>
+                        <p className="text-sm text-muted-foreground">8 technicians</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
+                      <div>
+                        <p className="font-medium">Offline</p>
+                        <p className="text-sm text-muted-foreground">3 technicians</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
+
+          {/* Chat Screen */}
+          {activeScreen === 'chat' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-2xl font-bold text-foreground">Internal Chat</h1>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Card className="lg:col-span-1">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Conversations</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      <div className="p-3 border border-primary bg-accent rounded-lg cursor-pointer">
+                        <div className="flex items-center gap-3 mb-1">
+                          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
+                            NC
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm">NOC Team</p>
+                            <p className="text-xs text-muted-foreground truncate">Checking network status...</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-3 border border-border rounded-lg cursor-pointer hover:bg-accent">
+                        <div className="flex items-center gap-3 mb-1">
+                          <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
+                            TL
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm">Team Leader</p>
+                            <p className="text-xs text-muted-foreground truncate">Great job on today's tasks!</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-3 border border-border rounded-lg cursor-pointer hover:bg-accent">
+                        <div className="flex items-center gap-3 mb-1">
+                          <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                            WH
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm">Warehouse</p>
+                            <p className="text-xs text-muted-foreground truncate">Material request approved</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="lg:col-span-2">
+                  <CardHeader>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
+                        NC
+                      </div>
+                      <div>
+                        <p className="font-medium">NOC Team</p>
+                        <p className="text-xs text-green-600">Online</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[400px] flex flex-col">
+                      <div className="flex-1 overflow-y-auto space-y-4 mb-4">
+                        <div className="flex gap-2">
+                          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs font-bold">
+                            NC
+                          </div>
+                          <div className="flex-1">
+                            <div className="bg-muted p-3 rounded-lg rounded-tl-none">
+                              <p className="text-sm">Hi, we detected high latency in your area. Are you experiencing any issues?</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">10:30</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 justify-end">
+                          <div className="flex-1 text-right">
+                            <div className="bg-primary text-primary-foreground p-3 rounded-lg rounded-tr-none inline-block">
+                              <p className="text-sm">Yes, signal is dropping at customer location. Running diagnostics now.</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">10:32</p>
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-xs font-bold">
+                            NC
+                          </div>
+                          <div className="flex-1">
+                            <div className="bg-muted p-3 rounded-lg rounded-tl-none">
+                              <p className="text-sm">We can see the issue from here. OLT port showing errors. We're rebooting now.</p>
+                            </div>
+                            <p className="text-xs text-muted-foreground mt-1">10:35</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <Input placeholder="Type a message..." className="flex-1" />
+                        <Button size="icon">
+                          <MessageSquare className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Bottom Navigation - Mobile Only */}
+      <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border lg:hidden z-50">
+        <div className="flex justify-around items-center h-16">
+          <button
+            onClick={() => setActiveScreen('dashboard')}
+            className={`flex flex-col items-center gap-1 px-4 py-2 ${
+              activeScreen === 'dashboard' ? 'text-primary' : 'text-muted-foreground'
+            }`}
+          >
+            <Home className="w-5 h-5" />
+            <span className="text-xs">Home</span>
+          </button>
+          {currentRole === 'technician' && (
+            <button
+              onClick={() => setActiveScreen('tasks')}
+              className={`flex flex-col items-center gap-1 px-4 py-2 ${
+                activeScreen === 'tasks' ? 'text-primary' : 'text-muted-foreground'
+              }`}
+            >
+              <Clipboard className="w-5 h-5" />
+              <span className="text-xs">Tugas</span>
+            </button>
+          )}
+          {currentRole === 'cs' && (
+            <button
+              onClick={() => setActiveScreen('tickets')}
+              className={`flex flex-col items-center gap-1 px-4 py-2 ${
+                activeScreen === 'tickets' ? 'text-primary' : 'text-muted-foreground'
+              }`}
+            >
+              <PhoneCall className="w-5 h-5" />
+              <span className="text-xs">Tiket</span>
+            </button>
+          )}
+          <button
+            onClick={() => setActiveScreen('map')}
+            className={`flex flex-col items-center gap-1 px-4 py-2 ${
+              activeScreen === 'map' ? 'text-primary' : 'text-muted-foreground'
+            }`}
+          >
+            <MapPin className="w-5 h-5" />
+            <span className="text-xs">Map</span>
+          </button>
+          <button
+            onClick={() => setActiveScreen('chat')}
+            className={`flex flex-col items-center gap-1 px-4 py-2 ${
+              activeScreen === 'chat' ? 'text-primary' : 'text-muted-foreground'
+            }`}
+          >
+            <MessageSquare className="w-5 h-5" />
+            <span className="text-xs">Chat</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
