@@ -2989,9 +2989,73 @@ export default function NetOpsApp() {
     </div>
   );
 
+  const renderTicketDetail = () => (
+    <div className="min-h-screen bg-background">
+      <div className="bg-gradient-to-r from-green-600 via-green-700 to-emerald-700 text-white p-6 shadow-xl border-b-4 border-green-800">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => setActiveView('dashboard')}
+              className="bg-white text-green-600 hover:bg-green-50 border-0"
+            >
+              ← Back
+            </Button>
+            <div>
+              <h1 className="text-2xl font-bold">Ticket Details</h1>
+              <p className="text-sm text-green-100">Ticket ID: {selectedTask || 'TKT-2024-045'}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="p-6 space-y-6">
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle>Ticket Information</CardTitle>
+            <CardDescription>Complete ticket details</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <Label className="text-sm font-semibold text-muted-foreground">Customer</Label>
+              <p className="text-base font-bold text-foreground mt-1">PT Maju Bersama</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold text-muted-foreground">Contact</Label>
+              <p className="text-base text-foreground mt-1">+62 812-3456-7890</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold text-muted-foreground">Address</Label>
+              <p className="text-base text-foreground mt-1">Jl. Sudirman 123, Jakarta Pusat</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold text-muted-foreground">Issue</Label>
+              <p className="text-base text-foreground mt-1">Complete Internet Outage</p>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold text-muted-foreground">Assigned To</Label>
+              <p className="text-base text-foreground mt-1">Ahmad Teknisi</p>
+            </div>
+            <Button 
+              className="w-full bg-green-600 hover:bg-green-700"
+              onClick={() => {
+                alert('Ticket status updated successfully!');
+                setActiveView('dashboard');
+              }}
+            >
+              Update Status
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+
   const renderNotifications = () => (
     <div className="min-h-screen bg-background">
       <div className="bg-gradient-to-r from-purple-600 via-purple-700 to-indigo-700 text-white p-6 shadow-xl border-b-4 border-purple-800">
+>>>>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <Button 
@@ -3207,13 +3271,14 @@ export default function NetOpsApp() {
       {activeView === 'gps-tracking' && renderGPSTracking()}
       {activeView === 'customer-db' && renderCustomerDB()}
       {activeView === 'task-detail' && renderTaskDetail()}
+      {activeView === 'ticket-detail' && renderTicketDetail()}
       {activeView === 'bulk-assign' && renderBulkAssign()}
       {activeView === 'report-review' && renderReportReview()}
       {activeView === 'live-monitor' && renderLiveMonitor()}
       {activeView === 'task-list' && renderTaskList()}
       {activeView === 'navigation' && renderNavigation()}
       {activeView === 'team-chat' && renderTeamChat()}
-      {activeView !== 'dashboard' && activeView !== 'login' && activeView !== 'create-ticket' && activeView !== 'analytics' && activeView !== 'notifications' && activeView !== 'inventory' && activeView !== 'qr-scanner' && activeView !== 'chat' && activeView !== 'gps-tracking' && activeView !== 'customer-db' && activeView !== 'task-detail' && activeView !== 'bulk-assign' && activeView !== 'report-review' && activeView !== 'live-monitor' && activeView !== 'task-list' && activeView !== 'navigation' && activeView !== 'team-chat' && (
+      {activeView !== 'dashboard' && activeView !== 'login' && activeView !== 'create-ticket' && activeView !== 'analytics' && activeView !== 'notifications' && activeView !== 'inventory' && activeView !== 'qr-scanner' && activeView !== 'chat' && activeView !== 'gps-tracking' && activeView !== 'customer-db' && activeView !== 'task-detail' && activeView !== 'ticket-detail' && activeView !== 'bulk-assign' && activeView !== 'report-review' && activeView !== 'live-monitor' && activeView !== 'task-list' && activeView !== 'navigation' && activeView !== 'team-chat' && (
         <div className="min-h-screen bg-background flex items-center justify-center">
           <Card className="max-w-md shadow-xl">
             <CardContent className="p-8 text-center">
