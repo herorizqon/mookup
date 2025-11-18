@@ -189,6 +189,14 @@ export default function ISPAllianceHub() {
               >
                 Chairman
               </Button>
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:border-amber-500/50 hover:text-white transition-all rounded-lg h-10"
+                onClick={() => { setUserRole('treasurer'); setCurrentView('dashboard'); }}
+              >
+                Treasurer
+              </Button>
             </div>
           </div>
         </CardContent>
@@ -213,6 +221,13 @@ export default function ISPAllianceHub() {
       { icon: DollarSign, label: 'Finance Overview', view: 'finance' },
       { icon: Users, label: 'Members', view: 'members' },
       { icon: BarChart3, label: 'Reports', view: 'reports' },
+    ] : userRole === 'treasurer' ? [
+      { icon: Home, label: 'Dashboard', view: 'dashboard' },
+      { icon: DollarSign, label: 'Finance Management', view: 'finance' },
+      { icon: CreditCard, label: 'Billing', view: 'billing' },
+      { icon: FileText, label: 'Financial Reports', view: 'reports' },
+      { icon: Users, label: 'Members', view: 'members' },
+      { icon: TrendingUp, label: 'Analytics', view: 'analytics' },
     ] : [
       { icon: Home, label: 'Dashboard', view: 'dashboard' },
       { icon: DollarSign, label: 'Finance Management', view: 'finance' },
@@ -265,7 +280,7 @@ export default function ISPAllianceHub() {
         <div className={`absolute bottom-0 left-0 right-0 p-3 md:p-4 border-t border-slate-700/60 bg-gradient-to-t from-slate-900 to-transparent relative z-50 ${!isSidebarOpen ? 'hidden' : ''}`}>
           <div className="flex items-center space-x-2 md:space-x-3 px-3 md:px-4 py-2 md:py-3 rounded-xl bg-slate-700/40">
             <Avatar>
-              https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a8440776-7d8d-4394-9e9d-763466a4d071.png
+              https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/93d7a459-75b9-4366-ba2a-9cfb8f85d863.png
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
@@ -1338,7 +1353,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fdefad82-729e-4248-9895-c3e095c8fecb.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9290d316-9e45-4032-bf55-cf666e2f187d.png
                     <AvatarFallback className="bg-amber-500">PT</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1377,7 +1392,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/93031ea2-bbd2-4c5e-9f1c-2a0d2f6afe91.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/601cb543-e421-4f90-8a3c-947de649cf14.png
                     <AvatarFallback className="bg-blue-500">FC</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1416,7 +1431,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ad7cbec4-7bab-46de-8b02-0efcd31c3a02.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fa178cfa-9751-4ea8-b837-2aed41761f94.png
                     <AvatarFallback className="bg-purple-500">ML</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1445,7 +1460,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/45a422b6-4def-47c4-9076-5f01f377f44b.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/5de5c806-48cd-4108-b392-210ca9cb4915.png
                     <AvatarFallback className="bg-emerald-500">CN</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1474,7 +1489,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0bd5a2ab-a079-4205-b812-e9c5fae88bf1.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/013d06cc-e7fe-4b5c-b8d5-1472afc9676a.png
                     <AvatarFallback className="bg-red-500">SW</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1503,7 +1518,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b160800c-d9d7-4d16-915d-2798f2a24e7b.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d7b13348-4148-454a-b7c9-d8f5d6e05637.png
                     <AvatarFallback className="bg-indigo-500">DW</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -2040,6 +2055,253 @@ export default function ISPAllianceHub() {
     </div>
   );
 
+  // Treasurer Dashboard
+  const TreasurerDashboard = () => (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <Card className="bg-gradient-to-br from-emerald-400 to-emerald-600 border-0 text-white shadow-lg hover:shadow-emerald-400/30 transition-all duration-300 transform hover:scale-105 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <CardHeader className="pb-2 md:pb-3 relative z-10">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xs md:text-sm font-medium opacity-90">Total Balance</CardTitle>
+              <DollarSign className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
+            </div>
+          </CardHeader>
+          <CardContent className="relative z-10">
+            <div className="text-xl md:text-3xl font-bold tracking-tight">Rp 148.5M</div>
+            <p className="text-xs md:text-sm opacity-90 mt-0.5 md:mt-1 font-medium">Available funds</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-blue-400 to-blue-600 border-0 text-white shadow-lg hover:shadow-blue-400/30 transition-all duration-300 transform hover:scale-105 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <CardHeader className="pb-2 md:pb-3 relative z-10">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xs md:text-sm font-medium opacity-90">Monthly Income</CardTitle>
+              <TrendingUp className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
+            </div>
+          </CardHeader>
+          <CardContent className="relative z-10">
+            <div className="text-xl md:text-3xl font-bold tracking-tight">Rp 213.5M</div>
+            <p className="text-xs md:text-sm opacity-90 mt-0.5 md:mt-1 font-medium">November 2024</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 border-0 text-white shadow-lg hover:shadow-amber-400/30 transition-all duration-300 transform hover:scale-105 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <CardHeader className="pb-2 md:pb-3 relative z-10">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xs md:text-sm font-medium opacity-90">Monthly Expenses</CardTitle>
+              <ArrowDownRight className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
+            </div>
+          </CardHeader>
+          <CardContent className="relative z-10">
+            <div className="text-xl md:text-3xl font-bold tracking-tight">Rp 65.0M</div>
+            <p className="text-xs md:text-sm opacity-90 mt-0.5 md:mt-1 font-medium">November 2024</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-gradient-to-br from-purple-400 to-purple-600 border-0 text-white shadow-lg hover:shadow-purple-400/30 transition-all duration-300 transform hover:scale-105 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <CardHeader className="pb-2 md:pb-3 relative z-10">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-xs md:text-sm font-medium opacity-90">Pending Payments</CardTitle>
+              <Clock className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
+            </div>
+          </CardHeader>
+          <CardContent className="relative z-10">
+            <div className="text-xl md:text-3xl font-bold tracking-tight">6</div>
+            <p className="text-xs md:text-sm opacity-90 mt-0.5 md:mt-1 font-medium">Awaiting confirmation</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        <Card className="lg:col-span-2 bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
+          <CardHeader>
+            <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Recent Transactions</CardTitle>
+            <CardDescription className="text-slate-400 font-medium text-sm">Latest financial activities</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex items-start space-x-3 md:space-x-4 p-3 md:p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-emerald-400/50">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform">
+                <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-white text-sm md:text-base font-semibold group-hover:text-emerald-400 transition-colors">Payment Received - PT NetSpeed Indonesia</h3>
+                <p className="text-slate-400 text-xs md:text-sm mt-1 leading-relaxed">Annual membership dues Rp 12,000,000 via Bank Transfer</p>
+                <div className="flex items-center space-x-3 md:space-x-4 mt-2 md:mt-3 text-xs text-slate-500 font-medium">
+                  <span className="flex items-center"><Calendar className="w-3 h-3 mr-1" /> 1 hour ago</span>
+                  <span className="text-emerald-400 font-semibold">Confirmed</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-3 md:space-x-4 p-3 md:p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-amber-400/50">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-amber-400 via-orange-500 to-amber-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform">
+                <ArrowDownRight className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-white text-sm md:text-base font-semibold group-hover:text-amber-400 transition-colors">Expense Paid - Event Costs</h3>
+                <p className="text-slate-400 text-xs md:text-sm mt-1 leading-relaxed">AGM venue booking Rp 15,000,000</p>
+                <div className="flex items-center space-x-3 md:space-x-4 mt-2 md:mt-3 text-xs text-slate-500 font-medium">
+                  <span className="flex items-center"><Calendar className="w-3 h-3 mr-1" /> 3 hours ago</span>
+                  <span className="text-amber-400 font-semibold">Processed</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-3 md:space-x-4 p-3 md:p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-blue-400/50">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform">
+                <Send className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-white text-sm md:text-base font-semibold group-hover:text-blue-400 transition-colors">Report Published</h3>
+                <p className="text-slate-400 text-xs md:text-sm mt-1 leading-relaxed">November 2024 financial transparency report</p>
+                <div className="flex items-center space-x-3 md:space-x-4 mt-2 md:mt-3 text-xs text-slate-500 font-medium">
+                  <span className="flex items-center"><Calendar className="w-3 h-3 mr-1" /> 1 day ago</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
+          <CardHeader>
+            <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Quick Actions</CardTitle>
+            <CardDescription className="text-slate-400 font-medium text-sm">Financial management tools</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Button 
+              onClick={() => alert('Generate Invoice:\n\nThis would open a form to create invoices for:\n- Membership dues\n- Event fees\n- Special assessments\n\nInvoices sent via email automatically.')}
+              className="w-full justify-start bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white shadow-lg hover:shadow-emerald-400/40 transition-all transform hover:scale-105 rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
+              <Plus className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+              Generate Invoice
+            </Button>
+            <Button 
+              onClick={() => alert('Confirm Payment:\n\nManually confirm payments received via:\n- Bank transfer\n- Cash\n- Other methods\n\nUpdates member payment status.')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-blue-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
+              <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+              Confirm Payment
+            </Button>
+            <Button 
+              onClick={() => alert('Record Expense:\n\nLog expenses for:\n- Events\n- Operations\n- Marketing\n- Administration\n\nRequires receipt upload.')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-amber-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
+              <FileText className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+              Record Expense
+            </Button>
+            <Button 
+              onClick={() => setCurrentView('reports')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-purple-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
+              <BarChart3 className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+              Publish Report
+            </Button>
+            <Button 
+              onClick={() => setCurrentView('members')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-indigo-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
+              <Users className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+              View Members
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
+        <CardHeader>
+          <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Financial Overview - November 2024</CardTitle>
+          <CardDescription className="text-slate-400 font-medium text-sm">Income and expense breakdown</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="space-y-3 md:space-y-4">
+              <h3 className="text-white font-bold flex items-center text-sm md:text-base">
+                <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-emerald-500 mr-2" />
+                Income Breakdown
+              </h3>
+              <div className="space-y-2 md:space-y-3">
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Membership Dues</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 156M</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Event Fees</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 45M</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Merchandise</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 12.5M</span>
+                </div>
+                <div className="flex items-center justify-between p-3 md:p-4 bg-emerald-400/15 rounded-xl border border-emerald-400/40">
+                  <span className="text-emerald-500 font-semibold text-xs md:text-sm">Total</span>
+                  <span className="text-emerald-500 font-bold text-sm md:text-base">Rp 213.5M</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3 md:space-y-4">
+              <h3 className="text-white font-bold flex items-center text-sm md:text-base">
+                <ArrowDownRight className="w-4 h-4 md:w-5 md:h-5 text-amber-500 mr-2" />
+                Expense Breakdown
+              </h3>
+              <div className="space-y-2 md:space-y-3">
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Event Costs</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 35M</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Administrative</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 18M</span>
+                </div>
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Marketing</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 12M</span>
+                </div>
+                <div className="flex items-center justify-between p-3 md:p-4 bg-amber-400/15 rounded-xl border border-amber-400/40">
+                  <span className="text-amber-500 font-semibold text-xs md:text-sm">Total</span>
+                  <span className="text-amber-500 font-bold text-sm md:text-base">Rp 65M</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
+        <CardHeader>
+          <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Payment Status by Member</CardTitle>
+          <CardDescription className="text-slate-400 font-medium text-sm">Membership dues compliance</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-4 bg-emerald-400/15 rounded-xl border border-emerald-400/40">
+              <div className="flex items-center space-x-3">
+                <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
+                <span className="text-white font-semibold text-sm md:text-base">Paid (114 members)</span>
+              </div>
+              <span className="text-emerald-500 font-bold text-sm md:text-base">95%</span>
+            </div>
+            <div className="flex items-center justify-between p-4 bg-amber-400/15 rounded-xl border border-amber-400/40">
+              <div className="flex items-center space-x-3">
+                <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
+                <span className="text-white font-semibold text-sm md:text-base">Pending (6 members)</span>
+              </div>
+              <span className="text-amber-500 font-bold text-sm md:text-base">5%</span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   // Chairman Dashboard
   const ChairmanDashboard = () => (
     <div className="space-y-6">
@@ -2474,6 +2736,19 @@ export default function ISPAllianceHub() {
 
   // Main Content Renderer
   const renderContent = () => {
+    if (userRole === 'treasurer') {
+      switch (currentView) {
+        case 'dashboard':
+          return <TreasurerDashboard />;
+        case 'finance':
+          return <FinanceDashboard />;
+        case 'members':
+          return <MembersDirectory />;
+        default:
+          return <TreasurerDashboard />;
+      }
+    }
+    
     if (userRole === 'chairman') {
       switch (currentView) {
         case 'dashboard':
