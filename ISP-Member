@@ -222,15 +222,15 @@ export default function ISPAllianceHub() {
     ];
 
     return (
-      <div className={`fixed left-0 top-0 h-full bg-gradient-to-b from-slate-800 via-slate-850 to-slate-900 border-r border-slate-700/60 backdrop-blur-xl transition-all duration-300 z-50 shadow-2xl ${isSidebarOpen ? 'w-64 md:w-64' : 'w-0 -translate-x-full md:w-0'}`}>
+      <div className={`fixed left-0 top-0 h-full bg-gradient-to-b from-slate-800 via-slate-850 to-slate-900 border-r border-slate-700/60 backdrop-blur-xl transition-all duration-300 z-50 shadow-2xl ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} ${isSidebarOpen ? 'w-64' : 'w-0'}`}>
         {/* Mobile Overlay */}
         {isSidebarOpen && (
           <div 
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
             onClick={() => setIsSidebarOpen(false)}
           ></div>
         )}
-        <div className="flex items-center justify-between p-4 md:p-6 border-b border-slate-700/60 relative z-50">
+        <div className={`flex items-center justify-between p-4 md:p-6 border-b border-slate-700/60 relative z-50 ${!isSidebarOpen ? 'hidden' : ''}`}>
           <div className="flex items-center space-x-3">
             <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg blur opacity-50"></div>
@@ -245,7 +245,7 @@ export default function ISPAllianceHub() {
           </div>
         </div>
 
-        <nav className="p-3 md:p-4 space-y-1 md:space-y-2 relative z-50">
+        <nav className={`p-3 md:p-4 space-y-1 md:space-y-2 relative z-50 ${!isSidebarOpen ? 'hidden' : ''}`}>
           {menuItems.map((item, index) => (
             <button
               key={index}
@@ -262,10 +262,10 @@ export default function ISPAllianceHub() {
           ))}
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 border-t border-slate-700/60 bg-gradient-to-t from-slate-900 to-transparent relative z-50">
+        <div className={`absolute bottom-0 left-0 right-0 p-3 md:p-4 border-t border-slate-700/60 bg-gradient-to-t from-slate-900 to-transparent relative z-50 ${!isSidebarOpen ? 'hidden' : ''}`}>
           <div className="flex items-center space-x-2 md:space-x-3 px-3 md:px-4 py-2 md:py-3 rounded-xl bg-slate-700/40">
             <Avatar>
-              https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d2852081-d209-4b63-8ece-d6917b00271e.png
+              https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a8440776-7d8d-4394-9e9d-763466a4d071.png
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
@@ -294,7 +294,7 @@ export default function ISPAllianceHub() {
 
   // Header Component
   const Header = () => (
-    <header className="fixed top-0 right-0 left-0 bg-slate-800/85 backdrop-blur-xl border-b border-slate-700/60 z-30 transition-all duration-300 shadow-lg md:left-64">
+    <header className="fixed top-0 right-0 left-0 bg-slate-800/85 backdrop-blur-xl border-b border-slate-700/60 z-30 transition-all duration-300 shadow-lg ${isSidebarOpen ? 'md:left-64' : 'md:left-0'}">
       <div className="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
         <div className="flex items-center space-x-2 md:space-x-4">
           <button
@@ -336,7 +336,13 @@ export default function ISPAllianceHub() {
             />
           </div>
           
-          <button className="md:hidden p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white">
+          <button 
+            onClick={() => {
+              const query = prompt('Enter search query:');
+              if (query) setSearchQuery(query);
+            }}
+            className="md:hidden p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white"
+          >
             <Search className="w-5 h-5" />
           </button>
           
@@ -526,11 +532,11 @@ export default function ISPAllianceHub() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl">
-          <CardHeader>
-            <CardTitle className="text-white font-bold tracking-tight">Quick Actions</CardTitle>
-            <CardDescription className="text-slate-400 font-medium">Frequently used features</CardDescription>
-          </CardHeader>
+        <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
+        <CardHeader>
+          <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Quick Actions</CardTitle>
+          <CardDescription className="text-slate-400 font-medium text-sm">Frequently used features</CardDescription>
+        </CardHeader>
           <CardContent className="space-y-3">
             <Button 
               onClick={() => setCurrentView('finance')}
@@ -575,10 +581,10 @@ export default function ISPAllianceHub() {
         </Card>
       </div>
 
-      <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl">
+      <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
         <CardHeader>
-          <CardTitle className="text-white font-bold tracking-tight">Upcoming Events</CardTitle>
-          <CardDescription className="text-slate-400 font-medium">Mark your calendar</CardDescription>
+          <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Upcoming Events</CardTitle>
+          <CardDescription className="text-slate-400 font-medium text-sm">Mark your calendar</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
@@ -674,7 +680,11 @@ export default function ISPAllianceHub() {
             <div className="text-3xl font-bold text-white tracking-tight">8</div>
             <p className="text-slate-400 text-sm mt-2 font-medium">Total payments made</p>
             <div className="mt-4">
-              <Button variant="outline" className="w-full border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-amber-400/60 transition-all rounded-xl h-11">
+              <Button 
+                onClick={() => alert('Payment history:\n- INV-2024-001234: Rp 12,000,000 (Completed)\n- INV-2024-001156: Rp 2,500,000 (Completed)\n- INV-2024-001089: Rp 450,000 (Completed)\n... and 5 more')}
+                variant="outline" 
+                className="w-full border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-amber-400/60 transition-all rounded-xl h-11"
+              >
                 <Download className="w-4 h-4 mr-2" />
                 View History
               </Button>
@@ -683,14 +693,21 @@ export default function ISPAllianceHub() {
         </Card>
       </div>
 
-      <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl">
+      <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0">
             <div>
-              <CardTitle className="text-white font-bold tracking-tight">Recent Transactions</CardTitle>
-              <CardDescription className="text-slate-400 font-medium">Your payment history and invoices</CardDescription>
+              <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Recent Transactions</CardTitle>
+              <CardDescription className="text-slate-400 font-medium text-sm">Your payment history and invoices</CardDescription>
             </div>
-            <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-blue-400/60 transition-all rounded-xl">
+            <Button 
+              onClick={() => {
+                const filter = prompt('Filter by:\n1. All Transactions\n2. Paid Only\n3. Pending Only\n4. By Date Range\n\nEnter option (1-4):');
+                if (filter) alert(`Filter applied: Option ${filter}`);
+              }}
+              variant="outline" 
+              className="border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-blue-400/60 transition-all rounded-xl"
+            >
               <Filter className="w-4 h-4 mr-2" />
               Filter
             </Button>
@@ -698,124 +715,124 @@ export default function ISPAllianceHub() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-emerald-400/50">
-              <div className="flex items-center space-x-4">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-emerald-400/50 gap-3 md:gap-0">
+              <div className="flex items-center space-x-3 md:space-x-4">
                 <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
-                <div>
-                  <div className="text-white font-semibold group-hover:text-emerald-400 transition-colors">Annual Membership Dues 2024</div>
-                  <div className="text-slate-400 text-sm font-medium">Invoice INV-2024-001234 • Paid via Bank Transfer</div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-white font-semibold group-hover:text-emerald-400 transition-colors text-sm md:text-base">Annual Membership Dues 2024</div>
+                  <div className="text-slate-400 text-xs md:text-sm font-medium mt-1">Invoice INV-2024-001234 • Paid via Bank Transfer</div>
                 </div>
               </div>
-              <div className="text-right">
-                <div className="text-white font-bold tracking-tight">Rp 12,000,000</div>
-                <div className="text-emerald-500 text-sm font-semibold">Completed</div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-blue-400/50">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <CheckCircle2 className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <div className="text-white font-semibold group-hover:text-blue-400 transition-colors">Event Participation Fee</div>
-                  <div className="text-slate-400 text-sm font-medium">Invoice INV-2024-001156 • Paid via QRIS</div>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-white font-bold tracking-tight">Rp 2,500,000</div>
-                <div className="text-emerald-500 text-sm font-semibold">Completed</div>
+              <div className="text-left md:text-right">
+                <div className="text-white font-bold tracking-tight text-base md:text-lg">Rp 12,000,000</div>
+                <div className="text-emerald-500 text-xs md:text-sm font-semibold">Completed</div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-purple-400/50">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                  <CheckCircle2 className="w-6 h-6 text-white" />
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-blue-400/50 gap-3 md:gap-0">
+              <div className="flex items-center space-x-3 md:space-x-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-white" />
                 </div>
-                <div>
-                  <div className="text-white font-semibold group-hover:text-purple-400 transition-colors">Merchandise Purchase</div>
-                  <div className="text-slate-400 text-sm font-medium">Invoice INV-2024-001089 • Paid via Virtual Account</div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-white font-semibold group-hover:text-blue-400 transition-colors text-sm md:text-base">Event Participation Fee</div>
+                  <div className="text-slate-400 text-xs md:text-sm font-medium mt-1">Invoice INV-2024-001156 • Paid via QRIS</div>
                 </div>
               </div>
-              <div className="text-right">
-                <div className="text-white font-bold tracking-tight">Rp 450,000</div>
-                <div className="text-emerald-500 text-sm font-semibold">Completed</div>
+              <div className="text-left md:text-right">
+                <div className="text-white font-bold tracking-tight text-base md:text-lg">Rp 2,500,000</div>
+                <div className="text-emerald-500 text-xs md:text-sm font-semibold">Completed</div>
+              </div>
+            </div>
+
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-purple-400/50 gap-3 md:gap-0">
+              <div className="flex items-center space-x-3 md:space-x-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                  <CheckCircle2 className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-white font-semibold group-hover:text-purple-400 transition-colors text-sm md:text-base">Merchandise Purchase</div>
+                  <div className="text-slate-400 text-xs md:text-sm font-medium mt-1">Invoice INV-2024-001089 • Paid via Virtual Account</div>
+                </div>
+              </div>
+              <div className="text-left md:text-right">
+                <div className="text-white font-bold tracking-tight text-base md:text-lg">Rp 450,000</div>
+                <div className="text-emerald-500 text-xs md:text-sm font-semibold">Completed</div>
               </div>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <Card className="bg-slate-800 border-slate-700">
+      <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
         <CardHeader>
-          <CardTitle className="text-white">Financial Transparency Report</CardTitle>
-          <CardDescription className="text-slate-400">View organization's financial activities</CardDescription>
+          <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Financial Transparency Report</CardTitle>
+          <CardDescription className="text-slate-400 font-medium text-sm">View organization's financial activities</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <h3 className="text-white font-semibold flex items-center">
-                <TrendingUp className="w-5 h-5 text-emerald-500 mr-2" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="space-y-3 md:space-y-4">
+              <h3 className="text-white font-bold flex items-center text-sm md:text-base">
+                <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-emerald-500 mr-2" />
                 Income Summary - November 2024
               </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
-                  <span className="text-slate-300">Membership Dues</span>
-                  <span className="text-white font-bold">Rp 156,000,000</span>
+              <div className="space-y-2 md:space-y-3">
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Membership Dues</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 156,000,000</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
-                  <span className="text-slate-300">Event Fees</span>
-                  <span className="text-white font-bold">Rp 45,000,000</span>
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Event Fees</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 45,000,000</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
-                  <span className="text-slate-300">Merchandise Sales</span>
-                  <span className="text-white font-bold">Rp 12,500,000</span>
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Merchandise Sales</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 12,500,000</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-emerald-500 bg-opacity-20 rounded-lg border border-emerald-500">
-                  <span className="text-emerald-500 font-semibold">Total Income</span>
-                  <span className="text-emerald-500 font-bold">Rp 213,500,000</span>
+                <div className="flex items-center justify-between p-3 md:p-4 bg-emerald-400/15 rounded-xl border border-emerald-400/40">
+                  <span className="text-emerald-500 font-semibold text-xs md:text-sm">Total Income</span>
+                  <span className="text-emerald-500 font-bold text-sm md:text-base">Rp 213,500,000</span>
                 </div>
               </div>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="text-white font-semibold flex items-center">
-                <ArrowDownRight className="w-5 h-5 text-amber-500 mr-2" />
+            <div className="space-y-3 md:space-y-4">
+              <h3 className="text-white font-bold flex items-center text-sm md:text-base">
+                <ArrowDownRight className="w-4 h-4 md:w-5 md:h-5 text-amber-500 mr-2" />
                 Expense Summary - November 2024
               </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
-                  <span className="text-slate-300">Event Costs</span>
-                  <span className="text-white font-bold">Rp 35,000,000</span>
+              <div className="space-y-2 md:space-y-3">
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Event Costs</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 35,000,000</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
-                  <span className="text-slate-300">Administrative</span>
-                  <span className="text-white font-bold">Rp 18,000,000</span>
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Administrative</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 18,000,000</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-slate-700 rounded-lg">
-                  <span className="text-slate-300">Marketing</span>
-                  <span className="text-white font-bold">Rp 12,000,000</span>
+                <div className="flex items-center justify-between p-3 bg-slate-700/60 rounded-xl">
+                  <span className="text-slate-300 text-xs md:text-sm font-medium">Marketing</span>
+                  <span className="text-white font-bold text-sm md:text-base">Rp 12,000,000</span>
                 </div>
-                <div className="flex items-center justify-between p-3 bg-amber-500 bg-opacity-20 rounded-lg border border-amber-500">
-                  <span className="text-amber-500 font-semibold">Total Expenses</span>
-                  <span className="text-amber-500 font-bold">Rp 65,000,000</span>
+                <div className="flex items-center justify-between p-3 md:p-4 bg-amber-400/15 rounded-xl border border-amber-400/40">
+                  <span className="text-amber-500 font-semibold text-xs md:text-sm">Total Expenses</span>
+                  <span className="text-amber-500 font-bold text-sm md:text-base">Rp 65,000,000</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-6 p-4 bg-blue-400/15 rounded-lg border border-blue-400/40">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-blue-500 font-semibold">Net Balance - November 2024</div>
-                <div className="text-slate-400 text-sm mt-1">Organization financial health indicator</div>
+          <div className="mt-4 md:mt-6 p-4 bg-blue-400/15 rounded-xl border border-blue-400/40">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0">
+              <div className="flex-1">
+                <div className="text-blue-500 font-semibold text-sm md:text-base">Net Balance - November 2024</div>
+                <div className="text-slate-400 text-xs md:text-sm mt-1">Organization financial health indicator</div>
               </div>
-              <div className="text-right">
-                <div className="text-white text-2xl font-bold">Rp 148,500,000</div>
-                <div className="text-blue-500 text-sm">Surplus</div>
+              <div className="text-left md:text-right">
+                <div className="text-white text-xl md:text-2xl font-bold tracking-tight">Rp 148,500,000</div>
+                <div className="text-blue-500 text-xs md:text-sm font-semibold">Surplus</div>
               </div>
             </div>
           </div>
@@ -827,7 +844,7 @@ export default function ISPAllianceHub() {
   // Voting Dashboard
   const VotingDashboard = () => (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
         <Card className="bg-gradient-to-br from-purple-500 to-purple-600 border-0 text-white">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium opacity-90">Active Votes</CardTitle>
@@ -869,14 +886,17 @@ export default function ISPAllianceHub() {
         </Card>
       </div>
 
-      <Card className="bg-slate-800 border-slate-700">
+      <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0">
             <div>
-              <CardTitle className="text-white">Active Voting Sessions</CardTitle>
-              <CardDescription className="text-slate-400">Cast your vote before deadline</CardDescription>
+              <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Active Voting Sessions</CardTitle>
+              <CardDescription className="text-slate-400 font-medium text-sm">Cast your vote before deadline</CardDescription>
             </div>
-            <Button className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white">
+            <Button 
+              onClick={() => alert('Create New Vote:\n\nThis would open a form to create a new voting session with:\n- Title and description\n- Voting options\n- Deadline\n- Eligible voters\n\nFeature available for Chairman role.')}
+              className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white"
+            >
               <Plus className="w-4 h-4 mr-2" />
               New Vote
             </Button>
@@ -1163,10 +1183,10 @@ export default function ISPAllianceHub() {
         </CardContent>
       </Card>
 
-      <Card className="bg-slate-800 border-slate-700">
+      <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
         <CardHeader>
-          <CardTitle className="text-white">Recently Completed Votes</CardTitle>
-          <CardDescription className="text-slate-400">View results of past voting sessions</CardDescription>
+          <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Recently Completed Votes</CardTitle>
+          <CardDescription className="text-slate-400 font-medium text-sm">View results of past voting sessions</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="p-4 bg-slate-700 rounded-lg">
@@ -1201,10 +1221,10 @@ export default function ISPAllianceHub() {
             </div>
           </div>
 
-          <div className="p-4 bg-slate-700 rounded-lg">
+          <div className="p-4 bg-slate-700/60 rounded-xl">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <div className="text-white font-semibold">Logo Redesign Approval</div>
+                <div className="text-white font-semibold text-sm md:text-base">Logo Redesign Approval</div>
                 <div className="text-slate-400 text-sm">Closed on Nov 20, 2024</div>
               </div>
               <span className="px-3 py-1 bg-red-500 text-white text-xs font-semibold rounded-full">
@@ -1240,7 +1260,7 @@ export default function ISPAllianceHub() {
   // Members Directory
   const MembersDirectory = () => (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
         <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 text-white shadow-lg hover:shadow-blue-500/20 transition-all duration-300 transform hover:scale-105">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium opacity-90">Total Members</CardTitle>
@@ -1318,7 +1338,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b4caa558-2c8d-40b5-8a73-10cb6a9c02b4.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fdefad82-729e-4248-9895-c3e095c8fecb.png
                     <AvatarFallback className="bg-amber-500">PT</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1357,7 +1377,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/58db1926-a261-4cbc-9c52-a51398db9326.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/93031ea2-bbd2-4c5e-9f1c-2a0d2f6afe91.png
                     <AvatarFallback className="bg-blue-500">FC</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1370,11 +1390,21 @@ export default function ISPAllianceHub() {
                   </div>
                 </div>
                 <div className="flex gap-2 mt-3">
-                  <Button size="sm" variant="outline" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-600 h-8 text-xs rounded-lg">
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => window.location.href = 'mailto:info@fastconnect.co.id'}
+                    className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-600 h-8 text-xs rounded-lg"
+                  >
                     <Mail className="w-3 h-3 mr-1" />
                     Email
                   </Button>
-                  <Button size="sm" variant="outline" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-600 h-8 text-xs rounded-lg">
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={() => window.location.href = 'tel:+62311234567'}
+                    className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-600 h-8 text-xs rounded-lg"
+                  >
                     <Phone className="w-3 h-3 mr-1" />
                     Call
                   </Button>
@@ -1386,7 +1416,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/791ad825-3c67-4d89-8fc4-421ec3d77314.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ad7cbec4-7bab-46de-8b02-0efcd31c3a02.png
                     <AvatarFallback className="bg-purple-500">ML</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1415,7 +1445,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/97e02750-ef41-4f31-b42e-f1c1361c4541.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/45a422b6-4def-47c4-9076-5f01f377f44b.png
                     <AvatarFallback className="bg-emerald-500">CN</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1444,7 +1474,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c261fe8b-3a20-40de-9092-4e42a9d25572.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/0bd5a2ab-a079-4205-b812-e9c5fae88bf1.png
                     <AvatarFallback className="bg-red-500">SW</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1473,7 +1503,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1f3d98a0-08a4-4bd0-b2b4-bce97775e27e.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b160800c-d9d7-4d16-915d-2798f2a24e7b.png
                     <AvatarFallback className="bg-indigo-500">DW</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1663,14 +1693,17 @@ export default function ISPAllianceHub() {
         </Card>
       </div>
 
-      <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl">
+      <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0">
             <div>
-              <CardTitle className="text-white font-bold tracking-tight">Knowledge Base</CardTitle>
-              <CardDescription className="text-slate-400 font-medium">Resources and documentation</CardDescription>
+              <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Knowledge Base</CardTitle>
+              <CardDescription className="text-slate-400 font-medium text-sm">Resources and documentation</CardDescription>
             </div>
-            <Button className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-xl">
+            <Button 
+              onClick={() => alert('Upload Document:\n\nThis would open a file picker to upload documents to the knowledge base.\n\nSupported formats:\n- PDF\n- DOCX\n- XLSX\n- Images\n\nFeature requires appropriate permissions.')}
+              className="bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white rounded-xl"
+            >
               <Upload className="w-4 h-4 mr-2" />
               Upload
             </Button>
@@ -1722,7 +1755,12 @@ export default function ISPAllianceHub() {
                       </div>
                     </div>
                   </div>
-                  <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white">
+                  <Button 
+                    size="sm" 
+                    variant="ghost"
+                    onClick={() => alert('Downloading Technical Standards Document.pdf...')}
+                    className="text-slate-400 hover:text-white"
+                  >
                     <Download className="w-4 h-4" />
                   </Button>
                 </div>
@@ -1745,7 +1783,12 @@ export default function ISPAllianceHub() {
                       </div>
                     </div>
                   </div>
-                  <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white">
+                  <Button 
+                    size="sm" 
+                    variant="ghost"
+                    onClick={() => alert('Downloading Financial Report Q3 2024.pdf...')}
+                    className="text-slate-400 hover:text-white"
+                  >
                     <Download className="w-4 h-4" />
                   </Button>
                 </div>
@@ -1768,7 +1811,12 @@ export default function ISPAllianceHub() {
                       </div>
                     </div>
                   </div>
-                  <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white">
+                  <Button 
+                    size="sm" 
+                    variant="ghost"
+                    onClick={() => alert('Downloading Bylaws and Regulations.pdf...')}
+                    className="text-slate-400 hover:text-white"
+                  >
                     <Download className="w-4 h-4" />
                   </Button>
                 </div>
@@ -1825,12 +1873,12 @@ export default function ISPAllianceHub() {
         </Card>
       </div>
 
-      <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl">
+      <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
         <CardHeader>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-0">
             <div>
-              <CardTitle className="text-white font-bold tracking-tight">Merchandise Store</CardTitle>
-              <CardDescription className="text-slate-400 font-medium">Official ISP Alliance merchandise</CardDescription>
+              <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Merchandise Store</CardTitle>
+              <CardDescription className="text-slate-400 font-medium text-sm">Official ISP Alliance merchandise</CardDescription>
             </div>
             <Button 
               onClick={() => alert(`Cart items: ${cartItems.length} items`)}
@@ -1881,7 +1929,14 @@ export default function ISPAllianceHub() {
                 <p className="text-slate-400 text-sm mt-1">Windbreaker with embroidered logo</p>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-amber-500 font-bold text-lg">Rp 350,000</span>
-                  <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg">
+                  <Button 
+                    size="sm"
+                    onClick={() => {
+                      setCartItems([...cartItems, 'jacket']);
+                      alert('Logo Jacket added to cart!');
+                    }}
+                    className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg"
+                  >
                     Add to Cart
                   </Button>
                 </div>
@@ -1897,7 +1952,14 @@ export default function ISPAllianceHub() {
                 <p className="text-slate-400 text-sm mt-1">Insulated stainless steel mug</p>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-amber-500 font-bold text-lg">Rp 125,000</span>
-                  <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg">
+                  <Button 
+                    size="sm"
+                    onClick={() => {
+                      setCartItems([...cartItems, 'mug']);
+                      alert('Travel Mug added to cart!');
+                    }}
+                    className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg"
+                  >
                     Add to Cart
                   </Button>
                 </div>
@@ -1913,7 +1975,14 @@ export default function ISPAllianceHub() {
                 <p className="text-slate-400 text-sm mt-1">Water-resistant with laptop compartment</p>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-amber-500 font-bold text-lg">Rp 450,000</span>
-                  <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg">
+                  <Button 
+                    size="sm"
+                    onClick={() => {
+                      setCartItems([...cartItems, 'backpack']);
+                      alert('Laptop Backpack added to cart!');
+                    }}
+                    className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg"
+                  >
                     Add to Cart
                   </Button>
                 </div>
@@ -1929,7 +1998,14 @@ export default function ISPAllianceHub() {
                 <p className="text-slate-400 text-sm mt-1">Adjustable cap with embroidered logo</p>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-amber-500 font-bold text-lg">Rp 95,000</span>
-                  <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg">
+                  <Button 
+                    size="sm"
+                    onClick={() => {
+                      setCartItems([...cartItems, 'cap']);
+                      alert('Baseball Cap added to cart!');
+                    }}
+                    className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg"
+                  >
                     Add to Cart
                   </Button>
                 </div>
@@ -1945,7 +2021,14 @@ export default function ISPAllianceHub() {
                 <p className="text-slate-400 text-sm mt-1">Premium notebook with pen</p>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-amber-500 font-bold text-lg">Rp 75,000</span>
-                  <Button size="sm" className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg">
+                  <Button 
+                    size="sm"
+                    onClick={() => {
+                      setCartItems([...cartItems, 'notebook']);
+                      alert('Notebook Set added to cart!');
+                    }}
+                    className="bg-amber-500 hover:bg-amber-600 text-white h-8 rounded-lg"
+                  >
                     Add to Cart
                   </Button>
                 </div>
@@ -2018,14 +2101,14 @@ export default function ISPAllianceHub() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-        <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-6">
+        <Card className="lg:col-span-3 bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-white font-bold tracking-tight flex items-center">
+            <CardTitle className="text-white font-bold tracking-tight flex items-center text-base md:text-lg">
               <CheckCheck className="w-5 h-5 text-purple-400 mr-2" />
               Pending Approvals
             </CardTitle>
-            <CardDescription className="text-slate-400 font-medium">Items requiring your approval</CardDescription>
+            <CardDescription className="text-slate-400 font-medium text-sm">Items requiring your approval</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-start space-x-3 md:space-x-4 p-3 md:p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-amber-400/50">
@@ -2103,13 +2186,13 @@ export default function ISPAllianceHub() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
+        <Card className="lg:col-span-2 bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-white font-bold tracking-tight flex items-center">
+            <CardTitle className="text-white font-bold tracking-tight flex items-center text-base md:text-lg">
               <BarChart3 className="w-5 h-5 text-blue-400 mr-2" />
               Organization Overview
             </CardTitle>
-            <CardDescription className="text-slate-400 font-medium">Key metrics and statistics</CardDescription>
+            <CardDescription className="text-slate-400 font-medium text-sm">Key metrics and statistics</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="p-4 bg-slate-700/60 rounded-xl border-l-4 border-emerald-400">
@@ -2160,11 +2243,11 @@ export default function ISPAllianceHub() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
-        <Card className="lg:col-span-2 bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-6">
+        <Card className="lg:col-span-3 bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-white font-bold tracking-tight">Recent Activities</CardTitle>
-            <CardDescription className="text-slate-400 font-medium">Organization activities and updates</CardDescription>
+            <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Recent Activities</CardTitle>
+            <CardDescription className="text-slate-400 font-medium text-sm">Organization activities and updates</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-start space-x-3 md:space-x-4 p-3 md:p-4 bg-slate-700/60 rounded-xl hover:bg-slate-600/80 transition-all duration-200 cursor-pointer group border border-slate-600/60 hover:border-emerald-400/50">
@@ -2210,10 +2293,10 @@ export default function ISPAllianceHub() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
+        <Card className="lg:col-span-2 bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-white font-bold tracking-tight">Executive Actions</CardTitle>
-            <CardDescription className="text-slate-400 font-medium">Quick access tools</CardDescription>
+            <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Executive Actions</CardTitle>
+            <CardDescription className="text-slate-400 font-medium text-sm">Quick access tools</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
             <Button 
@@ -2261,11 +2344,11 @@ export default function ISPAllianceHub() {
 
       <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
         <CardHeader>
-          <CardTitle className="text-white font-bold tracking-tight">Financial Summary</CardTitle>
-          <CardDescription className="text-slate-400 font-medium">November 2024 financial highlights</CardDescription>
+          <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Financial Summary</CardTitle>
+          <CardDescription className="text-slate-400 font-medium text-sm">November 2024 financial highlights</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             <div className="p-4 bg-slate-700/60 rounded-xl border-l-4 border-emerald-400 hover:bg-slate-600/80 transition-all">
               <div className="flex items-center justify-between mb-3">
                 <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center">
@@ -2273,8 +2356,8 @@ export default function ISPAllianceHub() {
                 </div>
                 <span className="text-emerald-400 text-xs font-semibold px-2 py-1 bg-emerald-400/20 rounded">+12%</span>
               </div>
-              <div className="text-slate-400 text-sm font-medium">Total Income</div>
-              <div className="text-white text-2xl font-bold mt-1 tracking-tight">Rp 213.5M</div>
+              <div className="text-slate-400 text-xs md:text-sm font-medium">Total Income</div>
+              <div className="text-white text-xl md:text-2xl font-bold mt-1 tracking-tight">Rp 213.5M</div>
               <p className="text-xs text-slate-500 mt-2">From 120 active members</p>
             </div>
 
@@ -2285,8 +2368,8 @@ export default function ISPAllianceHub() {
                 </div>
                 <span className="text-amber-400 text-xs font-semibold px-2 py-1 bg-amber-400/20 rounded">-5%</span>
               </div>
-              <div className="text-slate-400 text-sm font-medium">Total Expenses</div>
-              <div className="text-white text-2xl font-bold mt-1 tracking-tight">Rp 65.0M</div>
+              <div className="text-slate-400 text-xs md:text-sm font-medium">Total Expenses</div>
+              <div className="text-white text-xl md:text-2xl font-bold mt-1 tracking-tight">Rp 65.0M</div>
               <p className="text-xs text-slate-500 mt-2">Operational and program costs</p>
             </div>
 
@@ -2297,8 +2380,8 @@ export default function ISPAllianceHub() {
                 </div>
                 <span className="text-blue-400 text-xs font-semibold px-2 py-1 bg-blue-400/20 rounded">Healthy</span>
               </div>
-              <div className="text-slate-400 text-sm font-medium">Net Balance</div>
-              <div className="text-white text-2xl font-bold mt-1 tracking-tight">Rp 148.5M</div>
+              <div className="text-slate-400 text-xs md:text-sm font-medium">Net Balance</div>
+              <div className="text-white text-xl md:text-2xl font-bold mt-1 tracking-tight">Rp 148.5M</div>
               <p className="text-xs text-slate-500 mt-2">Available for programs</p>
             </div>
           </div>
@@ -2307,8 +2390,8 @@ export default function ISPAllianceHub() {
 
       <Card className="bg-slate-800/60 backdrop-blur-sm border-slate-600/60 shadow-xl">
         <CardHeader>
-          <CardTitle className="text-white font-bold tracking-tight">Upcoming Decisions</CardTitle>
-          <CardDescription className="text-slate-400 font-medium">Strategic decisions requiring attention</CardDescription>
+          <CardTitle className="text-white font-bold tracking-tight text-base md:text-lg">Upcoming Decisions</CardTitle>
+          <CardDescription className="text-slate-400 font-medium text-sm">Strategic decisions requiring attention</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2437,10 +2520,10 @@ export default function ISPAllianceHub() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <Sidebar />
       <Header />
-      <main className={`pt-24 pb-8 px-6 transition-all duration-300 ${isSidebarOpen ? 'md:ml-64' : 'ml-0'}`}>
+      <main className={`pt-20 pb-6 px-4 transition-all duration-300 ml-0 ${isSidebarOpen ? 'md:ml-64' : 'md:ml-0'} md:pt-24 md:pb-8 md:px-6`}>
         <div className="max-w-7xl mx-auto">
           {renderContent()}
         </div>
