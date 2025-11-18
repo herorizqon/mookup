@@ -59,65 +59,70 @@ export default function ISPAllianceHub() {
 
   // Login Screen
   const LoginScreen = () => (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-96 h-96 bg-amber-500 rounded-full blur-3xl opacity-10 -top-20 -left-20"></div>
-        <div className="absolute w-96 h-96 bg-blue-500 rounded-full blur-3xl opacity-10 -bottom-20 -right-20"></div>
+        <div className="absolute w-96 h-96 bg-amber-500 rounded-full blur-3xl opacity-20 -top-20 -left-20 animate-pulse"></div>
+        <div className="absolute w-96 h-96 bg-blue-500 rounded-full blur-3xl opacity-20 -bottom-20 -right-20 animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute w-64 h-64 bg-purple-500 rounded-full blur-3xl opacity-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
       </div>
       
-      <Card className="w-full max-w-md bg-slate-800 border-slate-700 shadow-2xl relative z-10">
-        <CardHeader className="space-y-4 text-center pb-8">
-          <div className="flex justify-center mb-4">
-            <div className="w-20 h-20 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg">
-              <Shield className="w-10 h-10 text-white" />
+      <Card className="w-full max-w-md bg-slate-900/80 backdrop-blur-xl border border-slate-700/50 shadow-2xl relative z-10 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-800/50 to-slate-900/50"></div>
+        <CardHeader className="space-y-4 text-center pb-8 relative z-10">
+          <div className="flex justify-center mb-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl blur-xl opacity-50"></div>
+              <div className="relative w-20 h-20 bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 rounded-2xl flex items-center justify-center shadow-2xl transform hover:scale-105 transition-transform duration-300">
+                <Shield className="w-10 h-10 text-white" />
+              </div>
             </div>
           </div>
-          <CardTitle className="text-3xl font-bold text-white">ISP Alliance Hub</CardTitle>
-          <CardDescription className="text-slate-400 text-base">
+          <CardTitle className="text-3xl font-bold text-white tracking-tight">ISP Alliance Hub</CardTitle>
+          <CardDescription className="text-slate-400 text-base font-medium">
             Digital-First Remote Organization Platform
           </CardDescription>
         </CardHeader>
         
-        <CardContent className="space-y-6">
-          <div className="space-y-4">
+        <CardContent className="space-y-6 relative z-10">
+          <div className="space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-slate-300">Email Address</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500" />
+              <Label htmlFor="email" className="text-slate-300 font-medium text-sm">Email Address</Label>
+              <div className="relative group">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-amber-500 transition-colors" />
                 <Input
                   id="email"
                   type="email"
                   placeholder="your@company.com"
-                  className="pl-10 bg-slate-700 border-slate-600 text-white placeholder:text-slate-500"
+                  className="pl-10 bg-slate-800/50 border-slate-700 text-white placeholder:text-slate-500 h-12 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
                 />
               </div>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-slate-300">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500" />
+              <Label htmlFor="password" className="text-slate-300 font-medium text-sm">Password</Label>
+              <div className="relative group">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-amber-500 transition-colors" />
                 <Input
                   id="password"
                   type="password"
                   placeholder="Enter your password"
-                  className="pl-10 bg-slate-700 border-slate-600 text-white placeholder:text-slate-500"
+                  className="pl-10 bg-slate-800/50 border-slate-700 text-white placeholder:text-slate-500 h-12 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
                 />
               </div>
             </div>
           </div>
 
           <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center text-slate-400">
-              <input type="checkbox" className="mr-2 rounded" />
-              Remember me
+            <label className="flex items-center text-slate-400 cursor-pointer group">
+              <input type="checkbox" className="mr-2 rounded border-slate-600 text-amber-500 focus:ring-amber-500 focus:ring-offset-0" />
+              <span className="group-hover:text-slate-300 transition-colors">Remember me</span>
             </label>
-            <a href="#" className="text-amber-500 hover:text-amber-400">Forgot Password?</a>
+            <a href="#" className="text-amber-500 hover:text-amber-400 font-medium transition-colors">Forgot Password?</a>
           </div>
 
           <div className="space-y-3">
             <Button 
-              className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold py-6"
+              className="w-full bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 bg-size-200 hover:bg-pos-100 text-white font-semibold py-6 rounded-xl shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 transition-all duration-300 transform hover:scale-[1.02]"
               onClick={() => setCurrentView('dashboard')}
             >
               Sign In
@@ -128,15 +133,15 @@ export default function ISPAllianceHub() {
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-700">
-            <div className="text-center text-slate-500 text-xs">
+          <div className="pt-6 border-t border-slate-700/50">
+            <div className="text-center text-slate-500 text-xs font-medium mb-3">
               Quick Demo Login
             </div>
-            <div className="grid grid-cols-2 gap-2 mt-3">
+            <div className="grid grid-cols-2 gap-3">
               <Button 
                 variant="outline" 
                 size="sm"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:border-amber-500/50 hover:text-white transition-all rounded-lg h-10"
                 onClick={() => { setUserRole('member'); setCurrentView('dashboard'); }}
               >
                 Member
@@ -144,7 +149,7 @@ export default function ISPAllianceHub() {
               <Button 
                 variant="outline" 
                 size="sm"
-                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                className="border-slate-700 text-slate-300 hover:bg-slate-800 hover:border-amber-500/50 hover:text-white transition-all rounded-lg h-10"
                 onClick={() => { setUserRole('chairman'); setCurrentView('dashboard'); }}
               >
                 Chairman
@@ -182,50 +187,60 @@ export default function ISPAllianceHub() {
     ];
 
     return (
-      <div className={`fixed left-0 top-0 h-full bg-slate-900 border-r border-slate-800 transition-all duration-300 z-40 ${isSidebarOpen ? 'w-64' : 'w-0 -translate-x-full'}`}>
-        <div className="flex items-center justify-between p-6 border-b border-slate-800">
+      <div className={`fixed left-0 top-0 h-full bg-gradient-to-b from-slate-900 via-slate-900 to-slate-950 border-r border-slate-800/50 backdrop-blur-xl transition-all duration-300 z-50 shadow-2xl ${isSidebarOpen ? 'w-64 md:w-64' : 'w-0 -translate-x-full md:w-0'}`}>
+        {/* Mobile Overlay */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          ></div>
+        )}
+        <div className="flex items-center justify-between p-4 md:p-6 border-b border-slate-800/50 relative z-50">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg flex items-center justify-center">
-              <Shield className="w-6 h-6 text-white" />
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg blur opacity-50"></div>
+              <div className="relative w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-lg flex items-center justify-center shadow-lg">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
             </div>
             <div>
-              <div className="text-white font-bold text-sm">ISP Alliance</div>
-              <div className="text-slate-400 text-xs capitalize">{userRole} Portal</div>
+              <div className="text-white font-bold text-sm tracking-tight">ISP Alliance</div>
+              <div className="text-slate-400 text-xs capitalize font-medium">{userRole} Portal</div>
             </div>
           </div>
         </div>
 
-        <nav className="p-4 space-y-1">
+        <nav className="p-3 md:p-4 space-y-1 md:space-y-2 relative z-50">
           {menuItems.map((item, index) => (
             <button
               key={index}
               onClick={() => setCurrentView(item.view)}
-              className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all ${
+              className={`w-full flex items-center space-x-3 px-3 md:px-4 py-2.5 md:py-3 rounded-xl transition-all duration-200 group ${
                 currentView === item.view
-                  ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg'
-                  : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+                  ? 'bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/20'
+                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-white'
               }`}
             >
-              <item.icon className="w-5 h-5" />
-              <span className="font-medium">{item.label}</span>
+              <item.icon className={`w-4 h-4 md:w-5 md:h-5 transition-transform group-hover:scale-110 ${currentView === item.view ? '' : 'group-hover:text-amber-500'}`} />
+              <span className="font-medium text-xs md:text-sm">{item.label}</span>
             </button>
           ))}
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-800">
-          <div className="flex items-center space-x-3 px-4 py-3">
+        <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 border-t border-slate-800/50 bg-gradient-to-t from-slate-950 to-transparent relative z-50">
+          <div className="flex items-center space-x-2 md:space-x-3 px-3 md:px-4 py-2 md:py-3 rounded-xl bg-slate-800/30">
             <Avatar>
               <AvatarImage src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/efc042b2-e89a-4e3f-acd1-bc591d41ba12.png" />
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <div className="text-white text-sm font-medium truncate">John Doe</div>
+              <div className="text-white text-xs md:text-sm font-medium truncate">John Doe</div>
               <div className="text-slate-400 text-xs truncate">PT ISP Indonesia</div>
             </div>
           </div>
-          <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-white transition-all mt-2">
-            <LogOut className="w-5 h-5" />
-            <span className="font-medium">Logout</span>
+          <button className="w-full flex items-center space-x-2 md:space-x-3 px-3 md:px-4 py-2 md:py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 transition-all mt-2 group border border-transparent">
+            <LogOut className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
+            <span className="font-medium text-xs md:text-sm">Logout</span>
           </button>
         </div>
       </div>
@@ -234,17 +249,23 @@ export default function ISPAllianceHub() {
 
   // Header Component
   const Header = () => (
-    <header className="fixed top-0 right-0 left-0 md:left-64 bg-slate-900 border-b border-slate-800 z-30 transition-all duration-300">
-      <div className="flex items-center justify-between px-6 py-4">
-        <div className="flex items-center space-x-4">
+    <header className="fixed top-0 right-0 left-0 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800/50 z-30 transition-all duration-300 shadow-lg md:left-64">
+      <div className="flex items-center justify-between px-4 py-3 md:px-6 md:py-4">
+        <div className="flex items-center space-x-2 md:space-x-4">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-white"
+            className="p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white transform hover:scale-105 md:hidden"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="hidden md:block p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white transform hover:scale-105"
           >
             {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
           <div>
-            <h1 className="text-xl font-bold text-white">
+            <h1 className="text-base font-bold text-white tracking-tight md:text-xl">
               {currentView === 'dashboard' ? 'Dashboard' :
                currentView === 'finance' ? 'Financial Management' :
                currentView === 'members' ? 'Member Directory' :
@@ -255,26 +276,31 @@ export default function ISPAllianceHub() {
                currentView === 'communications' ? 'Communications' :
                'ISP Alliance Hub'}
             </h1>
-            <p className="text-slate-400 text-sm">Welcome back, manage your organization efficiently</p>
+            <p className="text-slate-400 text-xs font-medium hidden sm:block md:text-sm">Welcome back, manage your organization efficiently</p>
           </div>
         </div>
 
-        <div className="flex items-center space-x-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500" />
+        <div className="flex items-center space-x-2">
+          <div className="relative group hidden md:block">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-amber-500 transition-colors" />
             <Input
               placeholder="Search..."
-              className="pl-10 w-64 bg-slate-800 border-slate-700 text-white placeholder:text-slate-500"
+              className="pl-10 w-48 lg:w-64 bg-slate-800/50 border-slate-700 text-white placeholder:text-slate-500 rounded-xl h-10 focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
             />
           </div>
           
-          <button className="relative p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-white">
-            <Bell className="w-6 h-6" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full"></span>
+          <button className="md:hidden p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white">
+            <Search className="w-5 h-5" />
+          </button>
+          
+          <button className="relative p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white transform hover:scale-105 group">
+            <Bell className="w-5 h-5 md:w-6 md:h-6" />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+            <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full animate-ping"></span>
           </button>
 
-          <button className="p-2 hover:bg-slate-800 rounded-lg transition-colors text-slate-400 hover:text-white">
-            <Settings className="w-6 h-6" />
+          <button className="hidden md:block p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white transform hover:scale-105">
+            <Settings className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
       </div>
@@ -284,104 +310,108 @@ export default function ISPAllianceHub() {
   // Member Dashboard
   const MemberDashboard = () => (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 border-0 text-white">
-          <CardHeader className="pb-3">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+        <Card className="bg-gradient-to-br from-emerald-500 to-emerald-600 border-0 text-white shadow-lg hover:shadow-emerald-500/20 transition-all duration-300 transform hover:scale-105 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <CardHeader className="pb-2 md:pb-3 relative z-10">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium opacity-90">Dues Status</CardTitle>
-              <CheckCircle2 className="w-5 h-5" />
+              <CardTitle className="text-xs md:text-sm font-medium opacity-90">Dues Status</CardTitle>
+              <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">Paid</div>
-            <p className="text-sm opacity-90 mt-1">Valid until Dec 2024</p>
+          <CardContent className="relative z-10">
+            <div className="text-xl md:text-3xl font-bold tracking-tight">Paid</div>
+            <p className="text-xs md:text-sm opacity-90 mt-0.5 md:mt-1 font-medium">Until Dec 2024</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 text-white">
-          <CardHeader className="pb-3">
+        <Card className="bg-gradient-to-br from-blue-500 to-blue-600 border-0 text-white shadow-lg hover:shadow-blue-500/20 transition-all duration-300 transform hover:scale-105 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <CardHeader className="pb-2 md:pb-3 relative z-10">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium opacity-90">Active Votes</CardTitle>
-              <Vote className="w-5 h-5" />
+              <CardTitle className="text-xs md:text-sm font-medium opacity-90">Active Votes</CardTitle>
+              <Vote className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">3</div>
-            <p className="text-sm opacity-90 mt-1">Pending your vote</p>
+          <CardContent className="relative z-10">
+            <div className="text-xl md:text-3xl font-bold tracking-tight">3</div>
+            <p className="text-xs md:text-sm opacity-90 mt-0.5 md:mt-1 font-medium">Pending</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-purple-500 to-purple-600 border-0 text-white">
-          <CardHeader className="pb-3">
+        <Card className="bg-gradient-to-br from-purple-500 to-purple-600 border-0 text-white shadow-lg hover:shadow-purple-500/20 transition-all duration-300 transform hover:scale-105 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <CardHeader className="pb-2 md:pb-3 relative z-10">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium opacity-90">Announcements</CardTitle>
-              <Bell className="w-5 h-5" />
+              <CardTitle className="text-xs md:text-sm font-medium opacity-90">Announcements</CardTitle>
+              <Bell className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">5</div>
-            <p className="text-sm opacity-90 mt-1">New updates</p>
+          <CardContent className="relative z-10">
+            <div className="text-xl md:text-3xl font-bold tracking-tight">5</div>
+            <p className="text-xs md:text-sm opacity-90 mt-0.5 md:mt-1 font-medium">New updates</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-amber-500 to-amber-600 border-0 text-white">
-          <CardHeader className="pb-3">
+        <Card className="bg-gradient-to-br from-amber-500 to-amber-600 border-0 text-white shadow-lg hover:shadow-amber-500/20 transition-all duration-300 transform hover:scale-105 overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <CardHeader className="pb-2 md:pb-3 relative z-10">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-sm font-medium opacity-90">Membership</CardTitle>
-              <Award className="w-5 h-5" />
+              <CardTitle className="text-xs md:text-sm font-medium opacity-90">Membership</CardTitle>
+              <Award className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
             </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold">Gold</div>
-            <p className="text-sm opacity-90 mt-1">Premium tier</p>
+          <CardContent className="relative z-10">
+            <div className="text-xl md:text-3xl font-bold tracking-tight">Gold</div>
+            <p className="text-xs md:text-sm opacity-90 mt-0.5 md:mt-1 font-medium">Premium tier</p>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 bg-slate-800 border-slate-700">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+        <Card className="lg:col-span-2 bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-white">Recent Announcements</CardTitle>
-            <CardDescription className="text-slate-400">Stay updated with latest news</CardDescription>
+            <CardTitle className="text-white font-bold tracking-tight">Recent Announcements</CardTitle>
+            <CardDescription className="text-slate-400 font-medium">Stay updated with latest news</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-start space-x-4 p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors cursor-pointer">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Bell className="w-6 h-6 text-white" />
+          <CardContent className="space-y-3">
+            <div className="flex items-start space-x-3 md:space-x-4 p-3 md:p-4 bg-slate-700/50 rounded-xl hover:bg-slate-700 transition-all duration-200 cursor-pointer group border border-slate-700/50 hover:border-blue-500/30">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform">
+                <Bell className="w-5 h-5 md:w-6 md:h-6 text-white" />
               </div>
-              <div className="flex-1">
-                <h3 className="text-white font-semibold">Annual General Meeting 2024</h3>
-                <p className="text-slate-400 text-sm mt-1">The AGM will be held on December 15th at Grand Hotel. All members are expected to attend.</p>
-                <div className="flex items-center space-x-4 mt-2 text-xs text-slate-500">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-white text-sm md:text-base font-semibold group-hover:text-blue-400 transition-colors">Annual General Meeting 2024</h3>
+                <p className="text-slate-400 text-xs md:text-sm mt-1 leading-relaxed line-clamp-2 md:line-clamp-none">The AGM will be held on December 15th at Grand Hotel. All members are expected to attend.</p>
+                <div className="flex items-center space-x-3 md:space-x-4 mt-2 md:mt-3 text-xs text-slate-500 font-medium">
                   <span className="flex items-center"><Calendar className="w-3 h-3 mr-1" /> 2 days ago</span>
                   <span className="flex items-center"><Eye className="w-3 h-3 mr-1" /> 124 views</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-start space-x-4 p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors cursor-pointer">
-              <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                <DollarSign className="w-6 h-6 text-white" />
+            <div className="flex items-start space-x-3 md:space-x-4 p-3 md:p-4 bg-slate-700/50 rounded-xl hover:bg-slate-700 transition-all duration-200 cursor-pointer group border border-slate-700/50 hover:border-amber-500/30">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform">
+                <DollarSign className="w-5 h-5 md:w-6 md:h-6 text-white" />
               </div>
-              <div className="flex-1">
-                <h3 className="text-white font-semibold">Q4 Financial Report Published</h3>
-                <p className="text-slate-400 text-sm mt-1">Transparent financial report for October-November 2024 is now available in the finance section.</p>
-                <div className="flex items-center space-x-4 mt-2 text-xs text-slate-500">
+              <div className="flex-1 min-w-0">
+                <h3 className="text-white text-sm md:text-base font-semibold group-hover:text-amber-400 transition-colors">Q4 Financial Report Published</h3>
+                <p className="text-slate-400 text-xs md:text-sm mt-1 leading-relaxed line-clamp-2 md:line-clamp-none">Transparent financial report for October-November 2024 is now available in the finance section.</p>
+                <div className="flex items-center space-x-3 md:space-x-4 mt-2 md:mt-3 text-xs text-slate-500 font-medium">
                   <span className="flex items-center"><Calendar className="w-3 h-3 mr-1" /> 5 days ago</span>
                   <span className="flex items-center"><Eye className="w-3 h-3 mr-1" /> 89 views</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-start space-x-4 p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors cursor-pointer">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Vote className="w-6 h-6 text-white" />
+            <div className="flex items-start space-x-3 md:space-x-4 p-3 md:p-4 bg-slate-700/50 rounded-xl hover:bg-slate-700 transition-all duration-200 cursor-pointer group border border-slate-700/50 hover:border-purple-500/30">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform">
+                <Vote className="w-5 h-5 md:w-6 md:h-6 text-white" />
               </div>
-              <div className="flex-1">
-                <h3 className="text-white font-semibold">New Committee Member Voting</h3>
-                <p className="text-slate-400 text-sm mt-1">Cast your vote for the new technical committee members. Voting closes in 3 days.</p>
-                <div className="flex items-center space-x-4 mt-2 text-xs text-slate-500">
-                  <span className="flex items-center"><Calendar className="w-3 h-3 mr-1" /> 1 week ago</span>
+              <div className="flex-1 min-w-0">
+                <h3 className="text-white text-sm md:text-base font-semibold group-hover:text-purple-400 transition-colors">New Committee Member Voting</h3>
+                <p className="text-slate-400 text-xs md:text-sm mt-1 leading-relaxed line-clamp-2 md:line-clamp-none">Cast your vote for the new technical committee members. Voting closes in 3 days.</p>
+                <div className="flex items-center space-x-3 md:space-x-4 mt-2 md:mt-3 text-xs font-medium">
+                  <span className="flex items-center text-slate-500"><Calendar className="w-3 h-3 mr-1" /> 1 week ago</span>
                   <span className="flex items-center text-amber-500"><Clock className="w-3 h-3 mr-1" /> Active</span>
                 </div>
               </div>
@@ -389,68 +419,68 @@ export default function ISPAllianceHub() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl">
           <CardHeader>
-            <CardTitle className="text-white">Quick Actions</CardTitle>
-            <CardDescription className="text-slate-400">Frequently used features</CardDescription>
+            <CardTitle className="text-white font-bold tracking-tight">Quick Actions</CardTitle>
+            <CardDescription className="text-slate-400 font-medium">Frequently used features</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button className="w-full justify-start bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white">
-              <DollarSign className="w-5 h-5 mr-2" />
+            <Button className="w-full justify-start bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg hover:shadow-amber-500/30 transition-all transform hover:scale-105 rounded-xl h-10 md:h-12 text-xs md:text-sm">
+              <DollarSign className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Pay Membership Dues
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700">
-              <Vote className="w-5 h-5 mr-2" />
+            <Button variant="outline" className="w-full justify-start border-slate-700 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-purple-500/30 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+              <Vote className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               View Active Votes
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700">
-              <FileText className="w-5 h-5 mr-2" />
+            <Button variant="outline" className="w-full justify-start border-slate-700 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-blue-500/30 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+              <FileText className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Download Documents
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700">
-              <Users className="w-5 h-5 mr-2" />
+            <Button variant="outline" className="w-full justify-start border-slate-700 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-emerald-500/30 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+              <Users className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Contact Members
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700">
-              <ShoppingBag className="w-5 h-5 mr-2" />
+            <Button variant="outline" className="w-full justify-start border-slate-700 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-amber-500/30 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+              <ShoppingBag className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Browse Merchandise
             </Button>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-slate-800 border-slate-700">
+      <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl">
         <CardHeader>
-          <CardTitle className="text-white">Upcoming Events</CardTitle>
-          <CardDescription className="text-slate-400">Mark your calendar</CardDescription>
+          <CardTitle className="text-white font-bold tracking-tight">Upcoming Events</CardTitle>
+          <CardDescription className="text-slate-400 font-medium">Mark your calendar</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-slate-700 rounded-lg border-l-4 border-blue-500">
-              <div className="flex items-center space-x-2 mb-2">
-                <Calendar className="w-4 h-4 text-blue-500" />
-                <span className="text-blue-500 text-sm font-semibold">Dec 15, 2024</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+            <div className="p-3 md:p-4 bg-slate-700/50 rounded-xl border-l-4 border-blue-500 hover:bg-slate-700 transition-all duration-200 cursor-pointer group">
+              <div className="flex items-center space-x-2 mb-2 md:mb-3">
+                <Calendar className="w-3 h-3 md:w-4 md:h-4 text-blue-500 group-hover:scale-110 transition-transform" />
+                <span className="text-blue-500 text-xs md:text-sm font-semibold">Dec 15, 2024</span>
               </div>
-              <h4 className="text-white font-semibold">Annual General Meeting</h4>
-              <p className="text-slate-400 text-sm mt-1">Grand Hotel, Jakarta</p>
+              <h4 className="text-white text-sm md:text-base font-semibold group-hover:text-blue-400 transition-colors">Annual General Meeting</h4>
+              <p className="text-slate-400 text-xs md:text-sm mt-1">Grand Hotel, Jakarta</p>
             </div>
 
-            <div className="p-4 bg-slate-700 rounded-lg border-l-4 border-purple-500">
-              <div className="flex items-center space-x-2 mb-2">
-                <Calendar className="w-4 h-4 text-purple-500" />
-                <span className="text-purple-500 text-sm font-semibold">Dec 20, 2024</span>
+            <div className="p-3 md:p-4 bg-slate-700/50 rounded-xl border-l-4 border-purple-500 hover:bg-slate-700 transition-all duration-200 cursor-pointer group">
+              <div className="flex items-center space-x-2 mb-2 md:mb-3">
+                <Calendar className="w-3 h-3 md:w-4 md:h-4 text-purple-500 group-hover:scale-110 transition-transform" />
+                <span className="text-purple-500 text-xs md:text-sm font-semibold">Dec 20, 2024</span>
               </div>
-              <h4 className="text-white font-semibold">Technical Workshop</h4>
-              <p className="text-slate-400 text-sm mt-1">Online via Zoom</p>
+              <h4 className="text-white text-sm md:text-base font-semibold group-hover:text-purple-400 transition-colors">Technical Workshop</h4>
+              <p className="text-slate-400 text-xs md:text-sm mt-1">Online via Zoom</p>
             </div>
 
-            <div className="p-4 bg-slate-700 rounded-lg border-l-4 border-emerald-500">
-              <div className="flex items-center space-x-2 mb-2">
-                <Calendar className="w-4 h-4 text-emerald-500" />
-                <span className="text-emerald-500 text-sm font-semibold">Jan 1, 2025</span>
+            <div className="p-3 md:p-4 bg-slate-700/50 rounded-xl border-l-4 border-emerald-500 hover:bg-slate-700 transition-all duration-200 cursor-pointer group">
+              <div className="flex items-center space-x-2 mb-2 md:mb-3">
+                <Calendar className="w-3 h-3 md:w-4 md:h-4 text-emerald-500 group-hover:scale-110 transition-transform" />
+                <span className="text-emerald-500 text-xs md:text-sm font-semibold">Jan 1, 2025</span>
               </div>
-              <h4 className="text-white font-semibold">Membership Renewal Due</h4>
-              <p className="text-slate-400 text-sm mt-1">Annual dues payment</p>
+              <h4 className="text-white text-sm md:text-base font-semibold group-hover:text-emerald-400 transition-colors">Membership Renewal Due</h4>
+              <p className="text-slate-400 text-xs md:text-sm mt-1">Annual dues payment</p>
             </div>
           </div>
         </CardContent>
@@ -461,40 +491,40 @@ export default function ISPAllianceHub() {
   // Finance Dashboard
   const FinanceDashboard = () => (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-slate-800 border-slate-700">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300">
           <CardHeader>
-            <CardTitle className="text-white flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center mr-3">
+            <CardTitle className="text-white flex items-center font-bold tracking-tight">
+              <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center mr-3 shadow-lg">
                 <CheckCircle2 className="w-5 h-5 text-white" />
               </div>
               Current Status
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-emerald-500">PAID</div>
-            <p className="text-slate-400 text-sm mt-2">Valid until December 2024</p>
-            <div className="mt-4 p-3 bg-emerald-500 bg-opacity-10 rounded-lg border border-emerald-500">
+            <div className="text-3xl font-bold text-emerald-500 tracking-tight">PAID</div>
+            <p className="text-slate-400 text-sm mt-2 font-medium">Valid until December 2024</p>
+            <div className="mt-4 p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/30 hover:bg-emerald-500/20 transition-colors">
               <div className="text-emerald-500 text-sm font-semibold">Next Payment Due</div>
-              <div className="text-white text-lg font-bold mt-1">January 1, 2025</div>
+              <div className="text-white text-lg font-bold mt-1 tracking-tight">January 1, 2025</div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300">
           <CardHeader>
-            <CardTitle className="text-white flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-3">
+            <CardTitle className="text-white flex items-center font-bold tracking-tight">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-3 shadow-lg">
                 <DollarSign className="w-5 h-5 text-white" />
               </div>
               Annual Dues
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-white">Rp 12,000,000</div>
-            <p className="text-slate-400 text-sm mt-2">Standard membership tier</p>
+            <div className="text-3xl font-bold text-white tracking-tight">Rp 12,000,000</div>
+            <p className="text-slate-400 text-sm mt-2 font-medium">Standard membership tier</p>
             <div className="mt-4">
-              <Button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white">
+              <Button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg hover:shadow-blue-500/30 transition-all transform hover:scale-105 rounded-xl h-11">
                 <CreditCard className="w-4 h-4 mr-2" />
                 Pay Now
               </Button>
@@ -502,20 +532,20 @@ export default function ISPAllianceHub() {
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800 border-slate-700">
+        <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl hover:shadow-2xl transition-all duration-300">
           <CardHeader>
-            <CardTitle className="text-white flex items-center">
-              <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-lg flex items-center justify-center mr-3">
+            <CardTitle className="text-white flex items-center font-bold tracking-tight">
+              <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl flex items-center justify-center mr-3 shadow-lg">
                 <FileText className="w-5 h-5 text-white" />
               </div>
               Payment History
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-white">8</div>
-            <p className="text-slate-400 text-sm mt-2">Total payments made</p>
+            <div className="text-3xl font-bold text-white tracking-tight">8</div>
+            <p className="text-slate-400 text-sm mt-2 font-medium">Total payments made</p>
             <div className="mt-4">
-              <Button variant="outline" className="w-full border-slate-600 text-slate-300 hover:bg-slate-700">
+              <Button variant="outline" className="w-full border-slate-700 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-amber-500/50 transition-all rounded-xl h-11">
                 <Download className="w-4 h-4 mr-2" />
                 View History
               </Button>
@@ -524,14 +554,14 @@ export default function ISPAllianceHub() {
         </Card>
       </div>
 
-      <Card className="bg-slate-800 border-slate-700">
+      <Card className="bg-slate-800/50 backdrop-blur-sm border-slate-700/50 shadow-xl">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-white">Recent Transactions</CardTitle>
-              <CardDescription className="text-slate-400">Your payment history and invoices</CardDescription>
+              <CardTitle className="text-white font-bold tracking-tight">Recent Transactions</CardTitle>
+              <CardDescription className="text-slate-400 font-medium">Your payment history and invoices</CardDescription>
             </div>
-            <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700">
+            <Button variant="outline" className="border-slate-700 text-slate-300 hover:bg-slate-700 hover:text-white hover:border-blue-500/50 transition-all rounded-xl">
               <Filter className="w-4 h-4 mr-2" />
               Filter
             </Button>
@@ -539,51 +569,51 @@ export default function ISPAllianceHub() {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors">
+            <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-xl hover:bg-slate-700 transition-all duration-200 cursor-pointer group border border-slate-700/50 hover:border-emerald-500/30">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <div className="text-white font-semibold">Annual Membership Dues 2024</div>
-                  <div className="text-slate-400 text-sm">Invoice INV-2024-001234 • Paid via Bank Transfer</div>
+                  <div className="text-white font-semibold group-hover:text-emerald-400 transition-colors">Annual Membership Dues 2024</div>
+                  <div className="text-slate-400 text-sm font-medium">Invoice INV-2024-001234 • Paid via Bank Transfer</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-white font-bold">Rp 12,000,000</div>
-                <div className="text-emerald-500 text-sm">Completed</div>
+                <div className="text-white font-bold tracking-tight">Rp 12,000,000</div>
+                <div className="text-emerald-500 text-sm font-semibold">Completed</div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors">
+            <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-xl hover:bg-slate-700 transition-all duration-200 cursor-pointer group border border-slate-700/50 hover:border-blue-500/30">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <div className="text-white font-semibold">Event Participation Fee</div>
-                  <div className="text-slate-400 text-sm">Invoice INV-2024-001156 • Paid via QRIS</div>
+                  <div className="text-white font-semibold group-hover:text-blue-400 transition-colors">Event Participation Fee</div>
+                  <div className="text-slate-400 text-sm font-medium">Invoice INV-2024-001156 • Paid via QRIS</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-white font-bold">Rp 2,500,000</div>
-                <div className="text-emerald-500 text-sm">Completed</div>
+                <div className="text-white font-bold tracking-tight">Rp 2,500,000</div>
+                <div className="text-emerald-500 text-sm font-semibold">Completed</div>
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors">
+            <div className="flex items-center justify-between p-4 bg-slate-700/50 rounded-xl hover:bg-slate-700 transition-all duration-200 cursor-pointer group border border-slate-700/50 hover:border-purple-500/30">
               <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                   <CheckCircle2 className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <div className="text-white font-semibold">Merchandise Purchase</div>
-                  <div className="text-slate-400 text-sm">Invoice INV-2024-001089 • Paid via Virtual Account</div>
+                  <div className="text-white font-semibold group-hover:text-purple-400 transition-colors">Merchandise Purchase</div>
+                  <div className="text-slate-400 text-sm font-medium">Invoice INV-2024-001089 • Paid via Virtual Account</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-white font-bold">Rp 450,000</div>
-                <div className="text-emerald-500 text-sm">Completed</div>
+                <div className="text-white font-bold tracking-tight">Rp 450,000</div>
+                <div className="text-emerald-500 text-sm font-semibold">Completed</div>
               </div>
             </div>
           </div>
