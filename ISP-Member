@@ -56,6 +56,27 @@ export default function ISPAllianceHub() {
   const [userRole, setUserRole] = useState<string>('member');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  
+  // Login state
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  
+  // Voting state
+  const [selectedCommittee, setSelectedCommittee] = useState<string[]>([]);
+  const [budgetVote, setBudgetVote] = useState('');
+  const [partnershipVote, setPartnershipVote] = useState('');
+  
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [memberFilter, setMemberFilter] = useState('all');
+  
+  // Cart state
+  const [cartItems, setCartItems] = useState<string[]>([]);
+  
+  // Notifications
+  const [notifications, setNotifications] = useState(5);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   // Login Screen
   const LoginScreen = () => (
@@ -92,6 +113,8 @@ export default function ISPAllianceHub() {
                 <Input
                   id="email"
                   type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@company.com"
                   className="pl-10 bg-slate-800/50 border-slate-700 text-white placeholder:text-slate-500 h-12 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
                 />
@@ -105,6 +128,8 @@ export default function ISPAllianceHub() {
                 <Input
                   id="password"
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
                   className="pl-10 bg-slate-800/50 border-slate-700 text-white placeholder:text-slate-500 h-12 rounded-xl focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
                 />
@@ -114,7 +139,12 @@ export default function ISPAllianceHub() {
 
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center text-slate-400 cursor-pointer group">
-              <input type="checkbox" className="mr-2 rounded border-slate-600 text-amber-500 focus:ring-amber-500 focus:ring-offset-0" />
+              <input 
+                type="checkbox" 
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="mr-2 rounded border-slate-600 text-amber-500 focus:ring-amber-500 focus:ring-offset-0" 
+              />
               <span className="group-hover:text-slate-300 transition-colors">Remember me</span>
             </label>
             <a href="#" className="text-amber-500 hover:text-amber-400 font-medium transition-colors">Forgot Password?</a>
@@ -122,8 +152,13 @@ export default function ISPAllianceHub() {
 
           <div className="space-y-3">
             <Button 
-              className="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-size-200 hover:bg-pos-100 text-white font-semibold py-6 rounded-xl shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all duration-300 transform hover:scale-[1.02]"
-              onClick={() => setCurrentView('dashboard')}
+              className="w-full bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 bg-size-200 hover:bg-pos-100 text-white font-semibold py-6 rounded-xl shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50 transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => {
+                if (email && password) {
+                  setCurrentView('dashboard');
+                }
+              }}
+              disabled={!email || !password}
             >
               Sign In
             </Button>
@@ -230,7 +265,7 @@ export default function ISPAllianceHub() {
         <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 border-t border-slate-700/60 bg-gradient-to-t from-slate-900 to-transparent relative z-50">
           <div className="flex items-center space-x-2 md:space-x-3 px-3 md:px-4 py-2 md:py-3 rounded-xl bg-slate-700/40">
             <Avatar>
-              https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/625b380a-b25f-4f07-ba9e-36f6c946180f.png
+              https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d2852081-d209-4b63-8ece-d6917b00271e.png
               <AvatarFallback>JD</AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
@@ -238,7 +273,17 @@ export default function ISPAllianceHub() {
               <div className="text-slate-400 text-xs truncate">PT ISP Indonesia</div>
             </div>
           </div>
-          <button className="w-full flex items-center space-x-2 md:space-x-3 px-3 md:px-4 py-2 md:py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 transition-all mt-2 group border border-transparent">
+          <button 
+            onClick={() => {
+              if (confirm('Are you sure you want to logout?')) {
+                setCurrentView('login');
+                setEmail('');
+                setPassword('');
+                setRememberMe(false);
+              }
+            }}
+            className="w-full flex items-center space-x-2 md:space-x-3 px-3 md:px-4 py-2 md:py-3 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/20 transition-all mt-2 group border border-transparent"
+          >
             <LogOut className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
             <span className="font-medium text-xs md:text-sm">Logout</span>
           </button>
@@ -285,6 +330,8 @@ export default function ISPAllianceHub() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-amber-500 transition-colors" />
             <Input
               placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 w-48 lg:w-64 bg-slate-700/60 border-slate-600 text-white placeholder:text-slate-400 rounded-xl h-10 focus:ring-2 focus:ring-amber-400/30 focus:border-amber-400 transition-all"
             />
           </div>
@@ -293,11 +340,71 @@ export default function ISPAllianceHub() {
             <Search className="w-5 h-5" />
           </button>
           
-          <button className="relative p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white transform hover:scale-105 group">
-            <Bell className="w-5 h-5 md:w-6 md:h-6" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
-            <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full animate-ping"></span>
-          </button>
+          <div className="relative">
+            <button 
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="relative p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white transform hover:scale-105 group"
+            >
+              <Bell className="w-5 h-5 md:w-6 md:h-6" />
+              {notifications > 0 && (
+                <>
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
+                  <span className="absolute top-1 right-1 w-2 h-2 bg-amber-500 rounded-full animate-ping"></span>
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-amber-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    {notifications}
+                  </span>
+                </>
+              )}
+            </button>
+            
+            {showNotifications && (
+              <div className="absolute right-0 top-full mt-2 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden z-50">
+                <div className="p-4 border-b border-slate-700">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-white font-bold">Notifications</h3>
+                    <button 
+                      onClick={() => setNotifications(0)}
+                      className="text-xs text-amber-500 hover:text-amber-400"
+                    >
+                      Mark all read
+                    </button>
+                  </div>
+                </div>
+                <div className="max-h-96 overflow-y-auto">
+                  <div className="p-3 hover:bg-slate-700 cursor-pointer border-b border-slate-700/50">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-amber-500 rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-white text-sm font-medium">New voting session started</p>
+                        <p className="text-slate-400 text-xs mt-1">Technical Committee Member Selection</p>
+                        <p className="text-slate-500 text-xs mt-1">2 hours ago</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-3 hover:bg-slate-700 cursor-pointer border-b border-slate-700/50">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-white text-sm font-medium">New announcement published</p>
+                        <p className="text-slate-400 text-xs mt-1">Annual General Meeting 2024</p>
+                        <p className="text-slate-500 text-xs mt-1">5 hours ago</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-3 hover:bg-slate-700 cursor-pointer">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2"></div>
+                      <div className="flex-1">
+                        <p className="text-white text-sm font-medium">Payment confirmed</p>
+                        <p className="text-slate-400 text-xs mt-1">Annual membership dues received</p>
+                        <p className="text-slate-500 text-xs mt-1">1 day ago</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
 
           <button className="hidden md:block p-2 hover:bg-slate-800 rounded-xl transition-all duration-200 text-slate-400 hover:text-white transform hover:scale-105">
             <Settings className="w-5 h-5 md:w-6 md:h-6" />
@@ -425,23 +532,42 @@ export default function ISPAllianceHub() {
             <CardDescription className="text-slate-400 font-medium">Frequently used features</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button className="w-full justify-start bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg hover:shadow-amber-400/40 transition-all transform hover:scale-105 rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('finance')}
+              className="w-full justify-start bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white shadow-lg hover:shadow-amber-400/40 transition-all transform hover:scale-105 rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <DollarSign className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Pay Membership Dues
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-purple-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('voting')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-purple-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <Vote className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               View Active Votes
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-blue-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('knowledge')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-blue-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <FileText className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Download Documents
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-emerald-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('members')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-emerald-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <Users className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Contact Members
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-amber-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('store')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-amber-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <ShoppingBag className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Browse Merchandise
             </Button>
@@ -524,7 +650,10 @@ export default function ISPAllianceHub() {
             <div className="text-3xl font-bold text-white tracking-tight">Rp 12,000,000</div>
             <p className="text-slate-400 text-sm mt-2 font-medium">Standard membership tier</p>
             <div className="mt-4">
-              <Button className="w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white shadow-lg hover:shadow-blue-400/40 transition-all transform hover:scale-105 rounded-xl h-11">
+              <Button 
+                onClick={() => alert('Payment gateway integration would go here. In production, this would redirect to Tripay payment page.')}
+                className="w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white shadow-lg hover:shadow-blue-400/40 transition-all transform hover:scale-105 rounded-xl h-11"
+              >
                 <CreditCard className="w-4 h-4 mr-2" />
                 Pay Now
               </Button>
@@ -768,7 +897,19 @@ export default function ISPAllianceHub() {
             <CardContent className="space-y-4">
               <div className="space-y-3">
                 <label className="flex items-center space-x-3 p-3 bg-slate-600 rounded-lg hover:bg-slate-500 transition-colors cursor-pointer">
-                  <input type="checkbox" className="w-5 h-5" />
+                  <input 
+                    type="checkbox" 
+                    className="w-5 h-5"
+                    checked={selectedCommittee.includes('ahmad')}
+                    onChange={(e) => {
+                      if (e.target.checked && selectedCommittee.length < 3) {
+                        setSelectedCommittee([...selectedCommittee, 'ahmad']);
+                      } else {
+                        setSelectedCommittee(selectedCommittee.filter(id => id !== 'ahmad'));
+                      }
+                    }}
+                    disabled={selectedCommittee.length >= 3 && !selectedCommittee.includes('ahmad')}
+                  />
                   <div className="flex-1">
                     <div className="text-white font-semibold">Ahmad Hidayat - PT NetSpeed Indonesia</div>
                     <div className="text-slate-400 text-sm">10 years experience in network infrastructure</div>
@@ -776,7 +917,19 @@ export default function ISPAllianceHub() {
                 </label>
 
                 <label className="flex items-center space-x-3 p-3 bg-slate-600 rounded-lg hover:bg-slate-500 transition-colors cursor-pointer">
-                  <input type="checkbox" className="w-5 h-5" />
+                  <input 
+                    type="checkbox" 
+                    className="w-5 h-5"
+                    checked={selectedCommittee.includes('siti')}
+                    onChange={(e) => {
+                      if (e.target.checked && selectedCommittee.length < 3) {
+                        setSelectedCommittee([...selectedCommittee, 'siti']);
+                      } else {
+                        setSelectedCommittee(selectedCommittee.filter(id => id !== 'siti'));
+                      }
+                    }}
+                    disabled={selectedCommittee.length >= 3 && !selectedCommittee.includes('siti')}
+                  />
                   <div className="flex-1">
                     <div className="text-white font-semibold">Siti Nurhaliza - PT FastConnect</div>
                     <div className="text-slate-400 text-sm">Expert in fiber optic deployment</div>
@@ -784,7 +937,19 @@ export default function ISPAllianceHub() {
                 </label>
 
                 <label className="flex items-center space-x-3 p-3 bg-slate-600 rounded-lg hover:bg-slate-500 transition-colors cursor-pointer">
-                  <input type="checkbox" className="w-5 h-5" />
+                  <input 
+                    type="checkbox" 
+                    className="w-5 h-5"
+                    checked={selectedCommittee.includes('budi')}
+                    onChange={(e) => {
+                      if (e.target.checked && selectedCommittee.length < 3) {
+                        setSelectedCommittee([...selectedCommittee, 'budi']);
+                      } else {
+                        setSelectedCommittee(selectedCommittee.filter(id => id !== 'budi'));
+                      }
+                    }}
+                    disabled={selectedCommittee.length >= 3 && !selectedCommittee.includes('budi')}
+                  />
                   <div className="flex-1">
                     <div className="text-white font-semibold">Budi Santoso - PT MegaLink Networks</div>
                     <div className="text-slate-400 text-sm">Specialist in network security</div>
@@ -792,7 +957,19 @@ export default function ISPAllianceHub() {
                 </label>
 
                 <label className="flex items-center space-x-3 p-3 bg-slate-600 rounded-lg hover:bg-slate-500 transition-colors cursor-pointer">
-                  <input type="checkbox" className="w-5 h-5" />
+                  <input 
+                    type="checkbox" 
+                    className="w-5 h-5"
+                    checked={selectedCommittee.includes('dewi')}
+                    onChange={(e) => {
+                      if (e.target.checked && selectedCommittee.length < 3) {
+                        setSelectedCommittee([...selectedCommittee, 'dewi']);
+                      } else {
+                        setSelectedCommittee(selectedCommittee.filter(id => id !== 'dewi'));
+                      }
+                    }}
+                    disabled={selectedCommittee.length >= 3 && !selectedCommittee.includes('dewi')}
+                  />
                   <div className="flex-1">
                     <div className="text-white font-semibold">Dewi Lestari - PT CloudNet Indonesia</div>
                     <div className="text-slate-400 text-sm">Cloud infrastructure architect</div>
@@ -807,9 +984,18 @@ export default function ISPAllianceHub() {
                     <div className="w-1/3 h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full"></div>
                   </div>
                 </div>
-                <Button className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white">
+                <Button 
+                  onClick={() => {
+                    if (selectedCommittee.length === 3) {
+                      alert('Vote submitted successfully for: ' + selectedCommittee.join(', '));
+                      setSelectedCommittee([]);
+                    }
+                  }}
+                  disabled={selectedCommittee.length !== 3}
+                  className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <Send className="w-4 h-4 mr-2" />
-                  Submit Vote
+                  Submit Vote ({selectedCommittee.length}/3)
                 </Button>
               </div>
             </CardContent>
@@ -851,7 +1037,14 @@ export default function ISPAllianceHub() {
 
               <div className="space-y-2">
                 <label className="flex items-center space-x-3 p-3 bg-emerald-500 bg-opacity-20 border border-emerald-500 rounded-lg cursor-pointer">
-                  <input type="radio" name="budget" className="w-5 h-5" />
+                  <input 
+                    type="radio" 
+                    name="budget" 
+                    value="approve"
+                    checked={budgetVote === 'approve'}
+                    onChange={(e) => setBudgetVote(e.target.value)}
+                    className="w-5 h-5" 
+                  />
                   <div className="flex-1">
                     <div className="text-emerald-500 font-semibold">Approve</div>
                     <div className="text-slate-400 text-sm">I approve this budget allocation</div>
@@ -859,7 +1052,14 @@ export default function ISPAllianceHub() {
                 </label>
 
                 <label className="flex items-center space-x-3 p-3 bg-red-500 bg-opacity-20 border border-red-500 rounded-lg cursor-pointer">
-                  <input type="radio" name="budget" className="w-5 h-5" />
+                  <input 
+                    type="radio" 
+                    name="budget" 
+                    value="reject"
+                    checked={budgetVote === 'reject'}
+                    onChange={(e) => setBudgetVote(e.target.value)}
+                    className="w-5 h-5" 
+                  />
                   <div className="flex-1">
                     <div className="text-red-500 font-semibold">Reject</div>
                     <div className="text-slate-400 text-sm">I reject this budget allocation</div>
@@ -867,7 +1067,14 @@ export default function ISPAllianceHub() {
                 </label>
 
                 <label className="flex items-center space-x-3 p-3 bg-amber-500 bg-opacity-20 border border-amber-500 rounded-lg cursor-pointer">
-                  <input type="radio" name="budget" className="w-5 h-5" />
+                  <input 
+                    type="radio" 
+                    name="budget" 
+                    value="abstain"
+                    checked={budgetVote === 'abstain'}
+                    onChange={(e) => setBudgetVote(e.target.value)}
+                    className="w-5 h-5" 
+                  />
                   <div className="flex-1">
                     <div className="text-amber-500 font-semibold">Abstain</div>
                     <div className="text-slate-400 text-sm">I abstain from voting</div>
@@ -882,7 +1089,16 @@ export default function ISPAllianceHub() {
                     <div className="w-2/3 h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
                   </div>
                 </div>
-                <Button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white">
+                <Button 
+                  onClick={() => {
+                    if (budgetVote) {
+                      alert(`Budget vote submitted: ${budgetVote}`);
+                      setBudgetVote('');
+                    }
+                  }}
+                  disabled={!budgetVote}
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <Send className="w-4 h-4 mr-2" />
                   Submit Vote
                 </Button>
@@ -911,11 +1127,24 @@ export default function ISPAllianceHub() {
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <Button className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white">
+                <Button 
+                  onClick={() => {
+                    setPartnershipVote('yes');
+                    alert('Vote submitted: Yes for TechCorp partnership');
+                  }}
+                  className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white"
+                >
                   <CheckCircle2 className="w-4 h-4 mr-2" />
                   Vote Yes
                 </Button>
-                <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-600">
+                <Button 
+                  onClick={() => {
+                    setPartnershipVote('no');
+                    alert('Vote submitted: No for TechCorp partnership');
+                  }}
+                  variant="outline" 
+                  className="border-slate-600 text-slate-300 hover:bg-slate-600"
+                >
                   <XCircle className="w-4 h-4 mr-2" />
                   Vote No
                 </Button>
@@ -1063,12 +1292,23 @@ export default function ISPAllianceHub() {
             <div className="flex gap-2">
               <div className="relative flex-1 md:w-64">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-500" />
-                <Input placeholder="Search members..." className="pl-9 bg-slate-700/60 border-slate-600 text-white h-10 rounded-xl" />
+                <Input 
+                  placeholder="Search members..." 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-9 bg-slate-700/60 border-slate-600 text-white h-10 rounded-xl" 
+                />
               </div>
-              <Button variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-700/80 rounded-xl">
-                <Filter className="w-4 h-4 mr-2" />
-                Filter
-              </Button>
+              <select
+                value={memberFilter}
+                onChange={(e) => setMemberFilter(e.target.value)}
+                className="border border-slate-600 text-slate-300 bg-slate-700/60 hover:bg-slate-700/80 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-amber-400/30"
+              >
+                <option value="all">All Members</option>
+                <option value="gold">Gold Only</option>
+                <option value="silver">Silver Only</option>
+                <option value="bronze">Bronze Only</option>
+              </select>
             </div>
           </div>
         </CardHeader>
@@ -1078,7 +1318,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ae68cedc-736d-4865-bb2a-6e4d8d1560d9.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b4caa558-2c8d-40b5-8a73-10cb6a9c02b4.png
                     <AvatarFallback className="bg-amber-500">PT</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1091,11 +1331,21 @@ export default function ISPAllianceHub() {
                   </div>
                 </div>
                 <div className="flex gap-2 mt-3">
-                  <Button size="sm" variant="outline" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-600 h-8 text-xs rounded-lg">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    onClick={() => window.location.href = 'mailto:info@netspeed.co.id'}
+                    className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-600 h-8 text-xs rounded-lg"
+                  >
                     <Mail className="w-3 h-3 mr-1" />
                     Email
                   </Button>
-                  <Button size="sm" variant="outline" className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-600 h-8 text-xs rounded-lg">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    onClick={() => window.location.href = 'tel:+6221123456'}
+                    className="flex-1 border-slate-600 text-slate-300 hover:bg-slate-600 h-8 text-xs rounded-lg"
+                  >
                     <Phone className="w-3 h-3 mr-1" />
                     Call
                   </Button>
@@ -1107,7 +1357,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fec05b27-2b24-4dbb-bcfb-a61b6cec0b1c.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/58db1926-a261-4cbc-9c52-a51398db9326.png
                     <AvatarFallback className="bg-blue-500">FC</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1136,7 +1386,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/21f2249a-dc2f-4353-89d1-c3d30cd0612b.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/791ad825-3c67-4d89-8fc4-421ec3d77314.png
                     <AvatarFallback className="bg-purple-500">ML</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1165,7 +1415,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9f89c04a-6295-4b15-8219-4c5b26c6b6d8.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/97e02750-ef41-4f31-b42e-f1c1361c4541.png
                     <AvatarFallback className="bg-emerald-500">CN</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1194,7 +1444,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4d8d95ad-d478-47f9-80d8-7cb0d37b1400.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c261fe8b-3a20-40de-9092-4e42a9d25572.png
                     <AvatarFallback className="bg-red-500">SW</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1223,7 +1473,7 @@ export default function ISPAllianceHub() {
               <CardContent className="p-4">
                 <div className="flex items-start space-x-3">
                   <Avatar className="w-12 h-12">
-                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/915451a9-5b28-4972-ab15-51802324ab10.png
+                    https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1f3d98a0-08a4-4bd0-b2b4-bce97775e27e.png
                     <AvatarFallback className="bg-indigo-500">DW</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -1295,7 +1545,10 @@ export default function ISPAllianceHub() {
               <CardTitle className="text-white font-bold tracking-tight">All Announcements</CardTitle>
               <CardDescription className="text-slate-400 font-medium">Official communications and updates</CardDescription>
             </div>
-            <Button className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl">
+            <Button 
+              onClick={() => alert('New announcement form would open here. In production, this would show a rich text editor.')}
+              className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl"
+            >
               <Plus className="w-4 h-4 mr-2" />
               New
             </Button>
@@ -1441,7 +1694,12 @@ export default function ISPAllianceHub() {
                       </div>
                     </div>
                   </div>
-                  <Button size="sm" variant="ghost" className="text-slate-400 hover:text-white">
+                  <Button 
+                    size="sm" 
+                    variant="ghost" 
+                    onClick={() => alert('Downloading Member Agreement Template.pdf...')}
+                    className="text-slate-400 hover:text-white"
+                  >
                     <Download className="w-4 h-4" />
                   </Button>
                 </div>
@@ -1574,9 +1832,17 @@ export default function ISPAllianceHub() {
               <CardTitle className="text-white font-bold tracking-tight">Merchandise Store</CardTitle>
               <CardDescription className="text-slate-400 font-medium">Official ISP Alliance merchandise</CardDescription>
             </div>
-            <Button className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl">
+            <Button 
+              onClick={() => alert(`Cart items: ${cartItems.length} items`)}
+              className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-600 hover:to-orange-600 text-white rounded-xl relative"
+            >
               <ShoppingBag className="w-4 h-4 mr-2" />
               View Cart
+              {cartItems.length > 0 && (
+                <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                  {cartItems.length}
+                </span>
+              )}
             </Button>
           </div>
         </CardHeader>
@@ -1592,7 +1858,14 @@ export default function ISPAllianceHub() {
                 <p className="text-slate-400 text-sm mt-1">Premium cotton, various sizes</p>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-amber-500 font-bold text-lg">Rp 150,000</span>
-                  <Button size="sm" className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white h-8 rounded-lg shadow-md">
+                  <Button 
+                    size="sm" 
+                    onClick={() => {
+                      setCartItems([...cartItems, 'tshirt']);
+                      alert('ISP Alliance T-Shirt added to cart!');
+                    }}
+                    className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white h-8 rounded-lg shadow-md"
+                  >
                     Add to Cart
                   </Button>
                 </div>
@@ -1768,10 +2041,19 @@ export default function ISPAllianceHub() {
                 </div>
               </div>
               <div className="flex flex-col gap-2">
-                <Button size="sm" className="bg-emerald-500 hover:bg-emerald-600 text-white h-8 px-3 rounded-lg">
+                <Button 
+                  size="sm" 
+                  onClick={() => alert('Budget request approved!')}
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white h-8 px-3 rounded-lg"
+                >
                   <CheckCircle2 className="w-3 h-3" />
                 </Button>
-                <Button size="sm" variant="outline" className="border-red-500 text-red-400 hover:bg-red-500/10 h-8 px-3 rounded-lg">
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  onClick={() => alert('Budget request rejected!')}
+                  className="border-red-500 text-red-400 hover:bg-red-500/10 h-8 px-3 rounded-lg"
+                >
                   <XCircle className="w-3 h-3" />
                 </Button>
               </div>
@@ -1934,23 +2216,42 @@ export default function ISPAllianceHub() {
             <CardDescription className="text-slate-400 font-medium">Quick access tools</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button className="w-full justify-start bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-lg hover:shadow-purple-400/40 transition-all transform hover:scale-105 rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('communications')}
+              className="w-full justify-start bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white shadow-lg hover:shadow-purple-400/40 transition-all transform hover:scale-105 rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <Send className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Send Announcement
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-blue-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('approvals')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-blue-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <CheckCheck className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Review Approvals
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-emerald-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('reports')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-emerald-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <BarChart3 className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               View Reports
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-amber-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('finance')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-amber-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <DollarSign className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Financial Overview
             </Button>
-            <Button variant="outline" className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-indigo-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm">
+            <Button 
+              onClick={() => setCurrentView('members')}
+              variant="outline" 
+              className="w-full justify-start border-slate-600 text-slate-300 hover:bg-slate-700/80 hover:text-white hover:border-indigo-400/50 transition-all rounded-xl h-10 md:h-12 text-xs md:text-sm"
+            >
               <Users className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Manage Members
             </Button>
@@ -2018,7 +2319,11 @@ export default function ISPAllianceHub() {
               </div>
               <p className="text-slate-400 text-sm">Review agenda, approve budget presentation, confirm venue arrangements</p>
               <div className="mt-3 flex gap-2">
-                <Button size="sm" className="bg-blue-500 hover:bg-blue-600 text-white flex-1 h-9 text-xs rounded-lg">
+                <Button 
+                  size="sm" 
+                  onClick={() => alert('Opening AGM 2024 preparation details...')}
+                  className="bg-blue-500 hover:bg-blue-600 text-white flex-1 h-9 text-xs rounded-lg"
+                >
                   <Eye className="w-3 h-3 mr-1" />
                   Review
                 </Button>
@@ -2032,7 +2337,11 @@ export default function ISPAllianceHub() {
               </div>
               <p className="text-slate-400 text-sm">Monitor voting progress for technical committee member selection</p>
               <div className="mt-3 flex gap-2">
-                <Button size="sm" className="bg-purple-500 hover:bg-purple-600 text-white flex-1 h-9 text-xs rounded-lg">
+                <Button 
+                  size="sm" 
+                  onClick={() => setCurrentView('voting')}
+                  className="bg-purple-500 hover:bg-purple-600 text-white flex-1 h-9 text-xs rounded-lg"
+                >
                   <BarChart3 className="w-3 h-3 mr-1" />
                   View Results
                 </Button>
@@ -2046,7 +2355,11 @@ export default function ISPAllianceHub() {
               </div>
               <p className="text-slate-400 text-sm">Final approval needed for TechCorp strategic partnership agreement</p>
               <div className="mt-3 flex gap-2">
-                <Button size="sm" className="bg-emerald-500 hover:bg-emerald-600 text-white flex-1 h-9 text-xs rounded-lg">
+                <Button 
+                  size="sm" 
+                  onClick={() => alert('TechCorp partnership approved!')}
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white flex-1 h-9 text-xs rounded-lg"
+                >
                   <CheckCircle2 className="w-3 h-3 mr-1" />
                   Approve
                 </Button>
@@ -2060,7 +2373,11 @@ export default function ISPAllianceHub() {
               </div>
               <p className="text-slate-400 text-sm">Monthly compliance report ready for review and signature</p>
               <div className="mt-3 flex gap-2">
-                <Button size="sm" className="bg-blue-500 hover:bg-blue-600 text-white flex-1 h-9 text-xs rounded-lg">
+                <Button 
+                  size="sm" 
+                  onClick={() => alert('Downloading Member Compliance Report November 2024.pdf...')}
+                  className="bg-blue-500 hover:bg-blue-600 text-white flex-1 h-9 text-xs rounded-lg"
+                >
                   <Download className="w-3 h-3 mr-1" />
                   Download
                 </Button>
